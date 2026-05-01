@@ -1,0 +1,43 @@
+name: targets-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      # Skip extraction-heavy targets in CI; only structural validation runs.
+      TARGETS_CI_SMOKE: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::targets
+            any::tarchetypes
+            any::pointblank
+            any::testthat
+
+      - name: Validate _targets.R parses
+        run: Rscript -e 'targets::tar_manifest()'
+
+      - name: Validate target graph
+        run: Rscript -e 'targets::tar_validate()'
+
+      - name: Run smoke pipeline
+        run: Rscript -e 'targets::tar_make()'

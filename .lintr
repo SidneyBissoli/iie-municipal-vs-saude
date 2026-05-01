@@ -1,0 +1,19 @@
+linters: linters_with_defaults(
+    line_length_linter      = line_length_linter(80L),
+    object_name_linter      = object_name_linter(
+      styles = c("snake_case", "symbols")
+    ),
+    commented_code_linter   = NULL,
+    indentation_linter      = indentation_linter(indent = 2L),
+    cyclocomp_linter        = cyclocomp_linter(complexity_limit = 20L),
+    object_length_linter    = object_length_linter(length = 40L),
+    pipe_continuation_linter = pipe_continuation_linter()
+  )
+encoding: "UTF-8"
+exclusions: list(
+    "renv",
+    "_targets",
+    "data-raw",
+    "data",
+    "outputs"
+  )

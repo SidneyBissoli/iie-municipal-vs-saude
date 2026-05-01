@@ -1,0 +1,60 @@
+# --- R / RStudio ---
+.Rproj.user/
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+*.Rcheck/
+*.tar.gz
+*.knit.md
+*.utf8.md
+
+# --- renv ---
+# Library and cache are local to the machine; the lockfile (renv.lock) is committed.
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# --- targets pipeline ---
+# Cache objects are reproducible from the pipeline; metadata is committed for incremental builds.
+_targets/objects/
+_targets/scratch/
+_targets/workspaces/
+_targets/user/
+
+# --- Data ---
+# Raw data is not redistributable (DATASUS, IIEM Lupa Social) and intermediates are reproducible.
+data-raw/*
+!data-raw/.gitkeep
+!data-raw/**/README.md
+data/*
+!data/.gitkeep
+
+# --- Secrets / environment ---
+.Renviron
+*.Renviron
+.env
+.env.local
+
+# --- Claude Code session artefacts ---
+# Manifests and session reports are local-only; reproducibility is anchored in renv.lock + commit SHA.
+.claude/
+
+# --- Quarto / rendered outputs ---
+/.quarto/
+*_files/
+*_cache/
+
+# --- OS / editor noise ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# --- Logs ---
+*.log
