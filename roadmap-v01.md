@@ -80,9 +80,11 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
 - [ ] **(P0)** Criar repositório GitHub público `iie-municipal-vs-saude` sob
   licença MIT, com `README.md`, `LICENSE`, `CITATION.cff` e
   `CODE_OF_CONDUCT.md`.
-- [ ] **(P0)** Inicializar projeto R (`projeto-r.Rproj` já existe — auditar)
-  com `renv::init()` para isolamento de dependências.
-- [ ] **(P0)** Definir estrutura de diretórios:
+- [x] **(P0)** Inicializar projeto R (`projeto-r.Rproj` já existe — auditar)
+  com `renv::init()` para isolamento de dependências. *(sessão 001 —
+  `renv::activate()` em estado parcial preexistente; lockfile sincronizado
+  após hydrate, R 4.5.3.)*
+- [x] **(P0)** Definir estrutura de diretórios:
   - `data-raw/` (dados brutos, não versionados)
   - `data/` (intermediários derivados, não versionados; reprodutíveis pelo
     pipeline)
@@ -98,14 +100,15 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
   - `bibliography/` (referências, fila de leitura, notas de artigos)
   - `tests/` (testes de funções e validações `pointblank`)
   - `outputs/` (tabelas, figuras, mapas finais — versionados quando estáveis)
-- [ ] **(P0)** Adicionar `.gitignore` excluindo `data-raw/`, `data/`,
+- [x] **(P0)** Adicionar `.gitignore` excluindo `data-raw/`, `data/`,
   `_targets/objects/`, `*.Renviron`, `.Rhistory` (já presente — auditar).
-- [ ] **(P0)** Mover `proposta-de-pesquisa.{md,docx,html}` da raiz para
+  *(sessão 001 — também ignora `.claude/`.)*
+- [x] **(P0)** Mover `proposta-de-pesquisa.{md,docx,html}` da raiz para
   `manuscripts/`. A proposta é documento científico (mesma natureza do
   artigo futuro), não de gestão; cabe junto com os demais manuscritos. Na
   raiz ficam apenas documentos meta (`README.md`, `LICENSE`, `CITATION.cff`,
   `CLAUDE.md`, `CHANGELOG.md`) e de gestão (`roadmap-vNN.md`).
-- [ ] **(P0)** Criar `CLAUDE.md` no root do repositório com instruções
+- [x] **(P0)** Criar `CLAUDE.md` no root do repositório com instruções
   persistentes para Claude Code: convenções tidyverse e pipe `|>`, comentários
   de código em inglês, estrutura de diretórios canônica, comandos frequentes
   (`targets::tar_make()`, `quarto render`, `renv::snapshot()`), gates
@@ -113,20 +116,25 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
   `decisions/` e das notas de leitura em `bibliography/`, política de
   não-commit em `data-raw/` e `data/`. Atualizar sempre que estrutura ou
   convenções mudarem.
-- [ ] **(P1)** Configurar `.lintr` e `styler` para padronização tidyverse;
-  commit hook via `precommit` package.
+- [~] **(P1)** Configurar `.lintr` e `styler` para padronização tidyverse;
+  commit hook via `precommit` package. *(sessão 001 — `.lintr` configurado
+  e validado (0 lints em `R/`); `styler` instalado; precommit hook ainda
+  pendente.)*
 
 ### 0.2 Reprodutibilidade e CI/CD
 
-- [ ] **(P0)** Implementar esqueleto do pipeline `targets` em `_targets.R` com
-  placeholders para cada fase analítica.
-- [ ] **(P0)** Configurar GitHub Actions: workflow `R-CMD-check` para funções
+- [x] **(P0)** Implementar esqueleto do pipeline `targets` em `_targets.R` com
+  placeholders para cada fase analítica. *(sessão 001 — `format = "qs2"`
+  porque `qs` não tem build em R 4.5.)*
+- [x] **(P0)** Configurar GitHub Actions: workflow `R-CMD-check` para funções
   de `R/`; workflow `targets-check` para validação de pipeline (smoke test em
   subset municipal).
-- [ ] **(P1)** Configurar `renv` com snapshot inicial; documentar `R.version`
-  e SO de desenvolvimento.
-- [ ] **(P1)** Criar Dockerfile reprodutível (rocker/verse + INLA) — opcional,
-  mas útil para revisores.
+- [x] **(P1)** Configurar `renv` com snapshot inicial; documentar `R.version`
+  e SO de desenvolvimento. *(sessão 001 — R 4.5.3 / Windows 11; lockfile
+  com 128 pacotes, `synchronized: TRUE`.)*
+- [x] **(P1)** Criar Dockerfile reprodutível (rocker/verse + INLA) — opcional,
+  mas útil para revisores. *(sessão 001 — `rocker/geospatial:4.5.3` + INLA
+  via repo oficial.)*
 - [ ] **(P2)** Configurar `pkgdown` para documentação navegável das funções
   utilitárias.
 
@@ -154,19 +162,25 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
 
 ### 0.4 Pacotes e infraestrutura computacional
 
-- [ ] **(P0)** Validar instalação de: `tidyverse`, `targets`, `tarchetypes`,
+- [x] **(P0)** Validar instalação de: `tidyverse`, `targets`, `tarchetypes`,
   `pointblank`, `quarto`, `microdatasus`, `educabR`, `geobr`, `sf`, `fixest`,
   `MASS`, `pscl`, `sandwich`, `lmtest`, `marginaleffects`, `did`, `INLA`,
-  `spdep`, `R-INLA` deps.
-- [ ] **(P0)** Validar acesso ao DATASUS via `microdatasus` (teste com
-  extração mínima de SIM 2023, 1 UF).
-- [ ] **(P0)** Validar pacote `educabR` próprio (versão CRAN 0.9.1 declarada
+  `spdep`, `R-INLA` deps. *(sessão 001 — todos OK; `qs` substituído por
+  `qs2` por incompatibilidade com R 4.5; `fwildclusterboot` falhou em CRAN
+  e GitHub por falta de `summclust` — pendente até Fase 3, alternativa
+  `clubSandwich` instalada.)*
+- [x] **(P0)** Validar acesso ao DATASUS via `microdatasus` (teste com
+  extração mínima de SIM 2023, 1 UF). *(sessão 001 — DF, 14 079 óbitos em
+  4.1s.)*
+- [x] **(P0)** Validar pacote `educabR` próprio (versão CRAN 0.9.1 declarada
   na proposta — confirmar disponibilidade pública ou usar versão dev local).
+  *(sessão 001 — `educabR 0.9.1` carrega de CRAN.)*
 - [ ] **(P1)** Configurar paralelismo:
   `future::plan(multisession, workers = 16)` para `microdatasus`;
   `data.table::setDTthreads()` para operações de agregação.
-- [ ] **(P2)** Smoke test de INLA com modelo BYM em subset (1 UF) para
-  detectar problemas de instalação cedo.
+- [x] **(P2)** Smoke test de INLA com modelo BYM em subset (1 UF) para
+  detectar problemas de instalação cedo. *(sessão 001 — INLA 25.10.19,
+  BYM em grade 5×5 ajustado em 0.9s no Windows.)*
 
 ### 0.5 Convenções de documentação
 
@@ -177,7 +191,7 @@ os outros já sabem). São complementares e operam com convenções paralelas.
 
 #### ADRs (Architecture Decision Records)
 
-- [ ] **(P0)** Estabelecer convenção de **ADRs** em `decisions/`:
+- [x] **(P0)** Estabelecer convenção de **ADRs** em `decisions/`:
   - **Nomenclatura:** `ADR-NNN-slug-descritivo.md` (ex.:
     `ADR-005-lag-painel-uf.md`). Numeração sequencial, sem datas no nome.
   - **Template fixo** com cinco campos (Nygard, 2011): Título, Status
@@ -203,7 +217,7 @@ os outros já sabem). São complementares e operam com convenções paralelas.
 
 #### Bibliografia e notas de leitura
 
-- [ ] **(P0)** Estabelecer estrutura em `bibliography/`:
+- [~] **(P0)** Estabelecer estrutura em `bibliography/`:
   - **`bibliography/reading-list.md`** — fila consolidada com colunas:
     citation key (BetterBibTeX), título curto, status (`to-read` /
     `reading` / `read`), papel no projeto (hipótese, método, seção do
@@ -748,7 +762,7 @@ Marco do edital: **todos os produtos entregues + entrega formal ao edital**.
 Princípio: detectar erro na primeira oportunidade possível, parando em vez de
 propagar estado corrompido. Três padrões cobrem a maior parte do valor.
 
-- [ ] **(P0)** **Data contracts em todo artefato derivado.** Cada `.parquet`
+- [~] **(P0)** **Data contracts em todo artefato derivado.** Cada `.parquet`
   produzido pelo pipeline (IIEM, óbitos por causa, ICSAP por grupo,
   denominadores, covariáveis, painel UF) carrega contrato declarado em
   `R/contracts.R` (esquema esperado: nomes de colunas, tipos, invariantes —
@@ -756,7 +770,10 @@ propagar estado corrompido. Três padrões cobrem a maior parte do valor.
   *escreve* o arquivo chama `pointblank::create_agent()` com o contrato e só
   retorna se passar. Falha = parada do pipeline, não warning. Implementar
   como wrapper `R/write_with_contract.R` usado em todos os targets que geram
-  artefatos.
+  artefatos. *(sessão 001 — wrapper `R/write_with_contract.R` implementado
+  e testado; placeholders dos seis contratos em `R/contracts.R`; corpo de
+  cada contrato será preenchido na sessão da Fase 1 que constrói o artefato
+  correspondente.)*
 - [ ] **(P0)** **Tracer bullet na Fase 1.** Antes de processar 5.570
   municípios ou 27 UFs, rodar o pipeline inteiro em escala 1/27 — uma UF
   pequena (sugerido: DF, dados leves) — desde extração até validação
@@ -765,7 +782,7 @@ propagar estado corrompido. Três padrões cobrem a maior parte do valor.
   1.5 (covariáveis). Custo: ~1/30 do tempo total. Benefício: bugs
   estruturais (classificação CID, joins quebrados, tipos errados) aparecem
   antes do gasto de tempo de máquina e disco em escala completa.
-- [ ] **(P0)** **Session handoff manifest entre sessões Code.** Ao final de
+- [x] **(P0)** **Session handoff manifest entre sessões Code.** Ao final de
   cada sessão, gerar `.claude/sessao-NNN-manifest.json` com: lista de
   artefatos produzidos (caminhos), hash SHA-256 de cada, status `pointblank`
   de cada (`pass` / `fail` / `warn`), commit SHA de fechamento da sessão,
@@ -774,6 +791,9 @@ propagar estado corrompido. Três padrões cobrem a maior parte do valor.
   commit. Se qualquer item diverge, halt — não toca em nada novo até
   resolver. Implementar `R/build_session_manifest.R` (gera) e
   `R/verify_session_manifest.R` (verifica). Documentar uso em `CLAUDE.md`.
+  *(sessão 001 — ambas funções implementadas, 18 expectativas em
+  `tests/testthat/` passando; uso documentado em `CLAUDE.md` §0 e §7;
+  manifest da própria sessão 001 verificado com `pass`.)*
 
 ### T.7 Revisões metodológicas periódicas
 
@@ -815,7 +835,7 @@ Princípio: roadmap é documento vivo, mas mudanças sem método viram caos.
 Distinguir três magnitudes de mudança e tratar cada uma diferente; toda
 mudança rastreia até a revisão (REV) ou ADR que a motivou.
 
-- [ ] **(P0)** **Convenção de magnitude.** Três tipos de mudança:
+- [x] **(P0)** **Convenção de magnitude.** Três tipos de mudança:
   - **Patch** — correção pequena: typo, link quebrado, ajuste de redação,
     marcar checkbox executado. Edita direto, commit normal, **não muda
     versão do roadmap**.
@@ -827,23 +847,23 @@ mudança rastreia até a revisão (REV) ou ADR que a motivou.
     análise central, redefine periódico-alvo. Cria `roadmap-vNN.md` novo,
     com seção dedicada no `CHANGELOG.md` explicitando o que mudou e por
     quê. Roadmap anterior permanece imutável como documento histórico.
-- [ ] **(P0)** **`CHANGELOG.md`** na raiz do repositório, formato
+- [x] **(P0)** **`CHANGELOG.md`** na raiz do repositório, formato
   keepachangelog.com, com seções por versão do roadmap. Categorias
   padronizadas: `### Added`, `### Changed`, `### Deprecated`, `### Removed`,
   `### Fixed`. Para `roadmap-v02.md`, `CHANGELOG.md` traz a seção que
   explica todas as diferenças em relação a `v01`.
-- [ ] **(P0)** **Rastreabilidade de mudanças.** Toda alteração no roadmap
+- [x] **(P0)** **Rastreabilidade de mudanças.** Toda alteração no roadmap
   referencia a REV-MNN ou ADR-NNN que a motivou. Mensagens de commit em
   formato Conventional Commits:
   - `docs(roadmap): marca 1.2 concluído` (patch)
   - `docs(roadmap): adiciona Gini estadual em 1.5; ref REV-M02` (minor)
   - `docs(roadmap): cria v02; pivota Desenho B para t+3; ref REV-M03`
     (major)
-- [ ] **(P0)** **Imutabilidade de versões anteriores.** `roadmap-v01.md`
+- [x] **(P0)** **Imutabilidade de versões anteriores.** `roadmap-v01.md`
   nunca é apagado quando `v02` é criado. Versões antigas ficam no repo como
   registro histórico. Útil em auditoria e em revisão por pares ("quando
   decidimos isso?").
-- [ ] **(P0)** **Identificadores estáveis.** Numeração de fases e
+- [x] **(P0)** **Identificadores estáveis.** Numeração de fases e
   subseções (Fase N, N.M) é **permanente** através de versões do roadmap.
   Regras:
   - Conteúdo de item muda → mantém número, edita conteúdo.
