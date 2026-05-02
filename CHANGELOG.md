@@ -41,6 +41,33 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   hierarquia de fontes adicionada, referências aos novos documentos
   auxiliares no header, §§ 5/6/8 enxutas para apontar para `CONVENTIONS.md`
   e `GOVERNANCE.md` em vez de duplicar convenções.
+- `roadmap-v01.md` § 0.3 — item da solicitação formal do IIEM 2017 à
+  Lupa Social refinado para citar a metodologia Paciencia & Ismail (2024)
+  como base do dado solicitado e incluir citação acadêmica do método na
+  carta. Magnitude: minor (refinamento de etapa).
+- `roadmap-v01.md` § 0.5 — Paciencia & Ismail (2024) adicionado à lista
+  de referências centrais a importar no Zotero, marcado como referência
+  metodológica da exposição IIEM. Magnitude: minor (correção de omissão
+  na lista de referências centrais).
+- `roadmap-v01.md` § 1.1 — expectativa de cobertura municipal ajustada
+  de 5.570 para ~4.775 municípios (Paciencia & Ismail, 2024 — filtro
+  estrutural de <10 matrículas em 2008 da coorte de 2000). Magnitude:
+  patch (correção factual de expectativa, sem invalidação de plano).
+- `roadmap-v01.md` § 1.6 — fonte do IIE estadual 2015/2017/2019/2021
+  alterada de "pedido formal à Lupa Social" para "download direto do
+  repositório público GitHub Lupa Social" (`iie_geral_2015_2021.xlsx` +
+  arquivos `.rds` complementares); proveniência será registrada no README
+  de `data-raw/lupa-social/`. Magnitude: minor (mudança de fonte
+  operacional sem alteração do objetivo).
+
+Motivação das cinco mudanças acima: correções factuais resultantes da
+leitura do Edital de Pesquisa IIE (que reconhece dados como públicos
+antes da seleção), da inspeção do repositório público GitHub Lupa
+Social (que contém `iie_geral_2015_2021.xlsx` + scripts e estudos) e da
+leitura do estudo Paciencia & Ismail (2024) na pasta `estudos/` do mesmo
+repositório (que documenta o método do IIEM e o n efetivo de municípios
+calculáveis). Sem necessidade de REV ou ADR — são correções factuais,
+não decisões metodológicas.
 
 <!--
 ### Deprecated

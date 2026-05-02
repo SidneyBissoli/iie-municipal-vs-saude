@@ -142,8 +142,10 @@ Desktop (sessão longa frágil).
   desfecho ainda não inspecionados (parte do SIM/SIH 2018–2024 já é pública —
   discutir limite de pré-registro honesto).
 - [ ] **(P0)** **`[CD→humano]`** Solicitação formal do IIEM 2017 à Lupa
-  Social: redigir e iterar carta (escopo, finalidade, destinação de dados,
-  declaração de não-redistribuição); enviar do e-mail institucional.
+  Social, conforme metodologia Paciencia & Ismail (2024): redigir e iterar
+  carta (escopo, finalidade, destinação de dados, declaração de
+  não-redistribuição, citação acadêmica do método); enviar do e-mail
+  institucional.
 - [ ] **(P1)** Verificar necessidade de submissão a CEP/CONEP. Posição
   preliminar: dados secundários públicos agregados em nível municipal/estadual
   dispensam aprovação ética (Resolução CNS 510/2016, Art. 1º, parágrafo único,
@@ -209,7 +211,8 @@ os outros já sabem). São complementares e operam com convenções paralelas.
     `_note-template.md`, `README.md` criados na sessão 001.
   - **Popular bibliografia no início da Fase 0** (sequência obrigatória,
     sem atalhos): (1) importar no Zotero as referências centrais
-    identificadas na proposta — Melo et al. (2017) ICSAP-educação; Borges
+    identificadas na proposta — Paciencia & Ismail (2024) IIEM
+    (metodologia da exposição); Melo et al. (2017) ICSAP-educação; Borges
     & Cano (2017) subnotificação; Alfradique et al. (2009) Lista
     Brasileira; Cutler & Lleras-Muney (2010); Marmot (2017); Blangiardo
     et al. (2013) BYM; Cameron et al. (2008) e MacKinnon et al. (2023)
@@ -238,8 +241,11 @@ de progresso #1**.
 - [ ] **(P0)** Recepcionar e auditar arquivo IIEM 2017 da Lupa Social:
   dicionário, codebook, granularidade (município por código IBGE 7 dígitos),
   variáveis (IIE contínuo, três subdimensões, n da coorte).
-- [ ] **(P0)** Validar cobertura: 5.570 municípios? Quais ausentes? Cruzar com
-  lista oficial IBGE 2017.
+- [ ] **(P0)** Validar cobertura: expectativa de ~4.775 municípios
+  (Paciencia & Ismail, 2024 — exclusão estrutural pelo filtro de <10
+  matrículas em 2008 da coorte de 2000); confirmar n exato do arquivo
+  recebido e identificar quais ausentes; cruzar com lista oficial IBGE
+  2017.
 - [ ] **(P0)** Construir `iiem_2017` como tibble canônico em
   `data/iiem_2017.parquet`, com `cod_mun_7`, `iiem`, `iiem_acesso`,
   `iiem_idade_serie`, `iiem_proficiencia`, `n_coorte`.
@@ -332,8 +338,12 @@ de progresso #1**.
 
 ### 1.6 Painel UF (Desenho B)
 
-- [ ] **(P0)** Adquirir IIE estadual 2015/2017/2019/2021 (Lupa Social) —
-  ideal: incluir no mesmo pedido formal da Fase 0.
+- [ ] **(P0)** Baixar IIE estadual 2015/2017/2019/2021 do repositório
+  público da Lupa Social no GitHub (`iie_geral_2015_2021.xlsx` + arquivos
+  `.rds` complementares). Snapshot em `data-raw/lupa-social/`, com
+  proveniência (URL, SHA do commit, hash do arquivo) registrada no README
+  da pasta. Sem necessidade de pedido formal — dado é público, e o edital
+  reconhece explicitamente.
 - [ ] **(P0)** Construir desfechos UF × ano em t = c+5 (i.e., desfechos 2020,
   2022, 2024, 2026 — atenção: 2026 indisponível na execução; restringir a
   coortes com t+5 dentro de 2018–2024 ou ajustar lag).
