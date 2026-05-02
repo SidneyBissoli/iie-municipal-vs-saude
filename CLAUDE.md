@@ -1,9 +1,22 @@
 # CLAUDE.md
 
-Instruções persistentes para Claude Code neste repositório. Este documento é
-**fonte da verdade** para convenções de código, layout e fluxo de trabalho.
-Deve ser lido **antes** de qualquer ação em uma sessão Code. Atualizar sempre
-que estrutura ou convenções mudarem (commit `docs(claude): ...`).
+Instruções persistentes para Claude Code neste repositório. Documenta
+convenções operacionais de código e fluxo de trabalho de sessões Code. Deve
+ser lido **antes** de qualquer ação em uma sessão Code. Atualizar sempre que
+estrutura ou convenções mudarem (commit `docs(claude): ...`).
+
+**Hierarquia de fontes** (documentada em `GOVERNANCE.md`):
+`manuscripts/proposta-de-pesquisa.md` (científica) → ADRs/REVs em `decisions/`
+(decisões metodológicas) → `roadmap-vNN.md` (operacional) → este CLAUDE.md
+(convenções de código). Em conflito, sobe na hierarquia.
+
+**Documentos auxiliares de referência obrigatória:**
+
+- `GOVERNANCE.md` — princípios, hierarquia de fontes, governança do projeto.
+- `CONVENTIONS.md` — formatos, templates, nomenclatura (ADR, REV,
+  bibliografia, Conventional Commits, identificadores).
+- `RISKS.md` — riscos ativos e mitigações.
+- `CHANGELOG.md` — histórico de mudanças.
 
 ---
 
@@ -141,17 +154,10 @@ CI roda os mesmos gates em `.github/workflows/R-CMD-check.yaml` e
 
 ## 5. ADRs e revisões metodológicas (REVs)
 
-- **ADRs** ficam em `decisions/ADR-NNN-slug.md`. Convenção Nygard: cinco
-  campos (Título, Status, Contexto, Decisão, Consequências). Template em
-  `decisions/_template.md`. Status `accepted` é imutável; mudança de
-  decisão cria ADR novo que `Supersedes ADR-XXX`. Detalhes em
-  roadmap-v01.md §0.5.
-- **REVs** (revisões metodológicas mensais) ficam em `decisions/REV-MNN.md`.
-  Cinco campos: Estado factual, Surpresas, Pressupostos válidos?, Decisão,
-  Ações. Template em `decisions/_template-revisao.md`. Detalhes em
-  roadmap-v01.md §T.7.
-- Índice unificado em `decisions/README.md`, gerado por
-  `R/build_adr_index.R` (varre `ADR-*.md` e `REV-*.md`).
+Convenção de nomenclatura, templates e regras de imutabilidade em
+`CONVENTIONS.md`. Princípios em `GOVERNANCE.md`. Índice unificado em
+`decisions/README.md`, gerado por `R/build_adr_index.R` (varre `ADR-*.md` e
+`REV-*.md`).
 
 **Antes de implementar item marcado com 🜲 no roadmap**, verificar se o ADR
 correspondente já está `accepted`. Se não, parar e sinalizar — a decisão
@@ -161,20 +167,18 @@ metodológica precede a implementação.
 
 ## 6. Bibliografia e notas de leitura
 
-- `bibliography/references.bib` — gerado por export do BetterBibTeX (Zotero).
-  **Não editar à mão.** Citation keys são as do Zotero (`auth.lower + year +
-  shorttitle.lower`, travadas).
-- `bibliography/reading-list.md` — fila de leitura indexada pelas citation
-  keys do `references.bib`.
-- `bibliography/notes/<citation-key>.md` — uma nota por artigo lido,
-  seguindo `bibliography/_note-template.md`. Nome do arquivo = citation key
-  exata do `references.bib`. PDFs ficam no Zotero, não no repo.
-- Índice em `bibliography/README.md`, gerado por
-  `R/build_bibliography_index.R` (cruza `references.bib` com `notes/`).
+Convenção de estrutura, citation keys e divisão Zotero/repo em
+`CONVENTIONS.md` e `GOVERNANCE.md`. Índice gerado por
+`R/build_bibliography_index.R`.
 
-**Citation keys provisórias inventadas a partir de autor+ano são proibidas.**
-Sempre exportar do Zotero antes de adicionar uma referência ao
-`reading-list.md`.
+**Regras operacionais para Code:**
+
+- `bibliography/references.bib` é export do BetterBibTeX. **Não editar à
+  mão.**
+- Nome de arquivo de nota = citation key exata do `references.bib`.
+- PDFs no Zotero, não no repo.
+- Não inventar citation keys provisórias — toda chave vem do
+  `references.bib`.
 
 ---
 
@@ -210,37 +214,23 @@ restore ruim, falha no `renv`), a divergência aparece imediatamente.
 
 ## 8. Controle de mudanças (T.8 do roadmap)
 
-Três magnitudes de mudança no roadmap, com tratamento distinto:
+Magnitude de mudança (patch / minor / major), regras de identificadores
+estáveis e formato Conventional Commits em `CONVENTIONS.md` e
+`GOVERNANCE.md`.
 
-| Magnitude | Quando | Ação | Versão do roadmap |
-|---|---|---|:-:|
-| **patch** | typo, link quebrado, marcar checkbox | edita direto | inalterada |
-| **minor** | adiciona conteúdo sem invalidar plano (nova covariável, novo ADR, refinamento) | edita direto, commit referencia REV-MNN ou ADR-NNN | inalterada |
-| **major** | muda o plano (pivota hipótese, troca desenho, redefine periódico) | cria `roadmap-vNN.md` novo, com seção dedicada no `CHANGELOG.md` | nova versão |
-
-**Identificadores estáveis.** Numeração de fases e subseções (Fase N, N.M)
-é **permanente** entre versões. Item descontinuado vira `~~deprecated~~`
-com nota cruzada — não se remove. Subseção nova entre existentes usa sufixo
-de letra (`1.5a`, `2.3b`).
-
-**Imutabilidade.** `roadmap-v01.md` nunca é apagado quando v02 é criado.
-
-**Mensagens de commit em formato Conventional Commits**, com referência a
-REV-MNN ou ADR-NNN quando aplicável:
+**Tipos de commit usados em sessões Code:** `docs:`, `feat:`, `fix:`,
+`refactor:`, `test:`, `chore:`. Exemplos práticos:
 
 ```
-docs(roadmap): marca 1.2 concluído                              # patch
-docs(roadmap): adiciona Gini estadual em 1.5; ref REV-M02       # minor
-docs(roadmap): cria v02; pivota Desenho B para t+3; ref REV-M03 # major
-
 feat(R): adiciona icsap_classify() com testes
 fix(targets): corrige join órfão em painel_uf
 test(R): cobre interpolate_pop() em ano-de-Censo
 chore(renv): snapshot após instalar fwildclusterboot
+docs(claude): atualiza §2 após renomear pasta
 ```
 
-`CHANGELOG.md` na raiz acumula mudanças entre versões do roadmap, formato
-keepachangelog.com.
+Mudanças no roadmap referenciam REV-MNN ou ADR-NNN que motivaram, conforme
+`CONVENTIONS.md`.
 
 ---
 
