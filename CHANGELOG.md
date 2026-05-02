@@ -6,7 +6,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e
 versões correspondem a versões do roadmap (`roadmap-vNN.md`). Mudanças
 **patch** e **minor** acumulam em `[Unreleased]` até a próxima major; mudanças
 **major** abrem nova seção e congelam o roadmap anterior. Detalhes da convenção
-em `roadmap-v01.md` §T.8 e `CLAUDE.md` §8.
+em `GOVERNANCE.md` (princípios) e `CONVENTIONS.md` (formato Conventional
+Commits, identificadores estáveis).
 
 Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 `Security`.
@@ -15,9 +16,33 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
-<!--
 ### Added
+
+- `GOVERNANCE.md` na raiz — princípios de governança do projeto:
+  hierarquia de fontes (proposta → ADRs/REVs → roadmap → CLAUDE), tripartição
+  meta/gestão/científicos, separação Zotero/repo, princípios T.6/T.7/T.8 e
+  princípios de integridade científica.
+- `CONVENTIONS.md` na raiz — convenções técnicas: notação do roadmap,
+  formato ADR (Nygard) e REV, nomenclatura de citation keys, formato
+  Conventional Commits, regras de identificadores estáveis, formato
+  CHANGELOG, formato markdown do source.
+- `RISKS.md` na raiz — riscos ativos e mitigações (extraídos de T.4 do
+  roadmap), documento vivo sem versionamento formal.
+
 ### Changed
+
+- `roadmap-v01.md` enxugado para checklist operacional puro: princípios e
+  convenções detalhadas extraídas para `GOVERNANCE.md` e `CONVENTIONS.md`;
+  T.4 Riscos extraída para `RISKS.md`; bullets de T.6/T.7/T.8 mantidos
+  apenas com conteúdo operacional, princípios remetidos a `GOVERNANCE.md`;
+  seção final "Onde Desktop ganha decisivamente" removida (análise
+  interpretativa, não instrução); nota final reformulada.
+- `CLAUDE.md` ajustado para refletir nova estrutura: declaração de
+  hierarquia de fontes adicionada, referências aos novos documentos
+  auxiliares no header, §§ 5/6/8 enxutas para apontar para `CONVENTIONS.md`
+  e `GOVERNANCE.md` em vez de duplicar convenções.
+
+<!--
 ### Deprecated
 ### Removed
 ### Fixed
