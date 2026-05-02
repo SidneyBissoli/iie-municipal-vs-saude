@@ -19,8 +19,7 @@ externa e ICSAP no Brasil (2018–2024)<br>
 **Pesquisador responsável:** Sidney da Silva Pereira Bissoli
 (pesquisador independente)<br>
 **Janela de execução:** Jul/2026 – Dez/2026<br>
-**Versão:** v01 · gerada a partir de `proposta-de-pesquisa.md` ·
-*roadmap em construção (pré-definitivo)*
+**Versão:** v01 · gerada a partir de `proposta-de-pesquisa.md`
 
 ---
 
@@ -32,8 +31,7 @@ externa e ICSAP no Brasil (2018–2024)<br>
   necessário, mas com folga; `(P2)` desejável, executar se sobrar tempo.
 - **Decisão metodológica:** itens marcados com `🜲` exigem decisão registrada
   como ADR (Architecture Decision Record) em `decisions/ADR-NNN.md` antes de
-  prosseguir. Convenção e template em **0.5 Convenções de documentação**.
-  Não pular.
+  prosseguir. Convenção e template em `CONVENTIONS.md`. Não pular.
 - **Gate:** itens marcados com `⛓` são *quality gates* — bloqueiam o avanço
   para a fase seguinte até validação aprovada.
 - **Onde fazer** (ver seção a seguir): a maior parte dos itens fica **sem tag**
@@ -41,6 +39,10 @@ externa e ICSAP no Brasil (2018–2024)<br>
   previne erro caro.
 - O roadmap é versionado. Mudanças substantivas geram `roadmap-v02.md`, com
   diff em changelog próprio.
+
+Documentos auxiliares: `GOVERNANCE.md` (princípios), `CONVENTIONS.md`
+(formatos e templates), `RISKS.md` (riscos e mitigações), `CHANGELOG.md`
+(histórico de mudanças), `CLAUDE.md` (convenções para Claude Code).
 
 ---
 
@@ -72,9 +74,6 @@ Desktop (sessão longa frágil).
 
 ## Fase 0 — Pré-execução e arquitetura (antes do Mês 1)
 
-Objetivo: deixar a infraestrutura analítica, de versionamento e de governança
-pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
-
 ### 0.1 Repositório e estrutura
 
 - [ ] **(P0)** Criar repositório GitHub público `iie-municipal-vs-saude` sob
@@ -96,7 +95,7 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
     longos)
   - `technical-note/` (PDF para gestores)
   - `slides/` (apresentação executiva)
-  - `decisions/` (ADRs — Architecture Decision Records)
+  - `decisions/` (ADRs e REVs)
   - `bibliography/` (referências, fila de leitura, notas de artigos)
   - `tests/` (testes de funções e validações `pointblank`)
   - `outputs/` (tabelas, figuras, mapas finais — versionados quando estáveis)
@@ -104,10 +103,7 @@ pronta para que o Mês 1 inicie produzindo dados, não configurando ambiente.
   `_targets/objects/`, `*.Renviron`, `.Rhistory` (já presente — auditar).
   *(sessão 001 — também ignora `.claude/`.)*
 - [x] **(P0)** Mover `proposta-de-pesquisa.{md,docx,html}` da raiz para
-  `manuscripts/`. A proposta é documento científico (mesma natureza do
-  artigo futuro), não de gestão; cabe junto com os demais manuscritos. Na
-  raiz ficam apenas documentos meta (`README.md`, `LICENSE`, `CITATION.cff`,
-  `CLAUDE.md`, `CHANGELOG.md`) e de gestão (`roadmap-vNN.md`).
+  `manuscripts/`.
 - [x] **(P0)** Criar `CLAUDE.md` no root do repositório com instruções
   persistentes para Claude Code: convenções tidyverse e pipe `|>`, comentários
   de código em inglês, estrutura de diretórios canônica, comandos frequentes
@@ -191,57 +187,26 @@ os outros já sabem). São complementares e operam com convenções paralelas.
 
 #### ADRs (Architecture Decision Records)
 
-- [x] **(P0)** Estabelecer convenção de **ADRs** em `decisions/`:
-  - **Nomenclatura:** `ADR-NNN-slug-descritivo.md` (ex.:
-    `ADR-005-lag-painel-uf.md`). Numeração sequencial, sem datas no nome.
-  - **Template fixo** com cinco campos (Nygard, 2011): Título, Status
-    (`proposed` / `accepted` / `deprecated` / `superseded by ADR-NNN`),
-    Contexto, Decisão, Consequências. Salvar em `decisions/_template.md`.
-  - **Imutabilidade:** ADR `accepted` não se edita. Mudança de decisão
-    cria novo ADR que `Supersedes ADR-XXX`; o anterior recebe status
-    `superseded by ADR-NNN`. Preserva histórico de pensamento.
-  - **Granularidade:** uma decisão por ADR. Se um ADR tem 4 decisões,
-    divide-se em 4.
-  - **Índice:** manter `decisions/README.md` com tabela auto-atualizada
-    (título, status, item do roadmap, data) — pode ser script R simples
-    em `R/build_adr_index.R` que varre os arquivos.
-  - **Pré-mapeados:** oito ADRs já identificados pelos itens 🜲 — ADR-001
+- [x] **(P0)** Estabelecer convenção de **ADRs** em `decisions/`. Convenção
+  detalhada em `CONVENTIONS.md`. Bullets operacionais:
+  - Template em `decisions/_template.md` com cinco campos (Nygard, 2011).
+  - Imutabilidade após `accepted`; mudança de decisão cria novo ADR
+    `Supersedes ADR-XXX`.
+  - Uma decisão por ADR.
+  - Índice em `decisions/README.md` gerado por `R/build_adr_index.R`.
+  - **Pré-mapeados:** oito ADRs identificados pelos itens 🜲 — ADR-001
     pré-registro (0.3); ADR-002 política de missing (0.3); ADR-003
     correção de subnotificação (1.2); ADR-004 agrupamento ICSAP em três
     blocos (1.3); ADR-005 lag do painel UF (1.6); ADR-006 nível de
     cluster (2.1); ADR-007 viabilidade de negative controls (3.3);
-    ADR-008 periódico-alvo (4.1). Numeração final pode variar conforme
-    ordem cronológica de redação.
-  - **Referência cruzada com `CLAUDE.md`:** documentar localização e
-    convenção de leitura de ADRs antes de implementar itens 🜲.
+    ADR-008 periódico-alvo (4.1).
 
 #### Bibliografia e notas de leitura
 
-- [~] **(P0)** Estabelecer estrutura em `bibliography/`:
-  - **`bibliography/reading-list.md`** — fila consolidada com colunas:
-    citation key (BetterBibTeX), título curto, status (`to-read` /
-    `reading` / `read`), papel no projeto (hipótese, método, seção do
-    manuscrito), prioridade.
-  - **`bibliography/references.bib`** — exportação BetterBibTeX do Zotero,
-    única fonte de citation keys do projeto. Alimenta `reading-list.md` e
-    o manuscrito Quarto. Re-exportar a cada vez que novas referências
-    forem adicionadas ao projeto Zotero.
-  - **`bibliography/notes/`** — uma nota markdown por artigo lido, nomeada
-    `chave-citacao.md` (ex.: `melo-2017-icsap-educacao.md`), seguindo a
-    citation key BetterBibTeX exata extraída de `references.bib`. PDFs
-    **não** ficam aqui — permanecem no Zotero.
-  - **`bibliography/_note-template.md`** — template fixo: citation key +
-    DOI (link para Zotero), papel no projeto (hipótese / método / seção do
-    manuscrito), resumo em 3–5 linhas em suas próprias palavras, citações
-    quotáveis com número de página, crítica e limitações do estudo,
-    conexões com outras notas (links relativos).
-  - **Índice:** `bibliography/README.md` com tabela auto-atualizada
-    (chave, título, status, papel) — mesmo padrão de `decisions/README.md`,
-    script R correspondente em `R/build_bibliography_index.R`.
-  - **Divisão com Zotero:** Zotero permanece como fonte da verdade para
-    metadados, PDFs e highlights rápidos. Notas substantivas vão no repo
-    porque são versionadas, revisáveis e importáveis como snippets
-    diretamente no manuscrito Quarto. Não duplicar metadados.
+- [~] **(P0)** Estabelecer estrutura em `bibliography/`. Convenção detalhada
+  em `CONVENTIONS.md`. Bullets operacionais:
+  - `bibliography/reading-list.md`, `references.bib`, `notes/`,
+    `_note-template.md`, `README.md` criados na sessão 001.
   - **Popular bibliografia no início da Fase 0** (sequência obrigatória,
     sem atalhos): (1) importar no Zotero as referências centrais
     identificadas na proposta — Melo et al. (2017) ICSAP-educação; Borges
@@ -254,8 +219,7 @@ os outros já sabem). São complementares e operam com convenções paralelas.
     citation key estável (`auth.lower + year + shorttitle.lower`,
     travada); (3) exportar como `.bib` para `bibliography/references.bib`;
     (4) só então popular `reading-list.md` lendo as citation keys
-    diretamente de `references.bib`. Citation keys provisórias inventadas
-    a partir de autor+ano são proibidas — a chave é a do Zotero, ponto.
+    diretamente de `references.bib`.
 
 ⛓ **Gate Fase 0:** repositório público criado, pipeline `targets` rodando
 smoke test em CI, IIEM solicitado, pré-registro publicado, convenções de
@@ -727,69 +691,41 @@ Marco do edital: **todos os produtos entregues + entrega formal ao edital**.
 
 ### T.4 Riscos e mitigação
 
-- [ ] **(P0)** **Risco: atraso na liberação do IIEM.** Mitigação: solicitação
-  formal já no Mês 0; manter contato semanal com Lupa Social; plano B usando
-  indicadores agregados públicos do IIE até liberação.
-- [ ] **(P0)** **Risco: SIH-RD ou SIM-DO 2024 não disponíveis em Jul/2026.**
-  Mitigação: confirmar disponibilidade na Fase 0; ajustar janela para
-  2018–2023 se necessário, com documentação explícita.
-- [ ] **(P1)** **Risco: instabilidade do INLA em alguns sistemas.** Mitigação:
-  smoke test no Mês 0; ter alternativa em `spatialreg` para SAR.
-- [ ] **(P1)** **Risco: alta colinearidade IIEM × INSE × IDHM** levando a
-  estimativas instáveis. Mitigação: análise de VIF na Fase 2; especificações
-  com cada controle isolado; discussão honesta de identificação no manuscrito.
-- [ ] **(P1)** **Risco: lag t+5 do painel UF inviável para coorte 2021** (cf.
-  1.6). Mitigação: ADR antes do Mês 1.
-- [ ] **(P1)** **Risco: efeito da pandemia COVID-19 confundir resultados
-  2020–2021.** Mitigação: análise principal com dados pré e pós-pandemia
-  separados como sensibilidade.
-- [ ] **(P2)** **Risco: rejeição editorial do periódico-alvo.** Mitigação: ter
-  periódico-alvo secundário pré-definido (Mês 4); preprint em OSF/SciELO.
+Riscos identificados estão registrados em `RISKS.md` (documento vivo, sem
+versionamento formal). Revisar `RISKS.md` ao final de cada REV mensal e
+atualizar conforme novos riscos aparecem.
 
 ### T.5 Boas práticas científicas
 
-- [ ] **(P0)** **`[CD]`** Toda análise não pré-registrada é rotulada
-  explicitamente como **exploratória** no manuscrito.
-- [ ] **(P0)** **`[CD]`** Reportar todas as decisões metodológicas relevantes,
-  não apenas as que produziram resultados favoráveis.
 - [ ] **(P0)** Disponibilizar dados derivados (não os brutos do DATASUS, que
   já são públicos) para replicação imediata.
-- [ ] **(P1)** **`[CD]`** Aceitar e responder a feedback adversarial;
-  documentar respostas em apêndice ou OSF.
+
+Princípios de integridade científica em `GOVERNANCE.md`.
 
 ### T.6 Contratos e fail-fast
 
-Princípio: detectar erro na primeira oportunidade possível, parando em vez de
-propagar estado corrompido. Três padrões cobrem a maior parte do valor.
+Princípios em `GOVERNANCE.md`. Bullets operacionais:
 
 - [~] **(P0)** **Data contracts em todo artefato derivado.** Cada `.parquet`
   produzido pelo pipeline (IIEM, óbitos por causa, ICSAP por grupo,
   denominadores, covariáveis, painel UF) carrega contrato declarado em
-  `R/contracts.R` (esquema esperado: nomes de colunas, tipos, invariantes —
-  ex.: `cod_mun_7` único, taxas ≥ 0, ano em [2018, 2024]). A função que
-  *escreve* o arquivo chama `pointblank::create_agent()` com o contrato e só
-  retorna se passar. Falha = parada do pipeline, não warning. Implementar
-  como wrapper `R/write_with_contract.R` usado em todos os targets que geram
-  artefatos. *(sessão 001 — wrapper `R/write_with_contract.R` implementado
-  e testado; placeholders dos seis contratos em `R/contracts.R`; corpo de
-  cada contrato será preenchido na sessão da Fase 1 que constrói o artefato
-  correspondente.)*
+  `R/contracts.R`. Função que escreve o arquivo chama
+  `pointblank::create_agent()` com o contrato e só retorna se passar. Falha
+  = parada do pipeline. Implementar como wrapper `R/write_with_contract.R`
+  usado em todos os targets que geram artefatos. *(sessão 001 — wrapper
+  `R/write_with_contract.R` implementado e testado; placeholders dos seis
+  contratos em `R/contracts.R`; corpo de cada contrato será preenchido na
+  sessão da Fase 1 que constrói o artefato correspondente.)*
 - [ ] **(P0)** **Tracer bullet na Fase 1.** Antes de processar 5.570
   municípios ou 27 UFs, rodar o pipeline inteiro em escala 1/27 — uma UF
-  pequena (sugerido: DF, dados leves) — desde extração até validação
-  `pointblank` final. Só escalar quando o tracer bullet passar todos os
-  contratos. Aplicado explicitamente em 1.2 (SIM), 1.3 (SIH) e idealmente em
-  1.5 (covariáveis). Custo: ~1/30 do tempo total. Benefício: bugs
-  estruturais (classificação CID, joins quebrados, tipos errados) aparecem
-  antes do gasto de tempo de máquina e disco em escala completa.
+  pequena (DF) — desde extração até validação `pointblank` final. Só
+  escalar quando o tracer bullet passar todos os contratos. Aplicado em
+  1.2 (SIM), 1.3 (SIH) e idealmente em 1.5 (covariáveis).
 - [x] **(P0)** **Session handoff manifest entre sessões Code.** Ao final de
-  cada sessão, gerar `.claude/sessao-NNN-manifest.json` com: lista de
-  artefatos produzidos (caminhos), hash SHA-256 de cada, status `pointblank`
-  de cada (`pass` / `fail` / `warn`), commit SHA de fechamento da sessão,
-  versão `renv` ativa. Próxima sessão Code começa por *verificar o último
-  manifest*: re-hashear arquivos listados, re-rodar `pointblank`, conferir
-  commit. Se qualquer item diverge, halt — não toca em nada novo até
-  resolver. Implementar `R/build_session_manifest.R` (gera) e
+  cada sessão, gerar `.claude/sessao-NNN-manifest.json` com lista de
+  artefatos produzidos, hash SHA-256, status `pointblank`, commit SHA,
+  versão `renv` ativa. Próxima sessão Code começa por verificar o último
+  manifest. Implementar `R/build_session_manifest.R` (gera) e
   `R/verify_session_manifest.R` (verifica). Documentar uso em `CLAUDE.md`.
   *(sessão 001 — ambas funções implementadas, 18 expectativas em
   `tests/testthat/` passando; uso documentado em `CLAUDE.md` §0 e §7;
@@ -797,21 +733,8 @@ propagar estado corrompido. Três padrões cobrem a maior parte do valor.
 
 ### T.7 Revisões metodológicas periódicas
 
-Princípio: gates técnicos (⛓) verificam execução; gates metodológicos
-verificam *direção*. Ao final de cada mês de execução, parar 30 minutos para
-perguntar: dado o que sabemos agora, o desenho original ainda é a melhor
-resposta à pergunta de pesquisa? Sem este mecanismo, viés de confirmação e
-sunk cost operam sem freio em pesquisador solo.
-
-Formato fixo, registrado em `decisions/REV-MNN.md` (paralelo aos ADRs).
-Template em `decisions/_template-revisao.md` com cinco campos:
-(1) **Estado factual** — o que foi feito; o que mudou desde o último gate;
-(2) **Surpresas** — o que descobri que não esperava (técnico, metodológico,
-literatura); (3) **Pressupostos do roadmap ainda válidos?** — listar 2–4
-pressupostos centrais e marcar `confirma` / `ainda-incerto` / `invalida`;
-(4) **Decisão** — `seguir como planejado` / `seguir com ajustes
-[especificar]` / `pausar e revisar` / `pivot maior [especificar]`;
-(5) **Ações até a próxima revisão.**
+Princípios e formato em `GOVERNANCE.md` e `CONVENTIONS.md`. REVs registradas
+em `decisions/REV-MNN.md` ao final de cada mês de execução.
 
 - [ ] **(P0)** **REV-M01** ao final do Mês 1 (Jul/2026): base analítica
   consolidada; pressupostos sobre disponibilidade DATASUS, estrutura IIEM,
@@ -831,50 +754,16 @@ pressupostos centrais e marcar `confirma` / `ainda-incerto` / `invalida`;
 
 ### T.8 Controle de mudanças
 
-Princípio: roadmap é documento vivo, mas mudanças sem método viram caos.
-Distinguir três magnitudes de mudança e tratar cada uma diferente; toda
-mudança rastreia até a revisão (REV) ou ADR que a motivou.
+Princípios e regras em `GOVERNANCE.md` e `CONVENTIONS.md`.
 
-- [x] **(P0)** **Convenção de magnitude.** Três tipos de mudança:
-  - **Patch** — correção pequena: typo, link quebrado, ajuste de redação,
-    marcar checkbox executado. Edita direto, commit normal, **não muda
-    versão do roadmap**.
-  - **Minor** — adiciona conteúdo sem invalidar plano: nova covariável,
-    novo ADR, refinamento de etapa, novo bullet em subseção existente.
-    Edita direto, commit referencia REV-MNN ou ADR-NNN, **não muda versão
-    do roadmap**.
-  - **Major** — muda o plano: pivota hipótese, troca desenho, exclui
-    análise central, redefine periódico-alvo. Cria `roadmap-vNN.md` novo,
-    com seção dedicada no `CHANGELOG.md` explicitando o que mudou e por
-    quê. Roadmap anterior permanece imutável como documento histórico.
-- [x] **(P0)** **`CHANGELOG.md`** na raiz do repositório, formato
-  keepachangelog.com, com seções por versão do roadmap. Categorias
-  padronizadas: `### Added`, `### Changed`, `### Deprecated`, `### Removed`,
-  `### Fixed`. Para `roadmap-v02.md`, `CHANGELOG.md` traz a seção que
-  explica todas as diferenças em relação a `v01`.
-- [x] **(P0)** **Rastreabilidade de mudanças.** Toda alteração no roadmap
-  referencia a REV-MNN ou ADR-NNN que a motivou. Mensagens de commit em
-  formato Conventional Commits:
-  - `docs(roadmap): marca 1.2 concluído` (patch)
-  - `docs(roadmap): adiciona Gini estadual em 1.5; ref REV-M02` (minor)
-  - `docs(roadmap): cria v02; pivota Desenho B para t+3; ref REV-M03`
-    (major)
-- [x] **(P0)** **Imutabilidade de versões anteriores.** `roadmap-v01.md`
-  nunca é apagado quando `v02` é criado. Versões antigas ficam no repo como
-  registro histórico. Útil em auditoria e em revisão por pares ("quando
-  decidimos isso?").
-- [x] **(P0)** **Identificadores estáveis.** Numeração de fases e
-  subseções (Fase N, N.M) é **permanente** através de versões do roadmap.
-  Regras:
-  - Conteúdo de item muda → mantém número, edita conteúdo.
-  - Bullet novo dentro de subseção existente → adiciona como bullet, sem
-    número novo.
-  - Subseção nova entre existentes → usa sufixo de letra (`1.5a`, `2.3b`).
-  - Item descontinuado → marca `~~deprecated~~` com nota cruzada para
-    REV-MNN que motivou; **não remove**.
-  Princípio: identificador é endereço permanente; conteúdo evolui. ADRs e
-  revisões referenciam itens por número e não devem ser invalidados por
-  renumeração.
+- [x] **(P0)** Convenção de magnitude (patch / minor / major) aplicada a
+  toda mudança no roadmap.
+- [x] **(P0)** `CHANGELOG.md` na raiz, formato keepachangelog.com.
+- [x] **(P0)** Toda alteração no roadmap referencia REV-MNN ou ADR-NNN que a
+  motivou. Mensagens de commit em formato Conventional Commits.
+- [x] **(P0)** Versões anteriores do roadmap nunca apagadas.
+- [x] **(P0)** Identificadores de seção (Fase N, N.M) permanentes através de
+  versões.
 
 ---
 
@@ -888,39 +777,3 @@ mudança rastreia até a revisão (REV) ou ADR que a motivou.
 | M3 | Desenhos B, C e robustez + Relatório #3 | Mês 3 | Edital |
 | M4 | Manuscrito v1 + Painel interativo + Relatório #4 | Mês 4 | Edital |
 | M5 | Submissão + Nota técnica + Repo + Apresentação | Mês 5 | Edital |
-
----
-
-## Onde Desktop ganha decisivamente — visão consolidada
-
-Os itens marcados com `[CD]` ou `[CD→CC]` formam um eixo claro: **decisões
-metodológicas registradas como ADR + redação acadêmica densa + revisão
-crítica**. Concentram-se em três regiões do projeto.
-
-1. **Governança e ADRs** (Fase 0.3 e itens 🜲 ao longo do projeto):
-   pré-registro, política de missing, mapeamento ICSAP em 3 blocos, lag do
-   painel UF, nível de cluster, escolha de periódico, viabilidade de negative
-   controls, correção de subnotificação. São oito ADRs cumulativos no projeto
-   inteiro.
-
-2. **Manuscrito — seções narrativas** (Fase 4.1): Introdução, Discussão,
-   escolha de periódico. Métodos, Resultados e Apêndices ficam livres porque
-   mesclam prosa e técnica em proporções variáveis.
-
-3. **Comunicação para humanos** (Fase 5): cover letter, nota técnica para
-   gestores, lab notebook, rotulagem de exploratórias, resposta a feedback
-   adversarial.
-
-**Itens humanos indelegáveis:** envio de e-mail à Lupa Social, submissão ao
-periódico, posting de preprint, autorização de DOI no Zenodo, ensaio
-cronometrado, apresentação ao Comitê, revisão entre colegas. Sete pontos de
-fricção institucional ao longo dos 5 meses.
-
-**Todo o resto é livre.** Code é o default razoável para tudo que vira arquivo
-executável; Desktop, se você já estiver lá pensando em outra coisa.
-
----
-
-*Este roadmap é o plano de gestão do projeto. Atualizações cotidianas se fazem
-marcando os checkboxes de execução; revisões metodológicas substantivas geram
-nova versão (`roadmap-vNN.md`) com changelog próprio.*
