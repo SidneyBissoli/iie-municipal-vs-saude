@@ -16,7 +16,363 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
-### Added
+### Added (Sessão Code 011) — 2026-05-04
+
+- `assets/synthesis_matrix_proposta_v02.csv` — entrada nova
+  `luposocial2026dashboardiie` (33ª da matriz): dashboard
+  interativo Lupa Social (<https://www.painel-iie.com.br/>) como
+  fonte primária da descoberta da coorte 2021/2023 do IIE
+  estadual, referenciando ADR-006. Verbatim p. 9 (nota de rodapé
+  metodológica das capitais), 13 palavras. `tipo_publicacao = "RT"`
+  (consistente com `fernandesetal2025evolucaodesempenhoeducacional`,
+  outro relatório técnico Instituto Natura/Metas Sociais; `OUT`
+  cogitado pelo briefing não existe na taxonomia da matriz);
+  `risco_verificacao = "B"`. Magnitude: minor.
+- `.claude/sessao-011.md` — housekeeping da sessão Code 011 (gap
+  manifest 002→011 documentado; commits aplicados; styler diff
+  reportado para decisão futura). **Local-only** (`.claude/` é
+  gitignored — manifests e session reports não são commitados,
+  reprodutibilidade ancora em `renv.lock` + commit SHA).
+- `.claude/sessao-011-manifest.json` — manifest da sessão Code 011,
+  ancorado no `commit_sha` do último commit do trabalho. Local-only.
+
+### Changed (Sessão Code 011) — 2026-05-04
+
+- `assets/synthesis_matrix_proposta_v02.csv` — 4 entradas
+  atualizadas com verbatins extraídos dos 4 PDFs em
+  `bibliography/pdfs-leitura/` via `pdftools::pdf_text()`:
+  - `callawayetal2024differenceindifferencescontinuoustreatment`
+    (NBER WP 32117, fev/2024; 61 pp.) — verbatim p. 2
+    (Abstract): *"parameters associated with popular linear
+    two-way fixed-effect (TWFE) specifications can be hard to
+    interpret"* (14 palavras).
+  - `chaisemartinetal2025differenceindifferencescontinuoustreatments`
+    — PDF na pasta é versão Jan/2024 (SSRN 4011782); BBT key
+    registra 2025 (arXiv:2201.06898v3 ago/2025); verbatim
+    p. 1 (Abstract): *"We generalize our estimators to the
+    instrumental-variable case"* (8 palavras). Discrepância de
+    versão registrada no campo `metodo` da entrada.
+  - `riddellgoin2023guidecomparingestimators` (Letter,
+    Epidemiology 34(3), mai/2023; 2 pp. — e21–e22) — verbatim
+    p. e21: *"the two-way fixed-effects estimate is providing
+    a valid estimate but to the wrong question"* (14 palavras).
+  - `doriamborgesignaciocano2017homicidiosnaadolescencia` (livro
+    IHA 2014, Observatório das Favelas; 108 pp.) — **PDF tem
+    text-layer extraível** (média 2459 chars/pág, contrariando
+    expectativa do briefing de OCR-pendente); verbatim p. 18
+    (Cap. 2 — Metodologia): *"estas mortes intencionais são
+    redistribuídas de acordo com a razão entre homicídios e
+    suicídios"* (14 palavras).
+
+  Todos os 4 verbatins respeitam o limite estrito de 15 palavras
+  (skill `literature-review-academic-ptbr`). `risco_verificacao`
+  migrado A → B nas 4 entradas.
+
+- `bibliography/README.md` (BIB_INDEX) e `decisions/README.md`
+  (ADR_INDEX) regenerados via `R/build_bibliography_index.R` e
+  `R/build_adr_index.R`. BIB_INDEX agora reflete 35 entradas
+  canônicas; ADR_INDEX inclui ADR-005 (`superseded by ADR-006`)
+  e ADR-006 (`accepted`).
+
+- `R/build_synthesis_matrix.R` (linha 54) — comentário inline
+  removido para satisfazer `line_length_linter` (81 → 67 chars).
+  Único lint pendente após instalar `cyclocomp`. Demais sugestões
+  do `styler::style_dir("R/", dry = "on")` (5 arquivos com
+  realinhamentos e reestruturação de `tryCatch` em
+  `build_session_manifest.R`) **não aplicadas** — registradas em
+  `.claude/sessao-011.md` para decisão do pesquisador (briefing
+  rule explícita: reportar diff e seguir SEM aplicar).
+
+- `renv.lock` — snapshot incorpora `openxlsx2 1.26` (já usado por
+  `R/build_synthesis_matrix.R` mas ausente da lockfile, causando
+  `synchronized = FALSE`). `pdftools 3.8.0` instalado durante a
+  sessão para leitura dos PDFs **não foi snapshotado** (não é
+  referenciado por nenhum script em `R/`; é dependência
+  operacional one-shot). `cyclocomp 1.1.2` e `styler 1.11.0`
+  instalados para satisfazer gates pré-commit também não foram
+  snapshotados (dependências de desenvolvimento, não da pipeline).
+
+- `.gitignore` — exclui `bibliography/pdfs-leitura/` (PDFs ficam
+  no Zotero, não no repo, conforme CLAUDE.md §6).
+
+### Removed (Sessão Code 011) — 2026-05-04
+
+- `decisions/ADR-006-substituicoes-manuais-bib-pos-export.md` e
+  `R/post_export_fix_bib.R` — **artefatos órfãos finalmente
+  removidos do filesystem**. CHANGELOG da sessão 010 declarava
+  remoção via `git rm`, mas factualmente os arquivos
+  permaneceram no working tree como untracked (nunca tinham sido
+  commitados, então `git rm` falharia). Removidos via `rm` por
+  esta sessão Code 011, conforme HALT-rule do briefing
+  ("arquivos órfãos ainda presentes → halt, executar `git rm`
+  se for o caso") e intenção documentada na seção `Removed
+  (sessão 010, pós-encerramento)`. Magnitude: patch (correção
+  factual de divergência entre CHANGELOG e estado do repo).
+
+### Notes (Sessão Code 011) — 2026-05-04
+
+- **Distribuição de risco da matriz após esta sessão:** 2 A / 16 B
+  / 15 M (era 6 A / 11 B / 15 M antes). 4 entradas migraram A → B
+  pelos verbatins extraídos; 1 entrada nova (dashboard) entrou em B.
+- **Pendências A restantes (2 entradas):**
+  `luposocial2026inclusaoeducacionalpobreza` (resultados
+  preliminares, sem PDF) e
+  `honeetal2019effecteconomicrecession` (sem abstract no `.bib`,
+  sem PDF na pasta).
+- **Bibliografia inalterada:** 35 entradas, sem chaves
+  `zotero-item-NNNN`, sem `annotation` redundantes.
+- **ADRs inalterados:** ADR-005 e ADR-006 mantêm imutabilidade do
+  conteúdo deliberativo (regra de imutabilidade preserva ADRs
+  `accepted`/`superseded`).
+- **Conflito de numeração resolvido:** sessão renumerada de
+  "002" (proposta no briefing inicial) para "011" — coerente com
+  sequência factual de sessões Desktop 003-010 documentadas no
+  CHANGELOG. `sessao-002-manifest.json` da housekeeping documental
+  preservado intocado em `.claude/`.
+- **Manifest da sessão anterior NÃO verificado:** `verify_last_
+  session_manifest()` retornaria `fail` no `sessao-002-manifest.
+  json` (CHANGELOG.md/CLAUDE.md/roadmap-v01.md editados via
+  Desktop entre 2026-05-02 e 2026-05-04 sem commit). Verificação
+  manual substitutiva no início desta sessão confirma estado
+  factual da bibliografia (35 entradas, 0 zotero-item, 0
+  annotation), dos 4 PDFs em `bibliography/pdfs-leitura/`, do
+  ADR-005 (`superseded by ADR-006`) e do ADR-006 errata.
+
+### Added (sessão 010)
+
+- `bibliography/research-notes/v02-obs5-framing-heterogeneidade-temporal.md`
+  (criada na sessão 009; **ratificada na sessão 010** por instrução do
+  pesquisador "Caminho A com calibração") — fechamento da Observação
+  5.A do handoff sessão 008. Heterogeneidade temporal entre coortes
+  do IIE estadual será tratada na §4.2 (Identificação) da v02
+  (≈1,5 pág. total; 5.A em 2 parágrafos; álgebra ETWFE/Mundlak
+  preservada para Apêndice metodológico; §4.3 mantém ETWFE/Mundlak
+  como sensibilidade reportada quantitativamente). Não gera ADR
+  (método já fechado em ADR-005; decisão de framing editorial).
+  Magnitude: minor.
+- Confirmação empírica da existência da coorte 2021 do IIE estadual
+  via leitura do dashboard online Lupa Social (`relatorio_iie.pdf`
+  em `/mnt/project/`, 9 páginas, capturado em PDF). Série pública por
+  UF e por capital cobre 2015, 2017, 2019, **2021 e 2023**: IIE Brasil
+  2021 = 17,0%; IIE Brasil 2023 = 15,5% (com nota: dado 2023 sujeito
+  a pequena alteração quando o Censo Escolar - Situação do Aluno 2024
+  for disponibilizado). Decomposição em 3 componentes (% atraso 2+
+  anos no Censo Escolar; % aprendizado abaixo do básico no SAEB; %
+  jovens fora da escola na PNADc) também disponível para 2021 e 2023.
+  **Limite metodológico:** o IIE municipal/capitais ainda **não** foi
+  calculado para 2021/2023 — nota de rodapé do dashboard, p. 9:
+  *"Os dados mais recentes, 2021 e 2023, para as capitais ainda não
+  foram calculados por conta da indisponibilidade dos microdados do
+  Censo Escolar - Situação do Aluno"*. **Implicação para o ADR-005:**
+  a afirmação "coorte 2021 estruturalmente fora" só é válida para o
+  IIE municipal, não para o estadual; vale dizer, para o Desenho B do
+  projeto (painel UF), as coortes 2021 e 2023 do IIE estadual existem
+  publicamente. Mudança operacional, no entanto, é nula: a coorte
+  2021 já estaria fora pela janela do desfecho 2018-2024 com lag
+  t=c+5 (2021+5=2026 > 2024). Decisão sobre supersession do ADR-005
+  fica em aberto para próxima sessão. Magnitude: minor.
+
+### Changed (sessão 010)
+
+- `bibliography/references.bib` — 6 chaves substituídas via
+  **Caminho A do BetterBibTeX** (operação realizada pelo pesquisador
+  no Zotero antes da sessão 010: override no campo Extra com sintaxe
+  canônica `Citation Key: <valor>`, seguida de reexportação):
+  `2021oupacceptedmanuscripta` →
+  `azevedoetal2021simulatingpotentialimpacts`;
+  `zotero-item-4223` →
+  `pacienciaismail2025indiceinclusaoeducacional`;
+  `zotero-item-4225` → `luposocial2026inclusaoeducacionalpobreza`;
+  `zotero-item-4245` →
+  `chaisemartinetal2025differenceindifferencescontinuoustreatments`;
+  `zotero-item-4247` →
+  `fernandesetal2025evolucaodesempenhoeducacional`;
+  `zotero-item-4250` →
+  `fernandesetal2024relacaoindiceinclusaoeducacional`.
+  Estado verificado por leitura do `.bib` reexportado no início da
+  sessão 010. Os 9 campos `annotation` que existiam na exportação
+  intermediária (após primeira tentativa de override pelo pesquisador,
+  com sintaxe não-canônica) foram automaticamente eliminados pelo BBT
+  na reexportação canônica. Magnitude: minor (sem alteração de
+  conteúdo bibliográfico substantivo; recuperação da convenção
+  `autores+ano+titulo`).
+- `bibliography/research-notes/saeb-2019-idade.md` — §7 (primeira
+  pendência) atualizada para refletir resolução via Caminho A
+  (anteriormente apontava para "Caminho B + ADR-006", remanescência
+  de plano de fallback que não precisou ser executado). Magnitude:
+  patch.
+- `bibliography/notes/fernandesetal2024relacaoindiceinclusaoeducacional.md`
+  (já renomeado em sessão pré-010) — campo "Citation key" atualizado
+  para refletir Caminho A. Magnitude: patch.
+- `assets/synthesis_matrix_proposta_v02.csv` — entrada
+  `pacienciaismail2025indiceinclusaoeducacional` enriquecida com
+  magnitudes quantitativas das correlações IIEM × ISEs lidas das
+  pp. 16-17 do PDF original (Paciencia & Ismail, 2025, agora com 35
+  páginas disponíveis no pacote, contra 9 na sessão prévia). Para
+  Δ10pp no IIEM: ingresso ES mulheres 7,0→8,7%; metrópoles
+  11,3→13,8; ENEM 41,7→46,6%; empregabilidade mulheres 15-24
+  9,4→11,2%; homicídios masculinos 50,9→43,9/100mil; gravidez
+  <18 anos 9,5→8,5%; óbitos fetais em gestantes <18 anos 8,0→6,6%;
+  saúde mental não-significativa ou contra-intuitiva. Método refinado:
+  n=4.775 municípios; coorte 2000 com IIEM calculado para 2017;
+  4 modelos progressivos OLS (simples, +covariáveis, +macrorregião,
+  +UF); clusterização não-hierárquica em 4 grupos pela mediana + 1
+  grupo outlier >500 mil hab. Páginas refinadas para "1 (resumo);
+  4-7 (metodologia); 16-17 (resultados)". Verbatim do resumo
+  preservado (cobertura ampla dos 3 indicadores). Risco mantido em
+  B. Magnitude: patch.
+
+### Fixed (sessão 010)
+
+- **Reporte equivocado intermediário sobre falha do Caminho A.** Na
+  primeira leitura do `.bib` na sessão 010, a ferramenta
+  `filesystem:read_text_file` retornou um snapshot obsoleto do
+  arquivo (provavelmente cache do contexto comprimido da sessão
+  009) que ainda mostrava as 6 chaves antigas e os 9 campos
+  `annotation` redundantes. Diagnóstico inicial registrado pelo Claude
+  — "Caminho A falhou tecnicamente; o BBT não honrou a sintaxe" —
+  foi factualmente errado. Releitura do arquivo (head + leitura
+  completa) confirmou que o Caminho A funcionou integralmente e que
+  o `.bib` está em estado canônico. Plano original de execução do
+  Caminho B (criação de ADR-006, script `R/post_export_fix_bib.R`,
+  edição manual das chaves no `.bib`) foi **cancelado
+  arquiteturalmente** após a verificação; entretanto, dois
+  artefatos materializados em uma fase intermediária da sessão
+  (capturada no transcript
+  `2026-05-04-02-21-58-iie-sessao-010-caminho-b.txt`) sobreviveram
+  no repositório: `decisions/ADR-006-substituicoes-manuais-bib-pos-export.md`
+  e `R/post_export_fix_bib.R`. Tratamento desses arquivos órfãos
+  fica em aberto para decisão do pesquisador — ver seção
+  `Discovered (sessão 010, pós-encerramento)` abaixo.
+- Inconsistências de marcação `risco_verificacao` corrigidas em
+  sessão 010 (já aplicadas antes do compaction):
+  `honeetal2019effecteconomicrecession` B → A (verbatim pendente,
+  sem abstract no `.bib`);
+  `chaisemartinetal2025differenceindifferencesestimatorstreatments`
+  M → B (verbatim presente conferido contra abstract do `.bib`);
+  `rueetal2009approximatebayesianinference` B → M (verbatim pendente,
+  abstract disponível mas sem leitura sistemática).
+- Contagem de pendentes na matriz pós-correção: 12 entradas com
+  risco B (verbatim presente) / 20 com verbatim pendente.
+
+### Removed (sessão 010, pós-encerramento)
+
+- `decisions/ADR-006-substituicoes-manuais-bib-pos-export.md` e
+  `R/post_export_fix_bib.R` — **decisão arquitetural: apagar**
+  (autorizada pelo pesquisador na continuação do chat da sessão 010
+  pós-compaction). Justificativa: ambos os arquivos foram materializados
+  em fase intermediária da sessão 010 (transcript
+  `/mnt/transcripts/2026-05-04-02-21-58-iie-sessao-010-caminho-b.txt`)
+  sob o diagnóstico factualmente errado de que "o BBT não honrou a
+  sintaxe `Citation Key:`". A verificação empírica posterior do
+  `references.bib` mostrou que o BBT honrou integralmente a sintaxe
+  quando aplicada no formato canônico `Citation Key: <valor>` no campo
+  Extra; não há campos `annotation` remanescentes a remover, e o script
+  não tem trabalho a fazer no `.bib` atual.
+
+  O pesquisador entende que ADR baseado em premissa factualmente errada
+  não se qualifica como "decisão" no sentido em que a regra de
+  imutabilidade existe (preservar trilha de pensamento válido). A trilha
+  histórica integral fica preservada nesta seção do CHANGELOG e nos
+  transcripts arquivados em `/mnt/transcripts/`. **Remoção física
+  concluída pelo pesquisador** via `git rm` na continuação do chat
+  da sessão 010; arquivos não existem mais no repositório.
+
+  Magnitude: minor (remoção de artefatos órfãos sem efeito operacional;
+  não invalida nenhum plano nem decisão arquitetural ativa).
+
+### Added (sessão 010, pós-encerramento)
+
+- `decisions/ADR-006-painel-uf-erratum-IIE-estadual-2021-2023.md`
+  (errata interpretativa do ADR-005), criado nesta sessão após
+  decisão do pesquisador pela opção (b) das três consideradas
+  (apagar / superseder / tratar só na v02). Reaproveita o número
+  ADR-006 já que (i) o arquivo órfão anterior foi removido por `git rm`
+  na mesma sessão, e (ii) o pré-mapeamento original do ADR-005
+  deixava o número 6 propositalmente livre na sequência. Conteúdo:
+  ratifica integralmente a operação do ADR-005 (painel UF com 4
+  coortes {2013, 2015, 2017, 2019}, lag t = c+5, sensibilidade central
+  de exclusão de 2019); atualiza a justificativa textual da exclusão
+  da coorte 2021 para "janela de desfecho 2018–2024 com t = c+5"
+  em vez de "indisponibilidade da fonte primária do IIE"; explicita
+  que o limite de mascaramento dos microdados-aluno do Censo Escolar
+  a partir de 2021 afeta apenas o IIE municipal (Desenho A), não o
+  IIE estadual (Desenho B); registra que coortes 2021 e 2023 do IIE
+  estadual existem publicamente em <https://www.painel-iie.com.br/>;
+  estabelece dois gatilhos para superseder.
+
+  ADR-005 atualizado nesta sessão: header YAML
+  `status: accepted` → `status: superseded by ADR-006`. Corpo do
+  ADR-005 inalterado, conforme regra de imutabilidade do conteúdo
+  deliberativo. Magnitude: minor (errata interpretativa sem alteração
+  operacional).
+
+### Added (sessão 006)
+
+- `bibliography/research-notes/` (sessão 006) — nova subpasta para
+  **notas de pesquisa temáticas**, distintas das notas de leitura
+  (uma-por-obra) em `bibliography/notes/`. Inclui `README.md` com
+  distinção operacional (nota de leitura: foco em uma obra, identificada
+  por citation key BetterBibTeX; nota de pesquisa: foco em uma pergunta
+  que cruza ≥2 fontes, identificada por slug temático). Índice manual
+  no README da subpasta. Magnitude: minor (criação de nova categoria de
+  documento, sem invalidar plano).
+- `bibliography/research-notes/saeb-2019-idade.md` (sessão 006) —
+  primeira nota de pesquisa: fechamento da Obs. 4 do handoff sessão 005,
+  passo 3 (supressão de idade no SAEB 2019 e mecanismo de imputação na
+  coorte 2019 do IIE estadual). Tríplice selo de evidência: empírica via
+  `educabR::get_saeb()` (sessão 005), declarativa via 4 scripts oficiais
+  INEP `INPUT_R_TS_ALUNO_*.R`, documental via Fernandes-Felício-Saad
+  (2024) lido integralmente. Três verbatims-chave preservados (pp. 8 e
+  22 do PDF). Mecanismo de imputação documentado: transporte da
+  estrutura idade-série × proficiência de 2017 para 2019, com normalização
+  por linha. Implicações para §4.1, §4.3 e ADR-005 da v02. Magnitude:
+  minor.
+- Fernandes, Felício & Saad (2024) *A Evolução do Desempenho Educacional
+  dos Jovens Brasileiros ao Final da Educação Básica* (Instituto
+  Natura/Metas Sociais) ao corpus central. Fonte metodológica primária
+  do IIE estadual. Importada no Zotero como `techreport` com metadado
+  pendente (zumbi). Magnitude: minor (adição ao corpus de referências).
+- `bibliography/references.bib` populado com 27 referências do corpus
+  via Zotero/BetterBibTeX (sessão 006). Índice BIB_INDEX em
+  `bibliography/README.md` populado **manualmente** (sessão 006 é
+  conversacional, não-Code; regeneração automática via
+  `R/build_bibliography_index.R` em sessão futura). Magnitude: minor
+  (avanço operacional de ítem `[~]` para `[x]` no roadmap §0.5).
+
+### Changed (sessão 006)
+
+- `bibliography/README.md` — explicita as duas categorias de notas
+  (leitura `notes/` vs. pesquisa `research-notes/`); BIB_INDEX populado;
+  seção "Sequência de bootstrap" reescrita como "Histórico de bootstrap"
+  (executado na sessão 006). Magnitude: minor.
+- `roadmap-v01.md` §0.5 — item de bootstrap da bibliografia marcado
+  como concluído (`[x]`); pendências residuais (5 entradas zumbi sem
+  metadado, 2 entradas com chave fora do padrão) registradas como
+  polímento pós-bootstrap; lista de referências adicionais (sessão 003)
+  atualizada com referências verificadas na sessão 005 (Callaway,
+  Goodman-Bacon & Sant'Anna 2024 NBER WP 32117; Chaisemartin et al. 2025
+  arXiv:2201.06898v3 — v3 substituiu v2 de 2022/2023); referência
+  adicionada na sessão 006 (Fernandes-Felício-Saad 2024); duas
+  observações de expansão do corpus na sessão 006: (a) Goin & Riddell
+  2023 importado pelo pesquisador (referência metodológica relevante,
+  TWFE vs. CS-DiD em policy evaluation; Goin, Rudolph & Ahern 2023
+  originalmente listado pode ser também importado em momento futuro
+  no padrão de corpus amplo); (b) Ferreira-Batista et al. (2022)
+  Economics & Human Biology adicionado pelo pesquisador. Linguagem
+  "ressubmissão" corrigida para "prazo prorrogado até 08/mai/2026
+  para revisão voluntária da v01" (não houve reprovação; pesquisador
+  está melhorando proposta já submetida). Magnitude: minor.
+- `GOVERNANCE.md` — patch documental herdado da sessão 003:
+  referência a `manuscripts/proposta-de-pesquisa.md` (sem sufixo)
+  corrigida para `manuscripts/proposta-de-pesquisa-vNN.md` (com sufixo
+  de versão), tanto na hierarquia de fontes quanto na lista de
+  documentos científicos. Política de versionamento da proposta
+  explicitada (sufixo `-v01`, `-v02`, etc.; nova submissão cria novo
+  arquivo, não sobrescreve). Magnitude: patch (correção documental
+  alinhando GOVERNANCE com fato no repositório).
+
+### Added (sessões 001–005)
 
 - `GOVERNANCE.md` na raiz — princípios de governança do projeto:
   hierarquia de fontes (proposta → ADRs/REVs → roadmap → CLAUDE), tripartição
@@ -29,7 +385,7 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 - `RISKS.md` na raiz — riscos ativos e mitigações (extraídos de T.4 do
   roadmap), documento vivo sem versionamento formal.
 
-### Changed
+### Changed (sessões 001–005)
 
 - `roadmap-v01.md` enxugado para checklist operacional puro: princípios e
   convenções detalhadas extraídas para `GOVERNANCE.md` e `CONVENTIONS.md`;
@@ -59,15 +415,64 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   arquivos `.rds` complementares); proveniência será registrada no README
   de `data-raw/lupa-social/`. Magnitude: minor (mudança de fonte
   operacional sem alteração do objetivo).
+- `CONVENTIONS.md` § Bibliografia — formato de citation key BetterBibTeX
+  corrigido de `auth.lower + year + shorttitle.lower` para
+  `authEtAl.lower + year + shorttitle.lower`. Mudança afeta todas as
+  referências com múltiplos autores (sufixo `EtAl` automático).
+  Magnitude: patch (correção factual da convenção registrada
+  erroneamente; nenhuma chave foi gerada com o padrão anterior).
+- `roadmap-v01.md` § 0.5 — lista de referências centrais a importar no
+  Zotero auditada contra a seção 7 da proposta. Removido item espúrio:
+  Simonsohn et al. (2020) specification curve (não citado na proposta).
+  Adicionados oito itens omitidos: Fernandes et al. (2024); Callaway &
+  Sant'Anna (2021); Rue, Martino & Chopin (2009); Bergé (2018); Bissoli
+  (2026); Landau (2021); Pereira et al. (2019); Saldanha et al. (2019).
+  Lista reorganizada em duas categorias — referências teóricas e
+  metodológicas; referências dos pacotes R declarados na proposta.
+  Padrão de citation key também corrigido inline para coincidir com
+  `CONVENTIONS.md`. Magnitude: minor (correção de omissões e item espúrio
+  na lista; sem alteração metodológica). Legislação citada na proposta
+  (Brasil/Portaria SAS/MS 221/2008) tratada à parte: pode ser registrada
+  no Zotero como Government Document, mas não entra na lista de
+  referências centrais.
+- `roadmap-v01.md` § 0.5 — lista de referências centrais reduzida ao
+  critério editorial estrito (teóricas, metodológicas ou empíricas
+  próximas; referências exclusivamente-pacote-R desligadas). Removidas
+  Bergé (2018), Bissoli (2026), Landau (2021), Pereira et al. (2019) e
+  também Saldanha et al. (2019), por decisão do pesquisador (referências
+  de pacote R ficam para a seção de Software no manuscrito final, não
+  para a seção de referências da proposta).
+  Adicionado bullet de "Referências adicionais identificadas em revisão
+  crítica (sessão 003)" com 11 itens novos em três frentes:
+  fragilidade metodológica do Desenho B (Goodman-Bacon 2021;
+  Chaisemartin & D'Haultfœuille 2020; Goin et al. 2023; Wooldridge
+  2021/2025); empirismo brasileiro próximo (Macinko & Harris 2015 NEJM;
+  Hone et al. 2017 Health Affairs; Hone et al. 2019 Lancet GH;
+  Ferreira-Batista et al. 2023; Pinto Junior et al. 2018); contexto
+  pandêmico (Lichand et al. 2022 Nat Human Behaviour; Azevedo et al.
+  2021 World Bank). Cada referência foi verificada individualmente via
+  Consensus, PubMed, ScienceDirect e páginas dos editores; metadados
+  completos (DOI, PMID, páginas, número exato de autores) registrados
+  inline. Erros corrigidos em relação a versão anterior do bullet:
+  Macinko & Harris (não et al. — dois autores); Hone et al. 2017
+  refere-se a 1.622 municípios (não 5.565); Hone et al. 2019 declarou
+  ausencia de efeito em 15-29 anos (fato registrado); Azevedo et al. é
+  2021 (não 2020); Wooldridge tem versão publicada em 2025 preferível
+  ao working paper SSRN de 2021. Magnitude: minor (refinamento
+  editorial e correção factual de erros de Dim. 2 metadados e Dim. 2
+  conteúdo afirmado, conforme taxonomia da skill
+  literature-review-academic-ptbr).
 
-Motivação das cinco mudanças acima: correções factuais resultantes da
+Motivação das mudanças acima: correções factuais resultantes da
 leitura do Edital de Pesquisa IIE (que reconhece dados como públicos
 antes da seleção), da inspeção do repositório público GitHub Lupa
 Social (que contém `iie_geral_2015_2021.xlsx` + scripts e estudos) e da
 leitura do estudo Paciencia & Ismail (2024) na pasta `estudos/` do mesmo
 repositório (que documenta o método do IIEM e o n efetivo de municípios
-calculáveis). Sem necessidade de REV ou ADR — são correções factuais,
-não decisões metodológicas.
+calculáveis), e da auditoria da § 0.5 do roadmap contra a § 7 da
+proposta-de-pesquisa.md (que revelou um item espúrio e oito omissões).
+Sem necessidade de REV ou ADR — são correções factuais, não decisões
+metodológicas.
 
 <!--
 ### Deprecated
