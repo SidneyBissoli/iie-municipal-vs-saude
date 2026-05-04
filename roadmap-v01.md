@@ -19,7 +19,7 @@ externa e ICSAP no Brasil (2018–2024)<br>
 **Pesquisador responsável:** Sidney da Silva Pereira Bissoli
 (pesquisador independente)<br>
 **Janela de execução:** Jul/2026 – Dez/2026<br>
-**Versão:** v01 · gerada a partir de `proposta-de-pesquisa.md`
+**Versão:** v01 · gerada a partir de `proposta-de-pesquisa-v01.md`
 
 ---
 
