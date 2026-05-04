@@ -121,8 +121,11 @@ lista de ADRs pré-mapeados no roadmap é referencial, não definitiva.
 - `README.md` — índice auto-atualizado (chave, título, status, papel)
   gerado por `R/build_bibliography_index.R`.
 
-**Citation key format:** `auth.lower + year + shorttitle.lower`, travada no
-plugin BetterBibTeX. Exemplo: `melo2017icsap`.
+**Citation key format:** `authEtAl.lower + year + shorttitle.lower`,
+travada no plugin BetterBibTeX. `authEtAl` adiciona o sufixo `EtAl`
+quando há mais de um autor.
+
+Exemplo: `meloetal2017icsap`.
 
 **PDFs não ficam no repositório** — permanecem no Zotero.
 

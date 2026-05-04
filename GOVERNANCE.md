@@ -13,10 +13,11 @@ Documentos do repositório dividem-se em três categorias com responsabilidades
 distintas. Misturar naturezas em um único arquivo polui o sinal e complica
 manutenção.
 
-1. **Documentos científicos** — proposta, pré-registro, análise
-   pré-especificada, manuscrito, nota técnica, slides, preprints. Saída para
-   o mundo acadêmico e para gestores. Vivem em `manuscripts/`,
-   `technical-note/`, `slides/`.
+1. **Documentos científicos** — proposta (com sufixo de versão:
+   `proposta-de-pesquisa-vNN.md`), pré-registro, análise pré-especificada,
+   manuscrito, nota técnica, slides, preprints. Saída para o mundo
+   acadêmico e para gestores. Vivem em `manuscripts/`, `technical-note/`,
+   `slides/`.
 2. **Documentos de governança e gestão** — roadmap, CHANGELOG, ADRs, REVs.
    Como o projeto se organiza e decide. Vivem em `roadmap-vNN.md`,
    `CHANGELOG.md`, `decisions/`.
@@ -34,9 +35,12 @@ raiz ficam apenas documentos meta e de gestão.
 
 Em ordem de precedência, da mais autoritativa para a menos:
 
-1. **`manuscripts/proposta-de-pesquisa.md`** — fonte científica primária.
-   Define pergunta de pesquisa, hipóteses, desenho geral. Modificável apenas
-   por evento institucional formal (revisão da proposta junto ao edital).
+1. **`manuscripts/proposta-de-pesquisa-vNN.md`** — fonte científica
+   primária. Define pergunta de pesquisa, hipóteses, desenho geral.
+   Modificável apenas por evento institucional formal (revisão da proposta
+   junto ao edital). Sufixo de versão (`-v01`, `-v02`, etc.) preserva
+   histórico de submissões: versão anterior nunca é sobrescrita; nova
+   submissão ao edital cria novo arquivo.
 2. **ADRs e REVs aceitos em `decisions/`** — fonte das decisões metodológicas
    e estratégicas tomadas durante a execução. Têm precedência sobre o roadmap
    quando há conflito; o roadmap deve ser atualizado para refletir, mas até
