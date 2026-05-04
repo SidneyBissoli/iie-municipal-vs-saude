@@ -118,7 +118,17 @@ Desktop (sessão longa frágil).
 - [~] **(P1)** Configurar `.lintr` e `styler` para padronização tidyverse;
   commit hook via `precommit` package. *(sessão 001 — `.lintr` configurado
   e validado (0 lints em `R/`); `styler` instalado; precommit hook ainda
-  pendente.)*
+  pendente. **Sessão Code 011** — `cyclocomp` adicionado ao ambiente
+  (dependência implícita de `cyclocomp_linter` no `.lintr`; sem ele
+  o linter falhava silenciosamente, o que invalidava parcialmente o
+  "0 lints" da sessão 001; lint atual real = 0 após fix de 1 char em
+  `R/build_synthesis_matrix.R:54`). Decisão pendente sobre `styler`:
+  `style_dir("R/", dry = "on")` propõe mudanças em 5 arquivos,
+  incluindo reestruturação de `tryCatch` em `build_session_manifest.R`;
+  diff completo registrado em `.claude/sessao-011.md` §10. Caminhos:
+  (a) aplicar styler em sessão dedicada com commit
+  `style: aplica tidyverse_style em R/`; (b) ajustar `.lintr` para
+  acomodar o estilo manual do projeto.)*
 
 ### 0.2 Reprodutibilidade e CI/CD
 
