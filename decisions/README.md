@@ -17,16 +17,15 @@ Os índices abaixo são **gerados automaticamente** por
 ou REV.
 
 <!-- BEGIN: ADR_INDEX -->
-## ADRs
 
 | ID | Título | Status | Item do roadmap | Data |
 |---|---|---|---|---|
-| _(nenhum ADR registrado ainda)_ | | | | |
+| [ADR-005](ADR-005-painel-uf-coortes-lag-comparabilidade.md) | Painel UF — coortes incluídas, lag operacional e comparabilidade entre coortes | superseded by ADR-006 | 1.6 | 2026-05-03 |
+| [ADR-006](ADR-006-painel-uf-erratum-IIE-estadual-2021-2023.md) | painel-uf-erratum-IIE-estadual-2021-2023 | accepted | 1.6 | 2026-05-04 |
 
 <!-- END: ADR_INDEX -->
 
 <!-- BEGIN: REV_INDEX -->
-## Revisões metodológicas (REVs)
 
 | ID | Título | Status | Fase | Data |
 |---|---|---|---|---|
