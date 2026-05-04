@@ -16,7 +16,53 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
-### Added (Sessão Code 011) — 2026-05-04
+### Added (Sessão Code 012) — 2026-05-04
+
+- `README.md` (raiz) — visão geral do projeto em PT-BR: identifica
+  edital, status (Fase 0), aponta para `manuscripts/proposta-de-pesquisa-v01.md`,
+  `GOVERNANCE.md`, `CONVENTIONS.md`, `RISKS.md`, `CHANGELOG.md` e
+  `CLAUDE.md`; instruções básicas de reprodutibilidade
+  (`renv::restore()` + `targets::tar_make()`); nota sobre `data-raw/`
+  e `data/` não versionados, com origem explícita das três fontes
+  (DATASUS via `microdatasus`; IIEM 2017 sob termo de
+  não-redistribuição da Lupa Social; IIE estadual 2015–2021 público
+  do GitHub da Lupa Social).
+- `LICENSE` (raiz) — MIT, copyright 2026 Sidney da Silva Pereira
+  Bissoli. Detectada automaticamente pelo GitHub no metadado do repo.
+- `CITATION.cff` (raiz) — Citation File Format v1.2.0, `type: software`,
+  autoria solo (Bissoli, sbissoli76@gmail.com, "Pesquisador
+  independente"), keywords (saúde pública, educação, determinantes
+  sociais, mortalidade externa, ICSAP, Brasil, IIE, DATASUS), abstract
+  curto. Sem `version` nem `doi` ainda — DOI Zenodo será atribuído no
+  release `v1.0.0` (Mês 5, item §5.3 do roadmap).
+- `CODE_OF_CONDUCT.md` (raiz) — Contributor Covenant 2.1 traduzido para
+  PT-BR; contato de aplicação `sbissoli76@gmail.com`.
+- **Repositório GitHub público criado:**
+  <https://github.com/SidneyBissoli/iie-municipal-vs-saude>
+  (visibilidade `PUBLIC`, branch padrão `main`, licença MIT detectada,
+  remote `origin` configurado e rastreando `origin/main`). Cumpre
+  primeiro bullet do item §0.1 do roadmap (P0). Magnitude: minor (adiciona
+  artefatos meta sem invalidar plano).
+
+### Changed (Sessão Code 012) — 2026-05-04
+
+- `roadmap-v01.md` — §0.1 primeiro bullet marcado `[ ]` → `[x]` com
+  anotação registrando URL do repo, commits `7b7507f` (meta) e
+  `8a113ee` (patch da referência da proposta), formato CFF, política
+  de DOI postergada para §5.3, e Contributor Covenant 2.1 traduzido.
+  Cabeçalho do roadmap (linha 22) corrigido em commit anterior desta
+  sessão: `proposta-de-pesquisa.md` → `proposta-de-pesquisa-v01.md`,
+  alinhando com o sufixo de versão adotado no commit `f919bc4` da
+  sessão 008 ("docs(manuscripts): renomeia proposta para
+  proposta-de-pesquisa-v01"). Magnitude: patch (correção de referência
+  + marca progresso).
+- `roadmap-v01.html` — re-renderizado com Quarto 1.9.37
+  (`quarto render roadmap-v01.md --to html`). Diff do HTML é grande
+  (~2 374 linhas alteradas) porque reflete diferença de versão do
+  render entre a sessão 011 (Quarto anterior) e a 012; o conteúdo
+  lógico segue o `.md`.
+
+
 
 - `assets/synthesis_matrix_proposta_v02.csv` — entrada nova
   `luposocial2026dashboardiie` (33ª da matriz): dashboard
