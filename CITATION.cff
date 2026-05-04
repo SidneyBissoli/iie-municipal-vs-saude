@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "Se você usa este repositório, por favor cite-o conforme abaixo."
+title: >-
+  Inclusão Educacional como Determinante Intersetorial da Saúde de Jovens
+  Brasileiros: associação entre o IIE Municipal e desfechos de mortalidade
+  externa e ICSAP no Brasil (2018–2024)
+type: software
+authors:
+  - family-names: Bissoli
+    given-names: Sidney da Silva Pereira
+    email: sbissoli76@gmail.com
+    affiliation: Pesquisador independente
+license: MIT
+repository-code: "https://github.com/SidneyBissoli/iie-municipal-vs-saude"
+keywords:
+  - saúde pública
+  - educação
+  - determinantes sociais da saúde
+  - mortalidade externa
+  - ICSAP
+  - Brasil
+  - IIE
+  - DATASUS
+abstract: >-
+  Repositório de pesquisa do projeto financiado pela chamada Instituto
+  Natura / Todos Pela Educação / B3 (Modalidade B). Investiga a
+  associação entre o Índice de Inclusão Educacional Municipal (IIEM
+  2017) e desfechos de mortalidade externa e internações por condições
+  sensíveis à atenção primária (ICSAP) em jovens de 20–29 anos no
+  Brasil, 2018–2024.
