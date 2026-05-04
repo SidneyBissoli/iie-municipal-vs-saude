@@ -97,6 +97,9 @@ Desktop (sessão longa frágil).
   - `slides/` (apresentação executiva)
   - `decisions/` (ADRs e REVs)
   - `bibliography/` (referências, fila de leitura, notas de artigos)
+  - `assets/` (derivados versionados que servem como insumo para redação
+    e gestão do corpus — ex.: matriz de síntese da bibliografia em CSV;
+    XLSX correspondente é derivado e não versionado)
   - `tests/` (testes de funções e validações `pointblank`)
   - `outputs/` (tabelas, figuras, mapas finais — versionados quando estáveis)
 - [x] **(P0)** Adicionar `.gitignore` excluindo `data-raw/`, `data/`,
@@ -199,30 +202,128 @@ os outros já sabem). São complementares e operam com convenções paralelas.
   - **Pré-mapeados:** oito ADRs identificados pelos itens 🜲 — ADR-001
     pré-registro (0.3); ADR-002 política de missing (0.3); ADR-003
     correção de subnotificação (1.2); ADR-004 agrupamento ICSAP em três
-    blocos (1.3); ADR-005 lag do painel UF (1.6); ADR-006 nível de
-    cluster (2.1); ADR-007 viabilidade de negative controls (3.3);
-    ADR-008 periódico-alvo (4.1).
+    blocos (1.3); ADR-005 lag do painel UF (1.6); ADR-007 nível de
+    cluster (2.1); ADR-008 viabilidade de negative controls (3.3);
+    ADR-009 periódico-alvo (4.1). O número **ADR-006** foi inicialmente
+    materializado em fase intermediária da sessão 010 sob diagnóstico
+    factualmente errado (substituições manuais pós-export do `.bib`,
+    Caminho B do BBT) e o arquivo correspondente foi removido pelo
+    pesquisador via `git rm` na continuação do chat. Em seguida o
+    número ADR-006 foi reaproveitado na mesma sessão para a errata
+    interpretativa do ADR-005
+    (`ADR-006-painel-uf-erratum-IIE-estadual-2021-2023.md`), já que
+    o pré-mapeamento original do ADR-005 deixava o número 6
+    propositalmente livre (sequência pulava de ADR-005 para ADR-007).
+    Ver `CHANGELOG.md`, seções `Fixed (sessão 010)`, `Removed
+    (sessão 010, pós-encerramento)` e `Added (sessão 010,
+    pós-encerramento)`.
 
 #### Bibliografia e notas de leitura
 
-- [~] **(P0)** Estabelecer estrutura em `bibliography/`. Convenção detalhada
+- [x] **(P0)** Estabelecer estrutura em `bibliography/`. Convenção detalhada
   em `CONVENTIONS.md`. Bullets operacionais:
   - `bibliography/reading-list.md`, `references.bib`, `notes/`,
     `_note-template.md`, `README.md` criados na sessão 001.
-  - **Popular bibliografia no início da Fase 0** (sequência obrigatória,
-    sem atalhos): (1) importar no Zotero as referências centrais
-    identificadas na proposta — Paciencia & Ismail (2024) IIEM
-    (metodologia da exposição); Melo et al. (2017) ICSAP-educação; Borges
-    & Cano (2017) subnotificação; Alfradique et al. (2009) Lista
-    Brasileira; Cutler & Lleras-Muney (2010); Marmot (2017); Blangiardo
-    et al. (2013) BYM; Cameron et al. (2008) e MacKinnon et al. (2023)
-    wild bootstrap; Iacus, King & Porro (2012) CEM; VanderWeele & Ding
-    (2017) E-value; Simonsohn et al. (2020) specification curve;
-    (2) instalar/configurar plugin BetterBibTeX no Zotero com convenção de
-    citation key estável (`auth.lower + year + shorttitle.lower`,
-    travada); (3) exportar como `.bib` para `bibliography/references.bib`;
-    (4) só então popular `reading-list.md` lendo as citation keys
-    diretamente de `references.bib`.
+  - `bibliography/research-notes/` criada na sessão 006 para notas de
+    pesquisa temáticas (cruzam ≥2 fontes). Distinção operacional em
+    `bibliography/research-notes/README.md`.
+  - **Bootstrap executado na sessão 006** (sequência obrigatória,
+    sem atalhos): (1) referências centrais importadas no Zotero pelo
+    pesquisador — Paciencia & Ismail (2024) IIEM (metodologia da
+    exposição); Melo et al. (2017) ICSAP-educação; Borges & Cano (2017)
+    subnotificação; Alfradique et al. (2009) Lista Brasileira; Fernandes
+    et al. (2024) evidência prévia da rede IIE; Cutler & Lleras-Muney
+    (2010); Marmot (2017); Blangiardo et al. (2013) BYM; Rue, Martino &
+    Chopin (2009) INLA; Cameron et al. (2008) e MacKinnon et al. (2023)
+    wild bootstrap; Callaway & Sant'Anna (2021) TWFE multi-período;
+    Iacus, King & Porro (2012) CEM; VanderWeele & Ding (2017) E-value.
+    Referências exclusivamente-pacote-R (Bergé 2018 fixest; Bissoli 2026
+    educabR; Landau 2021 targets; Pereira et al. 2019 geobr; Saldanha
+    et al. 2019 microdatasus) ficaram fora desta lista — serão importadas
+    apenas se/quando forem necessárias para a seção de Software no
+    manuscrito final;
+    (2) plugin BetterBibTeX configurado no Zotero com convenção de
+    citation key estável (`authEtAl.lower + year + shorttitle.lower`);
+    (3) exportado como `.bib` para `bibliography/references.bib`;
+    (4) `reading-list.md` ainda não populado — pendente para sessão
+    futura, lendo as citation keys diretamente de `references.bib`.
+  - **Pendências do bootstrap.** Resolvidas na sessão 010 via
+    **Caminho A** do BBT (override no campo Extra do Zotero, sintaxe
+    canônica `Citation Key: <valor>`, reexportação). Operação
+    realizada pelo pesquisador antes do início da sessão 010. Estado
+    canônico do `references.bib` verificado por leitura completa do
+    arquivo: as 6 chaves alvo estão presentes
+    (`azevedoetal2021simulatingpotentialimpacts`,
+    `pacienciaismail2025indiceinclusaoeducacional`,
+    `luposocial2026inclusaoeducacionalpobreza`,
+    `chaisemartinetal2025differenceindifferencescontinuoustreatments`,
+    `fernandesetal2025evolucaodesempenhoeducacional`,
+    `fernandesetal2024relacaoindiceinclusaoeducacional`); nenhum campo
+    `annotation` redundante remanescente. Plano de fallback Caminho B
+    foi cogitado, materializado em fase intermediária, e cancelado
+    arquiteturalmente; remoção dos artefatos órfãos concluída pelo
+    pesquisador via `git rm` na continuação do chat — ver
+    `CHANGELOG.md` seção `Removed (sessão 010, pós-encerramento)`.
+    Sem item operacional residual.
+  - **Referências adicionais identificadas em revisão crítica
+    (sessão 003)** — verificadas individualmente via Consensus, PubMed,
+    ScienceDirect e páginas dos editores. A serem incluídas na revisão
+    da proposta antes do prazo prorrogado de 08/mai/2026 e
+    simultaneamente importadas no Zotero. Três frentes:
+    - **Fragilidade do Desenho B (TWFE):** Goodman-Bacon (2021)
+      *J Econometrics* 225(2):254-277, DOI 10.1016/j.jeconom.2021.03.014
+      — decomposição de Bacon; Chaisemartin & D'Haultfœuille (2020)
+      *AER* 110(9):2964-96, DOI 10.1257/aer.20181169 — pesos negativos
+      do TWFE; Goin & Riddell (2023) *Epidemiology* 34(4):535-543,
+      DOI 10.1097/EDE.0000000000001611, PMID 36943806 — comparação
+      TWFE vs. CS-DiD em policy evaluation com simulação;
+      Wooldridge (2025) *Empirical Economics* 69(5):2545-2587,
+      DOI 10.1007/s00181-025-02807-z — ETWFE/Mundlak (versão publicada,
+      substituiu working paper SSRN 3906345 de 2021); Callaway,
+      Goodman-Bacon & Sant'Anna (2024) NBER WP 32117,
+      DOI 10.3386/w32117 — DiD com tratamento contínuo (verificada
+      sessão 005); Chaisemartin, D'Haultfœuille, Pasquier, Sow &
+      Vazquez-Bare (2025) arXiv:2201.06898v3,
+      DOI 10.48550/arXiv.2201.06898 — DiD para tratamento contínuo
+      distribuído em todos os períodos (versão atualizada agosto/2025;
+      substituiu v2 de 2022/2023 verificada na sessão 005).
+    - **Empirismo brasileiro próximo:** Macinko & Harris (2015) *NEJM*
+      372(23):2177-2181, DOI 10.1056/NEJMp1501140, PMID 26039598 — ESF
+      como modelo APS (note: dois autores, não et al.); Hone et al.
+      (2017) *Health Affairs* 36(1):149-158, DOI 10.1377/hlthaff.2016.0966,
+      PMID 28069858 — expansão ESF e mortalidade evitável em painel de
+      1.622 municípios (2000-2012); Hone et al. (2019) *Lancet Global
+      Health* 7(11):e1575-e1583, DOI 10.1016/S2214-109X(19)30409-7,
+      PMID 31607469 — recessão e mortalidade adulta em 5.565 municípios
+      (note: autores NÃO acharam efeito em 15-29 anos, fato relevante
+      para discussão); Ferreira-Batista et al. (2023) *Health Economics*
+      32(7):1504-1524, DOI 10.1002/hec.4676, PMID 37010114 —
+      heterogeneidade do ESF por intensidade; Ferreira-Batista et al.
+      (2022) *Economics & Human Biology* 46:101143,
+      DOI 10.1016/j.ehb.2022.101143 — ESF e saúde adulta em áreas
+      metropolitanas (expansão do corpus na sessão 006); Pinto Junior
+      et al. (2018) *Cad Saúde Pública* 34(2):e00133816,
+      DOI 10.1590/0102-311x00133816 — ESF e ICSAP em <1 ano (Bahia, 417
+      municípios, painel 2000-2012; em português).
+    - **Contexto pandêmico sobre IIE/coorte 2021:** Lichand et al. (2022)
+      *Nature Human Behaviour* 6(8):1079-1086,
+      DOI 10.1038/s41562-022-01350-6, PMID 35618779 — aprendizagem
+      remota e evasão em SP; Azevedo et al. (2021)
+      *World Bank Research Observer* 36(1):1-40, DOI 10.1093/wbro/lkab003 —
+      simulação global de perda de aprendizagem (note: 2021, não 2020).
+    - **Adicionada na sessão 006:** Fernandes, Felício & Saad (2024)
+      *A Evolução do Desempenho Educacional dos Jovens Brasileiros ao
+      Final da Educação Básica*, Instituto Natura/Metas Sociais — fonte
+      metodológica primária do IIE estadual, especialmente da imputação
+      adotada na coorte 2019 (supressão de idade no SAEB 2019).
+      Verbatim e análise em
+      `bibliography/research-notes/saeb-2019-idade.md`. URL:
+      https://www.institutonatura.org/wp-content/uploads/2025/04/20240314_IIE-e-a-Evolucao-do-Desempenho-da-Educacao-Basica.pdf
+      (PDF) ou
+      https://github.com/lupa-social/iie-indice-de-inclusao-educacional
+      (repositório).
+    Estas referências justificam edições na proposta nas §§ 1, 4.1, 4.2 e
+    4.3. Coordenar inclusão aqui (Zotero) com a revisão de proposta.
 
 ⛓ **Gate Fase 0:** repositório público criado, pipeline `targets` rodando
 smoke test em CI, IIEM solicitado, pré-registro publicado, convenções de
