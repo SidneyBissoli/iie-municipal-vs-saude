@@ -76,9 +76,18 @@ Desktop (sessão longa frágil).
 
 ### 0.1 Repositório e estrutura
 
-- [ ] **(P0)** Criar repositório GitHub público `iie-municipal-vs-saude` sob
+- [x] **(P0)** Criar repositório GitHub público `iie-municipal-vs-saude` sob
   licença MIT, com `README.md`, `LICENSE`, `CITATION.cff` e
-  `CODE_OF_CONDUCT.md`.
+  `CODE_OF_CONDUCT.md`. *(sessão 012 — repo público criado em
+  https://github.com/SidneyBissoli/iie-municipal-vs-saude, branch padrão
+  `main`, MIT detectada pelo GitHub a partir do `LICENSE`. Commits
+  `7b7507f docs(meta): adiciona README, LICENSE, CITATION.cff e
+  CODE_OF_CONDUCT` e `8a113ee docs(roadmap): corrige referência para
+  proposta-de-pesquisa-v01.md`. README em PT-BR aponta para proposta,
+  GOVERNANCE, CONVENTIONS, RISKS, CHANGELOG e CLAUDE.md; CITATION.cff
+  em formato CFF 1.2.0 sem DOI ainda — DOI Zenodo virá no release
+  v1.0.0 (Mês 5, item §5.3); CODE_OF_CONDUCT é Contributor Covenant
+  2.1 traduzido com contato sbissoli76@gmail.com.)*
 - [x] **(P0)** Inicializar projeto R (`projeto-r.Rproj` já existe — auditar)
   com `renv::init()` para isolamento de dependências. *(sessão 001 —
   `renv::activate()` em estado parcial preexistente; lockfile sincronizado
