@@ -134,6 +134,54 @@ Exemplo: `meloetal2017icsap`.
 
 ---
 
+## Matriz de síntese — coluna `pagina`
+
+Convenção para o campo `pagina` em
+`assets/synthesis_matrix_proposta_v02.csv`.
+
+**Princípio:** o campo registra a paginação **visível diretamente no PDF
+disponível**, lida do rodapé, cabeçalho ou marginalia da página onde o
+verbatim aparece. O número não é inferido nem reconstruído.
+
+**Casos de uso:**
+
+- **PDF com paginação publicada visível:** registrar o número impresso na
+  página onde o trecho está. Ex.: `1347` (Cad. Saúde Pública), `e1575`
+  (Lancet Glob Health).
+- **PDF AIP/preprint sem paginação publicada visível:** registrar a
+  paginação interna 1–N do PDF com sufixo identificando a versão. Ex.:
+  `4 (AIP)`, `2 (arXiv)`, `2 (Resumo)` para preliminares sem paginação.
+- **Trecho na região de resumo/abstract sem paginação claramente impressa:**
+  usar `abstract` ou `resumo` (formato adotado por entradas pré-existentes
+  da matriz).
+
+**Regras inegociáveis:**
+
+- Nunca inferir a paginação publicada por offset, cálculo ou conhecimento
+  prévio do paper. Se o rodapé da página onde o trecho aparece não mostra
+  o número da publicação, **não escrever** esse número.
+- Se houver dúvida (rodapé ilegível, número parcialmente cortado,
+  paginação inconsistente entre páginas), tratar como AIP/preprint e usar
+  a paginação interna com sufixo.
+
+**Divisão de responsabilidade entre `references.bib` e o campo `pagina` da
+matriz:**
+
+- `references.bib` mantém a paginação canônica da publicação (para citação
+  acadêmica formal). É a fonte de verdade para o intervalo completo de
+  páginas do artigo (ex.: `pages = {149--158}`).
+- O campo `pagina` da matriz documenta **onde o verbatim foi efetivamente
+  localizado** no PDF disponível, que pode ser uma versão preprint, AIP,
+  ou online com paginação distinta. Os dois servem propósitos
+  complementares e podem divergir legitimamente.
+
+**Implicação operacional:** ao citar uma fonte da matriz em manuscrito ou
+nota técnica, usar a paginação canônica do `references.bib`, não o campo
+`pagina` da matriz (que é metadado de localização do verbatim, não
+referência bibliográfica).
+
+---
+
 ## Conventional Commits
 
 Mensagens de commit seguem o formato Conventional Commits.
