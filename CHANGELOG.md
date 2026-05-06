@@ -16,6 +16,18 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Changed (Sessão Code 013-bis) — 2026-05-06
+
+- `CONVENTIONS.md` — adiciona seção "Convenções bibliográficas — coluna
+  `pagina` da matriz de síntese" formalizando a regra de paginação direta
+  visível no PDF (vs. inferida por offset). Decisão emerge da sessão 013
+  (commit `16fe07e`), onde o problema foi observado em PDFs AIP/preprint
+  com paginação interna 1-N divergente da paginação publicada
+  registrada na matriz e no `.bib`. Magnitude: minor (governança
+  documental; não afeta dados, código ou pipeline).
+
+  Refs: #1; ADR-? (não aplicável); commit `16fe07e`.
+
 ### Added (Sessão Code 012) — 2026-05-04
 
 - `README.md` (raiz) — visão geral do projeto em PT-BR: identifica
