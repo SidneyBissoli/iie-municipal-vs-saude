@@ -16,6 +16,37 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 013) — 2026-05-06
+
+- `bibliography/pdfs-leitura/` populada com os 17 PDFs correspondentes
+  às entradas com `risco_verificacao ∈ {M, A}` da matriz de síntese
+  (`assets/synthesis_matrix_proposta_v02.csv`), pré-requisito
+  operacional para a tarefa de completar a matriz a 100% (passo 6 da
+  skill `literature-review-academic-ptbr`). Registro retroativo: a
+  pasta foi populada pelo pesquisador antes desta sessão e não havia
+  sido documentada no CHANGELOG. Lista das chaves cobertas:
+  `luposocial2026inclusaoeducacionalpobreza`,
+  `honeetal2017largereductionsamenable`,
+  `honeetal2019effecteconomicrecession`,
+  `ferreira-batistaetal2022brazilianfamilyhealth`,
+  `macinkoharris2015brazilsfamilyhealth`,
+  `alfradiqueetal2009internacoesporcondicoesa`,
+  `cutlerlleras-muney2010understandingdifferenceshealth`,
+  `marmot2017closinghealthgap`,
+  `azevedoetal2021simulatingpotentialimpacts`,
+  `goodman-bacon2021differenceindifferencesvariationtreatment`,
+  `callawaysantanna2021differenceindifferencesmultipletime`,
+  `cameronetal2008bootstrapbasedimprovementsinference`,
+  `mackinnonetal2023clusterrobustinferenceguide`,
+  `rueetal2009approximatebayesianinference`,
+  `blangiardoetal2013spatialspatiotemporalmodelsa`,
+  `iacusetal2012causalinferencebalance`,
+  `vanderweeleding2017sensitivityanalysisobservational`.
+  `bibliography/pdfs-leitura/` permanece em `.gitignore` — PDFs não
+  são versionados (peso, copyright); fonte canônica continua sendo
+  o Zotero do pesquisador. Magnitude: patch (housekeeping documental
+  retroativo; sem mudança de código ou dados versionados).
+
 ### Added (Sessão Code 012) — 2026-05-04
 
 - `README.md` (raiz) — visão geral do projeto em PT-BR: identifica
