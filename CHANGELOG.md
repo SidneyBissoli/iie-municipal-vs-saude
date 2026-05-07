@@ -16,6 +16,69 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+## [roadmap-v02] — 2026-05-07
+
+### Added (Sessão Code 014) — 2026-05-07
+
+- `roadmap-v02.md` (raiz) — versão major do roadmap, sucede
+  `roadmap-v01.md` (preservado intacto conforme regra de imutabilidade
+  documentada em `GOVERNANCE.md` §T.8). Identificadores de fase e seção
+  (Fase N, N.M) preservados conforme `CONVENTIONS.md` §Identificadores;
+  ~95% do conteúdo herda literal da v01. Mudanças cirúrgicas localizadas
+  em três pontos:
+  - **Cabeçalho:** "Versão: v02 · gerada a partir de
+    `proposta-de-pesquisa-v02.md` (em redação) · sucede
+    `roadmap-v01.md`".
+  - **§3.1 (Desenho B — Painel UF com TWFE):** acrescentado bullet
+    sobre ETWFE/Mundlak via `fixest::fepois` (médias intra-UF e
+    intra-coorte do IIE como controles), blindando o Desenho B contra
+    heterogeneidade temporal entre coortes. Itens pré-existentes
+    mantidos integralmente. Ancoragem em Wooldridge (2025), ADR-005 e
+    nota de pesquisa
+    `bibliography/research-notes/v02-obs5-framing-heterogeneidade-temporal.md`.
+  - **§3.3 (Robustez avançada):** quatro acréscimos e uma substituição.
+    Acréscimos: (i) S1 — painel UF restrito sem 2020-2021
+    (sensibilidade ao choque pandêmico, briefing v02 §2.4); (ii) S2 —
+    estratificação temporal por subperíodos 2018-2019 vs. 2022-2024
+    (briefing v02 §2.4); (iii) tendências lineares por UF
+    (`α_u + γ_c + α_u·t`, briefing v02 §2.4); (iv) exclusão da coorte
+    2019 do Desenho B (referência a ADR-005, sensibilidade central).
+    Substituição: bullet "Negative controls outcomes (P1, viabilidade
+    em ADR)" substituído por "Não-ICSAP no Desenho A como negative
+    control outcome obrigatório (Lipsitch et al., 2010), reportado em
+    apêndice (1–2 pp.)" — promove de "talvez P1, viabilidade em ADR"
+    para sensibilidade obrigatória sem ADR adicional.
+  - **§0.5 (catálogo de ADRs pré-mapeadas):** ADR-008 (viabilidade de
+    negative controls) marcada como **descontinuada** na v02. O bullet
+    de §3.3 do roadmap-v02 já operacionaliza Não-ICSAP no Desenho A
+    como negative control outcome obrigatório, resolvendo positivamente
+    a pergunta original de viabilidade. Sete ADRs pré-mapeadas
+    remanescentes: ADR-001, ADR-002, ADR-003, ADR-004, ADR-005,
+    ADR-007, ADR-009. ADR-006 já materializada (errata interpretativa
+    do ADR-005, sessão 010).
+- §0.5 "Referências centrais a importar no Zotero" do roadmap-v02
+  mantida literal: é checklist histórica de bootstrap bibliográfico
+  (sessões 003 e 006, datas e procedências explícitas), não
+  bibliografia viva — atualizá-la implicaria reescrever histórico de
+  sessões. As 4 chaves da matriz ausentes em §0.5
+  (`chaisemartinetal2025differenceindifferencesestimatorstreatments`,
+  `riddellgoin2023guidecomparingestimators`,
+  `luposocial2026inclusaoeducacionalpobreza`,
+  `luposocial2026dashboardiie`) já constam no `references.bib` desde
+  sessões posteriores e aparecem nominalmente na §7 da proposta-v02
+  (Passo 2 do briefing).
+- Demais seções (Fase 0, Fase 1, Fase 2, Fase 4, Fase 5; eixos
+  transversais T.1–T.8; marcos críticos) herdam literais.
+- Mudanças metodológicas alinhadas a: briefing v02 da proposta (cole
+  de Desktop na sessão 014); decisões já fechadas em ADR-005 (lag do
+  painel UF) e ADR-006 (errata 2021/2023 do IIE estadual); matriz de
+  síntese 100% pronta em `assets/synthesis_matrix_proposta_v02.csv`
+  (33 entradas, sessão 013-bis).
+- Magnitude: **major** (cria novo `roadmap-vNN.md` conforme
+  `GOVERNANCE.md` §T.8 "Major — muda o plano"; congela `[Unreleased]`
+  anterior em `[roadmap-v02]`; `roadmap-v01.md` permanece imutável
+  como documento histórico).
+
 ### Added (Sessão Code 013) — 2026-05-06
 
 - `bibliography/pdfs-leitura/` populada com os 17 PDFs correspondentes
