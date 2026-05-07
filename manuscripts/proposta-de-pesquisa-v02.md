@@ -22,7 +22,7 @@ proficiência mínima em Língua Portuguesa e Matemática. Estudos recentes da r
 de pesquisa que sustenta o índice documentam associações robustas entre o IIE e 
 desfechos socioeconômicos posteriores à coorte: gravidez na 
 adolescência, homicídios entre 18 e 21 anos, ingresso e conclusão do ensino superior, mercado de 
-trabalho juvenil e engajamento cívico (Fernandes et al., 2024); resultados preliminares estendem a associação à redução da pobreza na transição para a vida adulta (Lupa Social, 2026). A versão 
+trabalho juvenil e engajamento cívico (Fernandes et al., 2024); resultados preliminares estendem a associação à redução da pobreza na transição para a vida adulta (Lupa Social, 2026a). A versão 
 municipal — o IIE Municipal (IIEM), calculado para a coorte 2017 — estende essa 
 análise aos 5.570 municípios brasileiros, consolidando-se como o único indicador 
 composto disponível no país que avalia, em granularidade municipal, a inclusão 
@@ -282,22 +282,78 @@ especificação alternativa por quintis.
 - Análise de E-value (VanderWeele & Ding, 2017) para confounding não-observado 
 nas estimativas principais.
 
-**4.4. Software, Reprodutibilidade e Equipe**
+- **ETWFE/Mundlak (sensibilidade central do Desenho B):** estimação 
+alternativa do painel UF com inclusão manual de médias intra-UF e 
+intra-coorte do IIE como controles, formalmente equivalente, sob condições 
+especificadas em Wooldridge (2025), ao TWFE com indicadores de coorte e 
+interações com covariáveis tempo-variantes. Implementada via Poisson de 
+pseudo-máxima verossimilhança com efeitos fixos. Reportada 
+quantitativamente na mesma tabela do TWFE Poisson principal do Desenho B 
+(§4.2).
 
-Implementação em R, com pacotes fixest (Bergé, 2018) para estimação principal; 
-MASS e pscl para modelos de contagem; INLA (Rue et al., 2009) para suavização 
-espacial bayesiana; did (Callaway & Sant'Anna, 2021) para sensibilidade TWFE; 
-microdatasus (Saldanha et al., 2019) para acesso a SIM e SIH; educabR 
-(Bissoli, 2026) para variáveis educacionais; geobr e sf para componente 
-espacial. Pipeline reprodutível em targets (Landau, 2021), com gates de 
-validação pointblank, relatórios Quarto e CI/CD via GitHub Actions, publicado em 
-repositório público sob licença MIT.
+- **Não-ICSAP no Desenho A como negative control outcome:** estimação do 
+efeito do IIEM sobre internações *não* sensíveis à atenção primária na 
+faixa 20–29 anos, pelo mesmo modelo Poisson com offset do Desenho A. 
+Lógica de outcome control (Lipsitch et al., 2010): se o IIEM realmente 
+afeta desfechos sensíveis à APS, o efeito sobre Não-ICSAP deve ser nulo 
+ou substantivamente menor que o estimado para ICSAP — pois um confundidor 
+residual genérico, não associado especificamente à atenção primária, 
+afetaria ambos os desfechos comparavelmente. Ausência de efeito sobre Não-ICSAP é interpretada como consistente com — não prova de — ausência de confundimento residual genérico. Restrita ao Desenho A; 
+reportada em apêndice (1–2 páginas).
 
-O projeto é conduzido por pesquisador único. Pesquisador responsável: Sidney 
-da Silva Pereira Bissoli, psicólogo, analista de dados sênior do 
-DataSenado/Senado Federal, com experiência extensiva no manejo de microdados do 
-DATASUS (SIH, SIM, SINASC, CNES) e do INEP, autor e mantenedor do pacote educabR 
-(CRAN).
+- **Exclusão da coorte 2019 do Desenho B:** re-estimação do painel UF no 
+subconjunto coorte ∈ {2013, 2015, 2017} (n = 81 observações), conforme 
+ADR-005. Motivada pela camada adicional de imputação 2017→2019 carregada 
+apenas pela coorte 2019, decorrente da supressão de idade no SAEB 2019 
+(Fernandes, Felicio & Saad, 2025). Sensibilidade central, não marginal: 
+testa se conclusões qualitativas dependem da única coorte que carrega 
+essa camada adicional de imputação.
+
+- **S1 — painel UF restrito (Desenho B):** re-estimação do Desenho B 
+excluindo as observações com desfecho em 2020 e 2021, dada a perturbação 
+agregada da pandemia de COVID-19 sobre os sistemas SIM e SIH. Reportada 
+quantitativamente na mesma tabela do TWFE Poisson principal e da 
+ETWFE/Mundlak (§4.2). Operacionalmente distinta do bullet pré-existente 
+("Exclusão dos anos 2020 e 2021 da análise principal"), que cobre o 
+Desenho A (cross-section municipal).
+
+- **S2 — estratificação temporal por subperíodos (Desenho B):** estimação 
+separada do coeficiente de interesse em dois subperíodos — pré-pandemia 
+(2018–2019) e pós-pandemia (2022–2024) — conforme disponibilidade do IIE 
+estadual nas coortes correspondentes. Avalia estabilidade temporal do 
+efeito além do simples controle pelo choque pandêmico. Reportada na mesma 
+tabela.
+
+- **Tendências lineares por UF (Desenho B):** especificação alternativa do 
+painel UF com `α_u + γ_c + α_u·t`, absorvendo tendências UF-específicas 
+além dos efeitos fixos two-way. Sensibilidade ao pressuposto de *parallel 
+trends*; reportada quantitativamente na mesma tabela.
+
+**4.4. Limitações estruturais, Software, Reprodutibilidade e Equipe**
+
+**Limitação estrutural — coortes 2021 e 2023 do IIE estadual fora do 
+painel UF.** Embora ambas as coortes existam publicamente no dashboard 
+da Lupa Social (Lupa Social, 2026b), suas observações de desfecho com lag 
+t = c+5 cairiam em 2026 e 2028, respectivamente, fora da janela 
+2018–2024 imposta pelo edital. O painel UF do Desenho B fica, portanto, 
+restrito a coortes c ∈ {2013, 2015, 2017, 2019}. Eventual extensão 
+futura do projeto, com janela de desfecho ampliada, poderá absorver 
+essas coortes sem alteração metodológica. Decisão registrada em ADR-006.
+
+Implementação em R, com pipeline reprodutível baseada em sistema de 
+gerenciamento de fluxo de trabalho com cache incremental e contratos de 
+dados aplicados a cada artefato derivado; relatórios e dashboard gerados 
+via Quarto; integração contínua e validação automatizada via GitHub 
+Actions; código publicado em repositório público sob licença MIT. A 
+citação completa das ferramentas de software empregadas integrará a 
+seção de Software do artigo final.
+
+O projeto é conduzido por pesquisador único. Pesquisador responsável: 
+Sidney da Silva Pereira Bissoli, psicólogo, analista de dados sênior do 
+DataSenado/Senado Federal, com experiência extensiva no manejo de 
+microdados do DATASUS (SIH, SIM, SINASC, CNES) e do INEP, e em 
+desenvolvimento de software open-source para processamento de 
+microdados educacionais do INEP (pacote indexado em CRAN).
 
 **5. Produtos Esperados**
 
@@ -313,7 +369,7 @@ DATASUS (SIH, SIM, SINASC, CNES) e do INEP, autor e mantenedor do pacote educabR
 
 | **Mês**                  | **Atividades**                                                                                                                                                                                                                             | **Marcos / Entregas**                                                |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| **Mês 1 (Jul/2026)**     | Solicitação formal e recepção do IIEM 2017 (Lupa Social). Construção do pipeline de extração e harmonização SIM/SIH/CNES via microdatasus. Compilação das covariáveis municipais e do painel UF. Análise descritiva e mapas exploratórios. | Base analítica consolidada (5.570 mun.); relatório de progresso \#1. |
+| **Mês 1 (Jul/2026)**     | Solicitação formal e recepção do IIEM 2017 (Lupa Social). Construção do pipeline de extração e harmonização SIM/SIH/CNES. Compilação das covariáveis municipais e do painel UF. Análise descritiva e mapas exploratórios. | Base analítica consolidada (5.570 mun.); relatório de progresso \#1. |
 | **Mês 2 (Ago/2026)**     | Implementação do Desenho A (cross-section municipal): modelos Poisson e binomial negativa para mortalidade externa e ICSAP, com especificação ANCOVA. Análises iniciais de sensibilidade (BYM, exclusão pandemia).                         | Estimativas principais; relatório de progresso \#2.                  |
 | **Mês 3 (Set/2026)**     | Implementação do Desenho B (painel UF) com efeitos fixos two-way e wild bootstrap. Implementação do Desenho C (heterogeneidade): porte, macrorregião, sexo, cobertura ESF. Análise de robustez com CEM e E-value.                          | Estimativas validadas e heterogeneidades; relatório \#3.             |
 | **Mês 4 (Out/2026)**     | Redação do artigo científico (versão completa). Construção do painel interativo Quarto. Refinamento dos mapas e do material de comunicação.                                                                                                | Manuscrito em primeira versão; painel funcional; relatório \#4.      |
@@ -328,13 +384,10 @@ lista brasileira como ferramenta para medir o desempenho do sistema de saúde
 (Projeto ICSAP — Brasil). *Cadernos de Saúde Pública*, *25*(6), 1337–1349. 
 https://doi.org/10.1590/S0102-311X2009000600016
 
-Bergé, L. (2018). *Efficient estimation of maximum likelihood models with 
-multiple fixed-effects: The R package FENmlm* (CREA Discussion Papers No. 13). 
-University of Luxembourg.
-
-Bissoli, S. da S. P. (2026). *educabR: Download and process Brazilian education 
-data from INEP* (Versão 0.9.1) [R package]. CRAN. 
-https://CRAN.R-project.org/package=educabR
+Azevedo, J. P., Hasan, A., Goldemberg, D., Geven, K., & Iqbal, S. A. (2021). 
+Simulating the potential impacts of COVID-19 school closures on schooling and 
+learning outcomes: A set of global estimates. *The World Bank Research 
+Observer*, *36*(1), 1–40. https://doi.org/10.1093/wbro/lkab003
 
 Blangiardo, M., Cameletti, M., Baio, G., & Rue, H. (2013). Spatial and 
 spatio-temporal models with R-INLA. *Spatial and Spatio-temporal Epidemiology*, 
@@ -349,6 +402,11 @@ Internações por Condições Sensíveis à Atenção Primária*. Diário Oficia
 União, Seção 1, 70–71. 
 https://bvsms.saude.gov.br/bvs/saudelegis/sas/2008/prt0221_17_04_2008.html
 
+Callaway, B., Goodman-Bacon, A., & Sant'Anna, P. H. (2024). 
+*Difference-in-differences with a continuous treatment* (NBER Working Paper 
+No. 32117). National Bureau of Economic Research. 
+https://doi.org/10.3386/w32117
+
 Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-differences with 
 multiple time periods. *Journal of Econometrics*, *225*(2), 200–230. 
 https://doi.org/10.1016/j.jeconom.2020.12.001
@@ -361,19 +419,78 @@ Cutler, D. M., & Lleras-Muney, A. (2010). Understanding differences in health
 behaviors by education. *Journal of Health Economics*, *29*(1), 1–28. 
 https://doi.org/10.1016/j.jhealeco.2009.10.003
 
-Fernandes, R., Felício, F., Galvão, M. C., & Ravaiole, P. F. (2024). 
-*Inclusão educacional e pobreza na transição para a vida adulta: Resultados 
-preliminares para o Brasil*. Metas Sociais; Instituto Natura. 
-https://github.com/lupa-social/iie-indice-de-inclusao-educacional/blob/main/estudos/IIE_e_Pobreza.pdf
+de Chaisemartin, C., & D'Haultfœuille, X. (2020). Two-way fixed effects 
+estimators with heterogeneous treatment effects. *American Economic Review*, 
+*110*(9), 2964–2996. https://doi.org/10.1257/aer.20181169
+
+de Chaisemartin, C., D'Haultfœuille, X., Pasquier, F., Sow, D., & 
+Vazquez-Bare, G. (2025). *Difference-in-differences for continuous treatments 
+and instruments with stayers* [Manuscrito de trabalho].
+
+Fernandes, R., de Felicio, F., Galvão, M. C., & Ravaioli, P. F. (2024). 
+*Relação entre o Índice de Inclusão Educacional IIE e alguns indicadores 
+socioeconômicos selecionados: Relatório técnico*. Metas Sociais; Instituto 
+Natura.
+
+Fernandes, R., de Felicio, F., & Saad, D. (2025). *A evolução do desempenho 
+educacional dos jovens brasileiros ao final da educação básica: Acompanhamento 
+de gerações sucessivas*. Metas Sociais; Instituto Natura.
+
+Ferreira-Batista, N. N., Postali, F. A. S., Diaz, M. D. M., Teixeira, A. D., & 
+Moreno-Serra, R. (2022). The Brazilian Family Health Strategy and adult health: 
+Evidence from individual and local data for metropolitan areas. *Economics & 
+Human Biology*, *46*, 101143. https://doi.org/10.1016/j.ehb.2022.101143
+
+Ferreira-Batista, N. N., Teixeira, A. D., Diaz, M. D. M., Postali, F. A. S., 
+Moreno-Serra, R., & Love-Koh, J. (2023). Is primary health care worth it in the 
+long run? Evidence from Brazil. *Health Economics*, *32*(7), 1504–1524. 
+https://doi.org/10.1002/hec.4676
+
+Goin, D. E., & Riddell, C. A. (2023). Comparing two-way fixed effects and new 
+estimators for difference-in-differences: A simulation study and empirical 
+example. *Epidemiology*, *34*(4), 535–543. 
+https://doi.org/10.1097/EDE.0000000000001611
+
+Goodman-Bacon, A. (2021). Difference-in-differences with variation in 
+treatment timing. *Journal of Econometrics*, *225*(2), 254–277. 
+https://doi.org/10.1016/j.jeconom.2021.03.014
+
+Hone, T., Mirelman, A. J., Rasella, D., Paes-Sousa, R., Barreto, M. L., 
+Rocha, R., & Millett, C. (2019). Effect of economic recession and impact of 
+health and social protection expenditures on adult mortality: A longitudinal 
+analysis of 5565 Brazilian municipalities. *The Lancet Global Health*, 
+*7*(11), e1575–e1583. https://doi.org/10.1016/S2214-109X(19)30409-7
+
+Hone, T., Rasella, D., Barreto, M., Atun, R., Majeed, A., & Millett, C. 
+(2017). Large reductions in amenable mortality associated with Brazil's 
+primary care expansion and strong health governance. *Health Affairs*, 
+*36*(1), 149–158. https://doi.org/10.1377/hlthaff.2016.0966
 
 Iacus, S. M., King, G., & Porro, G. (2012). Causal inference without balance 
 checking: Coarsened exact matching. *Political Analysis*, *20*(1), 1–24. 
 https://doi.org/10.1093/pan/mpr013
 
-Landau, W. M. (2021). The targets R package: A dynamic Make-like 
-function-oriented pipeline toolkit for reproducibility and high-performance 
-computing. *Journal of Open Source Software*, *6*(57), 2959. 
-https://doi.org/10.21105/joss.02959
+Lichand, G., Doria, C. A., Leal-Neto, O., & Fernandes, J. P. C. (2022). The 
+impacts of remote learning in secondary education during the pandemic in 
+Brazil. *Nature Human Behaviour*, *6*(8), 1079–1086. 
+https://doi.org/10.1038/s41562-022-01350-6
+
+Lipsitch, M., Tchetgen Tchetgen, E., & Cohen, T. (2010). Negative controls: A 
+tool for detecting confounding and bias in observational studies. 
+*Epidemiology*, *21*(3), 383–388. 
+https://doi.org/10.1097/EDE.0b013e3181d61eeb
+
+Lupa Social. (2026a). *Inclusão educacional e pobreza na transição para a 
+vida adulta: Resultados preliminares para o Brasil*. Lupa Social; Metas 
+Sociais; Instituto Natura.
+
+Lupa Social. (2026b). *Painel IIE — Índice de Inclusão Educacional*. 
+https://www.painel-iie.com.br/
+
+Macinko, J., & Harris, M. J. (2015). Brazil's Family Health Strategy — 
+delivering community-based primary care in a universal health system. *New 
+England Journal of Medicine*, *372*(23), 2177–2181. 
+https://doi.org/10.1056/NEJMp1501140
 
 MacKinnon, J. G., Nielsen, M. Ø., & Webb, M. D. (2023). Cluster-robust 
 inference: A guide to empirical practice. *Journal of Econometrics*, *232*(2), 
@@ -395,16 +512,88 @@ Nascimento, I., & Arruda, R. A. de. (2019). *geobr: Loads shapefiles of official
 spatial data sets of Brazil* [R package]. CRAN. 
 https://CRAN.R-project.org/package=geobr
 
+Pinto Junior, E. P., Aquino, R., Medina, M. G., & Silva, M. G. C. (2018). 
+Efeito da Estratégia Saúde da Família nas internações por condições sensíveis 
+à atenção primária em menores de um ano na Bahia, Brasil. *Cadernos de Saúde 
+Pública*, *34*(2), e00133816. https://doi.org/10.1590/0102-311x00133816
+
+Riddell, C. A., & Goin, D. E. (2023). Guide for comparing estimators of 
+policy change effects on health. *Epidemiology*, *34*(3), e21–e22. 
+https://doi.org/10.1097/EDE.0000000000001586
+
 Rue, H., Martino, S., & Chopin, N. (2009). Approximate Bayesian inference for 
 latent Gaussian models by using integrated nested Laplace approximations. 
 *Journal of the Royal Statistical Society: Series B (Statistical Methodology)*, 
 *71*(2), 319–392. https://doi.org/10.1111/j.1467-9868.2008.00700.x
 
-Saldanha, R. F., Bastos, R. R., & Barcellos, C. (2019). microdatasus: Pacote 
-para download e pré-processamento de microdados do Departamento de Informática 
-do SUS (DATASUS). *Cadernos de Saúde Pública*, *35*(9), e00032419. 
-https://doi.org/10.1590/0102-311X00032419
-
 VanderWeele, T. J., & Ding, P. (2017). Sensitivity analysis in observational 
 research: Introducing the E-value. *Annals of Internal Medicine*, *167*(4), 
 268–274. https://doi.org/10.7326/M16-2607
+
+Wooldridge, J. M. (2025). Two-way fixed effects, the two-way Mundlak 
+regression, and difference-in-differences estimators. *Empirical Economics*, 
+*69*(5), 2545–2587. https://doi.org/10.1007/s00181-025-02807-z
+
+**Apêndice — Declaração de uso de IA generativa**
+
+Ferramentas de IA generativa foram empregadas como apoio operacional na 
+preparação desta proposta. A presente declaração registra esse uso de 
+forma factual, conforme prática editorial recomendada (COPE, 2023; 
+ICMJE, 2024) e em alinhamento com a Portaria CNPq 2.664/2026 (art. 9). 
+A declaração compreende cinco blocos.
+
+**1. Ferramentas e versões.** Foram empregadas três interfaces de 
+acesso a modelos da família Claude (Anthropic): Claude Desktop 
+(aplicativo cliente, sessões 003 a 010 do projeto), Claude Code 
+(interface CLI integrada ao repositório, sessões 001, 011, 012, 013, 
+013-bis e 014; a sessão 014 operou com Claude Opus 4.7 — janela de 
+contexto estendida) e Claude.ai (interface web, utilizada em paralelo 
+como revisor cético da sessão Code 014). A versão exata do modelo 
+Claude variou entre as sessões conforme disponibilidade na interface no 
+momento de uso. Outras ferramentas de IA não foram empregadas.
+
+**2. Áreas de uso.** O uso concentrou-se em cinco áreas: (i) 
+governança documental (estruturação e manutenção de CHANGELOG, 
+GOVERNANCE, CONVENTIONS, RISKS, README, ADRs e REVs); (ii) 
+infraestrutura técnica (configuração de ambiente R/`renv`, integração 
+Zotero/BetterBibTeX, esqueletos de pipeline, integração contínua via 
+GitHub Actions); (iii) curadoria bibliográfica (extração de verbatins 
+literais via leitura sistemática de PDFs, validação de DOIs e PMIDs 
+junto a CrossRef e PubMed, auditoria de duplicatas e desconflação de 
+entradas bibliográficas); (iv) redação assistida desta proposta 
+(formulação dos parágrafos metodológicos novos da §4.2 e dos bullets 
+novos da §4.3, com texto sempre revisto e editado pelo pesquisador); 
+(v) verificação cruzada de afirmações (triangulação entre instâncias 
+separadas — Code, Desktop, web — em decisões metodológicas críticas, 
+com sessões registradas em `.claude/`).
+
+**3. Garantias de revisão humana.** Toda decisão metodológica final é 
+do pesquisador. Toda paráfrase no corpo da proposta tem ancoragem 
+auditável na matriz de síntese (`assets/synthesis_matrix_proposta_v02.csv`, 
+colunas `trecho_verbatim` e `pagina`), com versão de rascunho 
+preservada em `manuscripts/_drafts/proposta-de-pesquisa-v02-with-tags.md` 
+contendo as tags epistêmicas e os verbatins laterais conforme protocolo 
+da skill de revisão acadêmica empregada. Nenhum DOI, autor, ano, 
+página ou fato empírico foi gerado por IA sem verificação humana 
+subsequente. Sessões anteriores documentaram detecção e descarte de 
+informações factualmente incorretas geradas por IA antes da 
+consolidação no corpus bibliográfico ou em artefatos do repositório.
+
+**4. Declaração de responsabilidade autoral.** Sidney da Silva 
+Pereira Bissoli é o único autor responsável pelo conteúdo, pelas 
+decisões metodológicas, pela interpretação e pelas conclusões desta 
+proposta. As ferramentas de IA generativa empregadas constituem apoio 
+operacional, não coautoria. Erros remanescentes são de 
+responsabilidade do autor.
+
+**5. Compromisso de transparência.** O repositório público 
+<https://github.com/SidneyBissoli/iie-municipal-vs-saude> contém: 
+logs completos das sessões Code (`.claude/sessao-NNN.md`), manifests de 
+sessão com hashes de artefatos (`.claude/sessao-NNN-manifest.json`), 
+matriz de síntese auditável, decisões arquiteturais (ADRs em 
+`decisions/`) com motivação registrada, CHANGELOG com rastreabilidade 
+de cada decisão e versão correspondente do roadmap, e o rascunho 
+anotado da proposta com tags epistêmicas preservado em 
+`manuscripts/_drafts/`. O conjunto desses artefatos sustenta auditoria 
+externa do uso de IA empregado em qualquer ponto do projeto. 
+Disponibilização sob licença declarada em `LICENSE` (MIT).

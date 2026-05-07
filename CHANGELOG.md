@@ -79,6 +79,91 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   anterior em `[roadmap-v02]`; `roadmap-v01.md` permanece imutável
   como documento histórico).
 
+### Added (Sessão Code 014, continuação) — 2026-05-07 — manuscript proposta-v02 e apêndice de IA
+
+- `manuscripts/proposta-de-pesquisa-v02.md` (versão final limpa,
+  citações APA 7) e
+  `manuscripts/_drafts/proposta-de-pesquisa-v02-with-tags.md` (rascunho
+  com tags `[SOURCED]` + verbatim lateral conforme
+  `epistemic-tagging-rules.md` §1) — criados nesta sessão por cópia
+  bit-a-bit da v01, preservando v01 intacta (regra de imutabilidade
+  `GOVERNANCE.md` §T.8). Mudanças cirúrgicas:
+  - **§1 D1:** desconfla
+    `fernandesetal2024relacaoindiceinclusaoeducacional` (gravidez,
+    homicídios 18-21, ensino superior, mercado de trabalho, engajamento
+    cívico) de `luposocial2026inclusaoeducacionalpobreza` (pobreza na
+    transição para a vida adulta, resultados preliminares).
+  - **§1 D2 + §4.1 D2 + §7 D2:** Paciencia & Ismail 2024 → 2025
+    (correção de ano em três pontos do documento).
+  - **§4.2:** três parágrafos novos entre Desenho B e Desenho C — P1
+    (ameaça reconhecida, literatura crítica TWFE pós-2020), P2
+    (resposta defensiva: caso do projeto não tem patologias do
+    staggered binário; ETWFE/Mundlak via Poisson de pseudo-máxima
+    verossimilhança com efeitos fixos como camada adicional de
+    robustez), P3 (posicionamento entre tradição epidemiológica
+    brasileira aplicada e econometria DiD pós-2020 em saúde pública;
+    cita Fernandes et al. 2024 como precedente sem proteção pós-2020).
+  - **§4.3:** ampliada de 5 para 11 bullets — três sensibilidades
+    obrigatórias (ETWFE/Mundlak, Não-ICSAP no Desenho A como negative
+    control outcome ancorado em Lipsitch et al. 2010, exclusão da
+    coorte 2019 do Desenho B conforme ADR-005) + três adicionais com
+    qualifier "(Desenho B)" (S1 painel restrito sem 2020-2021, S2
+    estratificação temporal por subperíodos, tendências lineares por
+    UF).
+  - **§4.4:** título atualizado para "Limitações estruturais, Software,
+    Reprodutibilidade e Equipe"; parágrafo de Limitações estruturais no
+    início (coortes 2021/2023 do IIE estadual existem mas ficam fora
+    pela janela de desfecho 2018-2024 com lag t=c+5; ADR-006);
+    parágrafo de software reescrito sob D4 estrita (sem packages-R;
+    menciona Quarto e GitHub Actions como serviços/plataformas);
+    parágrafo de equipe ajustado para neutralidade autopromocional.
+  - **§7 Referências:** reescrita completa em ordem alfabética com 35
+    entradas — removidas 4 órfãs por D4 (Bergé 2018, Bissoli 2026,
+    Landau 2021, Saldanha et al. 2019), desconflada entrada confusa
+    "Fernandes 2024" (que era factualmente Lupa Social 2026 sobre
+    pobreza) em duas entradas distintas, adicionadas 19 entradas novas
+    conforme briefing v02 §2.6 + Lipsitch et al. 2010 (consequência da
+    §4.3 sens 2). APA 7 distingue Lupa Social (2026a) e (2026b) por
+    título.
+  - **Coortes do Desenho B:** correção factual aplicada em §2 (l.102),
+    §4.1 (l.175) e §4.2 (l.206): {2015, 2017, 2019, 2021} → {2013,
+    2015, 2017, 2019}. Execução de decisão fechada via ADR-005 +
+    ADR-006 (lag t=c+5, janela de desfecho 2018-2024); não constitui
+    reformulação metodológica nova.
+  - **Apêndice — Declaração de uso de IA generativa** (após §7
+    Referências, conforme briefing v02 §2.9): cinco blocos numerados —
+    ferramentas e versões (Claude Desktop sessões 003-010; Claude Code
+    sessões 001, 011-014; Claude.ai web como revisor cético da sessão
+    014); áreas de uso (governança documental, infraestrutura técnica,
+    curadoria bibliográfica, redação assistida, verificação cruzada);
+    garantias de revisão humana com ancoragem auditável na matriz de
+    síntese; declaração de responsabilidade autoral única do
+    pesquisador; compromisso de transparência via repositório público.
+- **Três desvios editoriais conscientes do mapa explícito do briefing
+  §2.2**, registrados como decisões derivadas de consequência mecânica
+  de princípios já validados, não como decisões metodológicas novas:
+  - **(D-i)** Renomeação do título da §4.4 da proposta-v02 (inclui
+    "Limitações estruturais" para visibilidade no índice; briefing
+    §2.2 prescreve adição do parágrafo de Limitações em §4.4 mas não
+    atualiza o título original).
+  - **(D-ii)** CdH-PV-VB 2025 versão "Stayers"
+    (`chaisemartinetal2025differenceindifferencescontinuoustreatments`)
+    é a única citada na §7 da proposta-v02 (briefing §2.6 lista também
+    "Estimators" como destaque, mas só "Stayers" é citada no corpo via
+    §4.2 P2; "Estimators" permanece no `.bib` + matriz para uso no
+    artigo final).
+  - **(D-iii)** Remoção de "via microdatasus" da célula da tabela §6
+    (Cronograma, Mês 1) — derivada da D4 estendida ao corpo todo da
+    proposta-v02; completa coerência interna §6 ↔ §7 ↔ §4.4 (sem
+    packages-R nominados em qualquer ponto da v02).
+- **Não tocados nesta sessão (preservados literais):** Fase 0 a Fase 5
+  do roadmap-v02; §§2, 3, 5, 6 da proposta-v02 (exceto correções
+  factuais derivadas de ADRs aceitos: coortes em §2/§4.1/§4.2 e ano em
+  D2 §1/§4.1/§7).
+- Magnitude: **minor** (manuscript v02 é continuação da major
+  `roadmap-v02`; reformulação editorial localizada da proposta sob a
+  blindagem metodológica nova adotada na major).
+
 ### Added (Sessão Code 013) — 2026-05-06
 
 - `bibliography/pdfs-leitura/` populada com os 17 PDFs correspondentes
