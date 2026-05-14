@@ -13,7 +13,7 @@ tar_option_set(
     "dplyr", "tidyr", "purrr", "readr", "stringr", "tibble", "lubridate",
     "fs", "arrow", "pointblank"
   ),
-  format = "qs2",   # qs is unavailable on R 4.5; qs2 is the successor.
+  format = "qs",   # qs is unavailable on R 4.5; qs2 is the successor.
   storage = "worker",
   retrieval = "worker",
   workspace_on_error = TRUE
