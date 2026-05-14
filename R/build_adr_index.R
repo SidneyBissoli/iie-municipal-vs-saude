@@ -147,7 +147,7 @@ render_rev_table <- function(revs) {
 #' sentinels in a character vector of file lines.
 replace_block <- function(lines, tag, content) {
   begin <- which(grepl(sprintf("BEGIN:\\s*%s", tag), lines))
-  end   <- which(grepl(sprintf("END:\\s*%s", tag), lines))
+  end <- which(grepl(sprintf("END:\\s*%s", tag), lines))
   if (length(begin) != 1L || length(end) != 1L || end <= begin) {
     stop(sprintf("Sentinels for tag '%s' not found in target file.", tag))
   }

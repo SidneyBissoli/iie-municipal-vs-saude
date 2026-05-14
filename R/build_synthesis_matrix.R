@@ -12,23 +12,26 @@
 #' The function is idempotent: re-running overwrites the XLSX without warning.
 
 build_synthesis_matrix <- function(
-  csv_path  = "assets/synthesis_matrix_proposta_v02.csv",
+  csv_path = "assets/synthesis_matrix_proposta_v02.csv",
   xlsx_path = "assets/synthesis_matrix_proposta_v02.xlsx"
 ) {
-
   # --- Load packages (fail fast if missing) ---------------------------------
   required_pkgs <- c("openxlsx2", "readr", "dplyr")
-  missing_pkgs  <- required_pkgs[!vapply(required_pkgs, requireNamespace,
-                                         logical(1), quietly = TRUE)]
+  missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace,
+    logical(1),
+    quietly = TRUE
+  )]
   if (length(missing_pkgs) > 0L) {
     stop("Missing packages: ", paste(missing_pkgs, collapse = ", "),
-         ". Install with install.packages() then re-run.", call. = FALSE)
+      ". Install with install.packages() then re-run.",
+      call. = FALSE
+    )
   }
 
   # --- Read CSV (Brazilian convention: ; separator, "" escape, UTF-8 BOM) ---
   matrix_df <- readr::read_csv2(
     csv_path,
-    locale       = readr::locale(encoding = "UTF-8", decimal_mark = ","),
+    locale = readr::locale(encoding = "UTF-8", decimal_mark = ","),
     show_col_types = FALSE
   )
 
@@ -40,19 +43,21 @@ build_synthesis_matrix <- function(
   )
   if (!identical(colnames(matrix_df), expected_cols)) {
     stop("CSV columns do not match expected schema. Got: ",
-         paste(colnames(matrix_df), collapse = ", "), call. = FALSE)
+      paste(colnames(matrix_df), collapse = ", "),
+      call. = FALSE
+    )
   }
 
   # --- Pre-compute per-row visual cues --------------------------------------
   # Group-alternating background tone by tag_tema (one tone per thematic block)
   unique_themes <- unique(matrix_df$tag_tema)
-  theme_index   <- match(matrix_df$tag_tema, unique_themes)
-  fill_palette  <- c("FFFFFF", "F2F2F2")  # white and light grey
-  row_fills     <- fill_palette[(theme_index %% 2L) + 1L]
+  theme_index <- match(matrix_df$tag_tema, unique_themes)
+  fill_palette <- c("FFFFFF", "F2F2F2") # white and light grey
+  row_fills <- fill_palette[(theme_index %% 2L) + 1L]
 
   # Risk-cell color (column risco_verificacao)
-  risk_palette  <- c(B = "C6EFCE", M = "FFEB9C", A = "FFC7CE")
-  risk_fills    <- risk_palette[matrix_df$risco_verificacao]
+  risk_palette <- c(B = "C6EFCE", M = "FFEB9C", A = "FFC7CE")
+  risk_fills <- risk_palette[matrix_df$risco_verificacao]
   risk_fills[is.na(risk_fills)] <- "FFFFFF"
 
   # --- Build workbook -------------------------------------------------------
@@ -66,17 +71,21 @@ build_synthesis_matrix <- function(
   n_cols <- ncol(matrix_df)
 
   # Header formatting: bold, white text, dark fill
-  wb$add_fill(sheet = "synthesis_matrix",
-              dims  = openxlsx2::wb_dims(rows = 1L, cols = 1L:n_cols),
-              color = openxlsx2::wb_color(hex = "1F4E78"))
-  wb$add_font(sheet = "synthesis_matrix",
-              dims  = openxlsx2::wb_dims(rows = 1L, cols = 1L:n_cols),
-              bold  = "true",
-              color = openxlsx2::wb_color(hex = "FFFFFF"))
+  wb$add_fill(
+    sheet = "synthesis_matrix",
+    dims = openxlsx2::wb_dims(rows = 1L, cols = 1L:n_cols),
+    color = openxlsx2::wb_color(hex = "1F4E78")
+  )
+  wb$add_font(
+    sheet = "synthesis_matrix",
+    dims = openxlsx2::wb_dims(rows = 1L, cols = 1L:n_cols),
+    bold = "true",
+    color = openxlsx2::wb_color(hex = "FFFFFF")
+  )
 
   # Body row formatting: alternating fills by thematic group, wrap text
   for (i in seq_len(n_rows)) {
-    row_in_sheet <- i + 1L  # offset by 1 for header
+    row_in_sheet <- i + 1L # offset by 1 for header
     wb$add_fill(
       sheet = "synthesis_matrix",
       dims  = openxlsx2::wb_dims(rows = row_in_sheet, cols = 1L:n_cols),
@@ -122,21 +131,27 @@ build_synthesis_matrix <- function(
   )
   wb$set_col_widths(
     sheet = "synthesis_matrix",
-    cols  = seq_len(n_cols),
+    cols = seq_len(n_cols),
     widths = col_widths[expected_cols]
   )
 
   # Freeze top row + first column; enable autofilter on header
-  wb$freeze_pane(sheet = "synthesis_matrix",
-                 first_active_row = 2L, first_active_col = 2L)
-  wb$add_filter(sheet = "synthesis_matrix",
-                rows = 1L, cols = 1L:n_cols)
+  wb$freeze_pane(
+    sheet = "synthesis_matrix",
+    first_active_row = 2L, first_active_col = 2L
+  )
+  wb$add_filter(
+    sheet = "synthesis_matrix",
+    rows = 1L, cols = 1L:n_cols
+  )
 
   # Save
   openxlsx2::wb_save(wb, file = xlsx_path, overwrite = TRUE)
 
-  message("Synthesis matrix XLSX written to: ", xlsx_path,
-          " (", n_rows, " entries)")
+  message(
+    "Synthesis matrix XLSX written to: ", xlsx_path,
+    " (", n_rows, " entries)"
+  )
 
   invisible(xlsx_path)
 }

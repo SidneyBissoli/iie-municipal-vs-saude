@@ -16,6 +16,228 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 015) — 2026-05-14
+
+- `manuscripts/proposta-de-pesquisa-v03.md` — nova versão da proposta
+  científica, sucessora de v02. Versão v02 preservada intacta como
+  fonte da submissão anterior (GOVERNANCE.md §"Hierarquia de fontes":
+  sufixo `-vNN` preserva histórico de submissões).
+- `manuscripts/proposta-de-pesquisa-v04.md` — versão posterior,
+  extraída via `pandoc -f docx -t gfm --wrap=auto --columns=80` a partir
+  da `v04.docx` para restabelecer markdown como fonte canônica. 509
+  linhas; estrutura §1–§7 + Apêndice IA verificada presente. Único
+  artefato pós-conversão corrigido: duplicação do header `**2.
+  Objetivos**`.
+- `manuscripts/proposta-de-pesquisa-v02.html` — render HTML pareado com
+  a fonte canônica v02.md.
+- `manuscripts/proposta-de-pesquisa-v03.docx`,
+  `proposta-de-pesquisa-v04.docx`, `proposta-de-pesquisa-v04.pdf` —
+  derivados publicados rastreados para auditoria de submissões.
+- `manuscripts/sidney-bissoli-pesquisa-aplicada-associacao-iie-saude.pdf`
+  — PDF da submissão ao Instituto Natura / Todos Pela Educação / B3
+  (Modalidade B). Mantido com nome usado na submissão para
+  rastreabilidade institucional.
+- `bibliography/md-resumos/` — nova categoria de bibliografia, formal
+  e operacionalmente distinta de `notes/` (template fixo, citation
+  keys) e `research-notes/` (síntese cruzando ≥2 fontes). Resumos
+  narrativos em português, formato livre, nomenclatura
+  `AutorETAL_AAAA_slug-tematico.md`. Três entradas iniciais:
+  `alfradiqueETAL_2009_icsap-lista-brasileira.md`,
+  `azevedoETAL_2021_simulating-impacts-covid19.md`,
+  `blangiardoETAL_2013_spatial-and-spatio-temporal-models.md`.
+- `.gitignore`: adicionado `.positai` (cache local do plugin AI da
+  IDE).
+
+### Changed (Sessão Code 015) — 2026-05-14
+
+- `CLAUDE.md` — atualização editorial após sessões 011–014, alinhando
+  documento ao estado real do repo. Substituídas referências fixas a
+  `proposta-de-pesquisa.md` e `roadmap-v01.md` por formas genéricas
+  `proposta-de-pesquisa-vNN.md` e `roadmap-vNN.md vigente`,
+  prevenindo nova divergência a cada major do roadmap. Adicionado
+  `assets/` à árvore canônica §2. Em §3, documentado
+  `write_with_contract(df, contract, path)` como caminho obrigatório
+  para gravar derivados em `data/` (roda `pointblank` antes; aborta em
+  falha). §6 estendido para explicitar três naturezas de notas:
+  `notes/<citation-key>.md` (formal), `md-resumos/` (narrativa livre)
+  e `research-notes/<topico>.md` (síntese investigativa). §7 ganha
+  nota de que o fluxo de manifests está em produção desde a sessão 001
+  — não é modelo aspiracional.
+- `CONVENTIONS.md` — formalização de `bibliography/md-resumos/` como
+  terceira categoria sob `bibliography/`. Distinção operacional vs.
+  `notes/`: `notes/` segue template fixo (`_note-template.md`) com
+  quotes literais com página, crítica metodológica formal e conexões;
+  `md-resumos/` é formato livre para síntese conceitual e contexto
+  histórico, em português. Convenção de nomenclatura formalizada:
+  `AutorETAL_AAAA_slug-tematico.md`. Uma referência pode ter um,
+  outro, ou ambos.
+- `manuscripts/proposta-de-pesquisa-v02.md` — refluxo cosmético
+  (wrap a 80 colunas, alinhamento `:------:` da tabela de Produtos
+  Esperados). Sem mudança substantiva — conteúdo finalizado em
+  d91f723.
+- `.lintr` — `indentation_linter` permanece `NULL`, agora com bloco de
+  comentário explicando o motivo (`styler` é a fonte canônica de
+  indentação por CLAUDE.md §1; nenhum `hanging_indent_style` do lintr
+  alinha com styler em chamadas aninhadas).
+- `R/*.R` (5 arquivos: `build_adr_index.R`, `build_bibliography_index.R`,
+  `build_session_manifest.R`, `build_synthesis_matrix.R`,
+  `verify_session_manifest.R`) — reformatação cosmética idempotente
+  via `styler::style_dir("R/")`, sem mudança de comportamento. Gates
+  verdes: `lintr` zero lints; `styler` 0 changes pendentes;
+  `testthat` 18/18 PASS.
+- `roadmap-v01.html` regenerado pareado com a fonte v01.md (que
+  permanece como fonte histórica da Fase 0). Diff dominado por
+  mudanças mecânicas do gerador Quarto; conteúdo do .md fonte não
+  alterado.
+
+## [roadmap-v02] — 2026-05-07
+
+### Added (Sessão Code 014) — 2026-05-07
+
+- `roadmap-v02.md` (raiz) — versão major do roadmap, sucede
+  `roadmap-v01.md` (preservado intacto conforme regra de imutabilidade
+  documentada em `GOVERNANCE.md` §T.8). Identificadores de fase e seção
+  (Fase N, N.M) preservados conforme `CONVENTIONS.md` §Identificadores;
+  ~95% do conteúdo herda literal da v01. Mudanças cirúrgicas localizadas
+  em três pontos:
+  - **Cabeçalho:** "Versão: v02 · gerada a partir de
+    `proposta-de-pesquisa-v02.md` (em redação) · sucede
+    `roadmap-v01.md`".
+  - **§3.1 (Desenho B — Painel UF com TWFE):** acrescentado bullet
+    sobre ETWFE/Mundlak via `fixest::fepois` (médias intra-UF e
+    intra-coorte do IIE como controles), blindando o Desenho B contra
+    heterogeneidade temporal entre coortes. Itens pré-existentes
+    mantidos integralmente. Ancoragem em Wooldridge (2025), ADR-005 e
+    nota de pesquisa
+    `bibliography/research-notes/v02-obs5-framing-heterogeneidade-temporal.md`.
+  - **§3.3 (Robustez avançada):** quatro acréscimos e uma substituição.
+    Acréscimos: (i) S1 — painel UF restrito sem 2020-2021
+    (sensibilidade ao choque pandêmico, briefing v02 §2.4); (ii) S2 —
+    estratificação temporal por subperíodos 2018-2019 vs. 2022-2024
+    (briefing v02 §2.4); (iii) tendências lineares por UF
+    (`α_u + γ_c + α_u·t`, briefing v02 §2.4); (iv) exclusão da coorte
+    2019 do Desenho B (referência a ADR-005, sensibilidade central).
+    Substituição: bullet "Negative controls outcomes (P1, viabilidade
+    em ADR)" substituído por "Não-ICSAP no Desenho A como negative
+    control outcome obrigatório (Lipsitch et al., 2010), reportado em
+    apêndice (1–2 pp.)" — promove de "talvez P1, viabilidade em ADR"
+    para sensibilidade obrigatória sem ADR adicional.
+  - **§0.5 (catálogo de ADRs pré-mapeadas):** ADR-008 (viabilidade de
+    negative controls) marcada como **descontinuada** na v02. O bullet
+    de §3.3 do roadmap-v02 já operacionaliza Não-ICSAP no Desenho A
+    como negative control outcome obrigatório, resolvendo positivamente
+    a pergunta original de viabilidade. Sete ADRs pré-mapeadas
+    remanescentes: ADR-001, ADR-002, ADR-003, ADR-004, ADR-005,
+    ADR-007, ADR-009. ADR-006 já materializada (errata interpretativa
+    do ADR-005, sessão 010).
+- §0.5 "Referências centrais a importar no Zotero" do roadmap-v02
+  mantida literal: é checklist histórica de bootstrap bibliográfico
+  (sessões 003 e 006, datas e procedências explícitas), não
+  bibliografia viva — atualizá-la implicaria reescrever histórico de
+  sessões. As 4 chaves da matriz ausentes em §0.5
+  (`chaisemartinetal2025differenceindifferencesestimatorstreatments`,
+  `riddellgoin2023guidecomparingestimators`,
+  `luposocial2026inclusaoeducacionalpobreza`,
+  `luposocial2026dashboardiie`) já constam no `references.bib` desde
+  sessões posteriores e aparecem nominalmente na §7 da proposta-v02
+  (Passo 2 do briefing).
+- Demais seções (Fase 0, Fase 1, Fase 2, Fase 4, Fase 5; eixos
+  transversais T.1–T.8; marcos críticos) herdam literais.
+- Mudanças metodológicas alinhadas a: briefing v02 da proposta (cole
+  de Desktop na sessão 014); decisões já fechadas em ADR-005 (lag do
+  painel UF) e ADR-006 (errata 2021/2023 do IIE estadual); matriz de
+  síntese 100% pronta em `assets/synthesis_matrix_proposta_v02.csv`
+  (33 entradas, sessão 013-bis).
+- Magnitude: **major** (cria novo `roadmap-vNN.md` conforme
+  `GOVERNANCE.md` §T.8 "Major — muda o plano"; congela `[Unreleased]`
+  anterior em `[roadmap-v02]`; `roadmap-v01.md` permanece imutável
+  como documento histórico).
+
+### Added (Sessão Code 014, continuação) — 2026-05-07 — manuscript proposta-v02 e apêndice de IA
+
+- `manuscripts/proposta-de-pesquisa-v02.md` (versão final limpa,
+  citações APA 7) e
+  `manuscripts/_drafts/proposta-de-pesquisa-v02-with-tags.md` (rascunho
+  com tags `[SOURCED]` + verbatim lateral conforme
+  `epistemic-tagging-rules.md` §1) — criados nesta sessão por cópia
+  bit-a-bit da v01, preservando v01 intacta (regra de imutabilidade
+  `GOVERNANCE.md` §T.8). Mudanças cirúrgicas:
+  - **§1 D1:** desconfla
+    `fernandesetal2024relacaoindiceinclusaoeducacional` (gravidez,
+    homicídios 18-21, ensino superior, mercado de trabalho, engajamento
+    cívico) de `luposocial2026inclusaoeducacionalpobreza` (pobreza na
+    transição para a vida adulta, resultados preliminares).
+  - **§1 D2 + §4.1 D2 + §7 D2:** Paciencia & Ismail 2024 → 2025
+    (correção de ano em três pontos do documento).
+  - **§4.2:** três parágrafos novos entre Desenho B e Desenho C — P1
+    (ameaça reconhecida, literatura crítica TWFE pós-2020), P2
+    (resposta defensiva: caso do projeto não tem patologias do
+    staggered binário; ETWFE/Mundlak via Poisson de pseudo-máxima
+    verossimilhança com efeitos fixos como camada adicional de
+    robustez), P3 (posicionamento entre tradição epidemiológica
+    brasileira aplicada e econometria DiD pós-2020 em saúde pública;
+    cita Fernandes et al. 2024 como precedente sem proteção pós-2020).
+  - **§4.3:** ampliada de 5 para 11 bullets — três sensibilidades
+    obrigatórias (ETWFE/Mundlak, Não-ICSAP no Desenho A como negative
+    control outcome ancorado em Lipsitch et al. 2010, exclusão da
+    coorte 2019 do Desenho B conforme ADR-005) + três adicionais com
+    qualifier "(Desenho B)" (S1 painel restrito sem 2020-2021, S2
+    estratificação temporal por subperíodos, tendências lineares por
+    UF).
+  - **§4.4:** título atualizado para "Limitações estruturais, Software,
+    Reprodutibilidade e Equipe"; parágrafo de Limitações estruturais no
+    início (coortes 2021/2023 do IIE estadual existem mas ficam fora
+    pela janela de desfecho 2018-2024 com lag t=c+5; ADR-006);
+    parágrafo de software reescrito sob D4 estrita (sem packages-R;
+    menciona Quarto e GitHub Actions como serviços/plataformas);
+    parágrafo de equipe ajustado para neutralidade autopromocional.
+  - **§7 Referências:** reescrita completa em ordem alfabética com 35
+    entradas — removidas 4 órfãs por D4 (Bergé 2018, Bissoli 2026,
+    Landau 2021, Saldanha et al. 2019), desconflada entrada confusa
+    "Fernandes 2024" (que era factualmente Lupa Social 2026 sobre
+    pobreza) em duas entradas distintas, adicionadas 19 entradas novas
+    conforme briefing v02 §2.6 + Lipsitch et al. 2010 (consequência da
+    §4.3 sens 2). APA 7 distingue Lupa Social (2026a) e (2026b) por
+    título.
+  - **Coortes do Desenho B:** correção factual aplicada em §2 (l.102),
+    §4.1 (l.175) e §4.2 (l.206): {2015, 2017, 2019, 2021} → {2013,
+    2015, 2017, 2019}. Execução de decisão fechada via ADR-005 +
+    ADR-006 (lag t=c+5, janela de desfecho 2018-2024); não constitui
+    reformulação metodológica nova.
+  - **Apêndice — Declaração de uso de IA generativa** (após §7
+    Referências, conforme briefing v02 §2.9): cinco blocos numerados —
+    ferramentas e versões (Claude Desktop sessões 003-010; Claude Code
+    sessões 001, 011-014; Claude.ai web como revisor cético da sessão
+    014); áreas de uso (governança documental, infraestrutura técnica,
+    curadoria bibliográfica, redação assistida, verificação cruzada);
+    garantias de revisão humana com ancoragem auditável na matriz de
+    síntese; declaração de responsabilidade autoral única do
+    pesquisador; compromisso de transparência via repositório público.
+- **Três desvios editoriais conscientes do mapa explícito do briefing
+  §2.2**, registrados como decisões derivadas de consequência mecânica
+  de princípios já validados, não como decisões metodológicas novas:
+  - **(D-i)** Renomeação do título da §4.4 da proposta-v02 (inclui
+    "Limitações estruturais" para visibilidade no índice; briefing
+    §2.2 prescreve adição do parágrafo de Limitações em §4.4 mas não
+    atualiza o título original).
+  - **(D-ii)** CdH-PV-VB 2025 versão "Stayers"
+    (`chaisemartinetal2025differenceindifferencescontinuoustreatments`)
+    é a única citada na §7 da proposta-v02 (briefing §2.6 lista também
+    "Estimators" como destaque, mas só "Stayers" é citada no corpo via
+    §4.2 P2; "Estimators" permanece no `.bib` + matriz para uso no
+    artigo final).
+  - **(D-iii)** Remoção de "via microdatasus" da célula da tabela §6
+    (Cronograma, Mês 1) — derivada da D4 estendida ao corpo todo da
+    proposta-v02; completa coerência interna §6 ↔ §7 ↔ §4.4 (sem
+    packages-R nominados em qualquer ponto da v02).
+- **Não tocados nesta sessão (preservados literais):** Fase 0 a Fase 5
+  do roadmap-v02; §§2, 3, 5, 6 da proposta-v02 (exceto correções
+  factuais derivadas de ADRs aceitos: coortes em §2/§4.1/§4.2 e ano em
+  D2 §1/§4.1/§7).
+- Magnitude: **minor** (manuscript v02 é continuação da major
+  `roadmap-v02`; reformulação editorial localizada da proposta sob a
+  blindagem metodológica nova adotada na major).
+
 ### Added (Sessão Code 013) — 2026-05-06
 
 - `bibliography/pdfs-leitura/` populada com os 17 PDFs correspondentes

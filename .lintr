@@ -4,7 +4,13 @@ linters: linters_with_defaults(
       styles = c("snake_case", "symbols")
     ),
     commented_code_linter   = NULL,
-    indentation_linter      = indentation_linter(indent = 2L),
+    # indentation_linter disabled: styler::style_dir() is the canonical
+    # source of truth for indentation per CLAUDE.md §1, and lintr's
+    # indentation_linter has known disagreements with styler's tidyverse
+    # style in nested function calls (vapply, tryCatch, etc.). No setting
+    # of hanging_indent_style ("tidy" / "always" / "never") aligns the two
+    # tools across all cases. Trust styler; let lintr cover other axes.
+    indentation_linter      = NULL,
     cyclocomp_linter        = cyclocomp_linter(complexity_limit = 20L),
     object_length_linter    = object_length_linter(length = 40L),
     pipe_continuation_linter = pipe_continuation_linter()
