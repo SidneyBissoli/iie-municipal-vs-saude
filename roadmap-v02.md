@@ -162,8 +162,28 @@ Desktop (sessão longa frágil).
 - [x] **(P1)** Criar Dockerfile reprodutível (rocker/verse + INLA) — opcional,
   mas útil para revisores. *(sessão 001 — `rocker/geospatial:4.5.3` + INLA
   via repo oficial.)*
-- [ ] **(P2)** Configurar `pkgdown` para documentação navegável das funções
-  utilitárias.
+- [x] **(P2)** Configurar `pkgdown` para documentação navegável das funções
+  utilitárias. *(sessão 020 — `DESCRIPTION` pseudo-package na raiz
+  (Package `iie.municipal.vs.saude`, Version 0.0.0.9000, sem `Type:`,
+  Roxygen `markdown = TRUE`) e `_pkgdown.yml` com seções temáticas em
+  `reference:` ("Pipeline setup", "Session manifests", "Data contracts",
+  "Index builders"), Bootstrap 5, sem `url:` (deploy é decisão futura
+  `[CD]`). Helpers internos marcados como `@noRd` em 4 arquivos R
+  (`build_session_manifest.R`, `verify_session_manifest.R`,
+  `build_adr_index.R`, `build_bibliography_index.R`,
+  `setup_parallelism.R`) — públicos rendem: `setup_parallelism`,
+  `resolve_parallelism_settings`, `build_session_manifest`,
+  `verify_last_session_manifest`, `write_with_contract`,
+  `build_adr_index`, `build_bibliography_index`,
+  `build_synthesis_matrix` + os 6 `*_contract` em `contracts.R`. Build
+  local: `roxygen2::roxygenise(".")` → `pkgload::load_all(".")` →
+  `pkgdown::build_site(...)`. Saída em `docs/` (ignorado em
+  `.gitignore` junto com `man/` e `NAMESPACE` — todos regeneráveis).
+  Pacotes `pkgdown 2.2.0`, `roxygen2 8.0.0` + 31 deps adicionados ao
+  `renv.lock` via `renv::record()` (não-runtime, mesma política do
+  `precommit` nas sessões 018/019). `pkgdown::check_pkgdown()` reporta
+  apenas o aviso esperado de `url` ausente — `build_site()` em si
+  passa 0 warnings.)*
 
 ### 0.3 Governança da pesquisa
 
