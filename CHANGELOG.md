@@ -16,6 +16,80 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 015) — 2026-05-14
+
+- `manuscripts/proposta-de-pesquisa-v03.md` — nova versão da proposta
+  científica, sucessora de v02. Versão v02 preservada intacta como
+  fonte da submissão anterior (GOVERNANCE.md §"Hierarquia de fontes":
+  sufixo `-vNN` preserva histórico de submissões).
+- `manuscripts/proposta-de-pesquisa-v04.md` — versão posterior,
+  extraída via `pandoc -f docx -t gfm --wrap=auto --columns=80` a partir
+  da `v04.docx` para restabelecer markdown como fonte canônica. 509
+  linhas; estrutura §1–§7 + Apêndice IA verificada presente. Único
+  artefato pós-conversão corrigido: duplicação do header `**2.
+  Objetivos**`.
+- `manuscripts/proposta-de-pesquisa-v02.html` — render HTML pareado com
+  a fonte canônica v02.md.
+- `manuscripts/proposta-de-pesquisa-v03.docx`,
+  `proposta-de-pesquisa-v04.docx`, `proposta-de-pesquisa-v04.pdf` —
+  derivados publicados rastreados para auditoria de submissões.
+- `manuscripts/sidney-bissoli-pesquisa-aplicada-associacao-iie-saude.pdf`
+  — PDF da submissão ao Instituto Natura / Todos Pela Educação / B3
+  (Modalidade B). Mantido com nome usado na submissão para
+  rastreabilidade institucional.
+- `bibliography/md-resumos/` — nova categoria de bibliografia, formal
+  e operacionalmente distinta de `notes/` (template fixo, citation
+  keys) e `research-notes/` (síntese cruzando ≥2 fontes). Resumos
+  narrativos em português, formato livre, nomenclatura
+  `AutorETAL_AAAA_slug-tematico.md`. Três entradas iniciais:
+  `alfradiqueETAL_2009_icsap-lista-brasileira.md`,
+  `azevedoETAL_2021_simulating-impacts-covid19.md`,
+  `blangiardoETAL_2013_spatial-and-spatio-temporal-models.md`.
+- `.gitignore`: adicionado `.positai` (cache local do plugin AI da
+  IDE).
+
+### Changed (Sessão Code 015) — 2026-05-14
+
+- `CLAUDE.md` — atualização editorial após sessões 011–014, alinhando
+  documento ao estado real do repo. Substituídas referências fixas a
+  `proposta-de-pesquisa.md` e `roadmap-v01.md` por formas genéricas
+  `proposta-de-pesquisa-vNN.md` e `roadmap-vNN.md vigente`,
+  prevenindo nova divergência a cada major do roadmap. Adicionado
+  `assets/` à árvore canônica §2. Em §3, documentado
+  `write_with_contract(df, contract, path)` como caminho obrigatório
+  para gravar derivados em `data/` (roda `pointblank` antes; aborta em
+  falha). §6 estendido para explicitar três naturezas de notas:
+  `notes/<citation-key>.md` (formal), `md-resumos/` (narrativa livre)
+  e `research-notes/<topico>.md` (síntese investigativa). §7 ganha
+  nota de que o fluxo de manifests está em produção desde a sessão 001
+  — não é modelo aspiracional.
+- `CONVENTIONS.md` — formalização de `bibliography/md-resumos/` como
+  terceira categoria sob `bibliography/`. Distinção operacional vs.
+  `notes/`: `notes/` segue template fixo (`_note-template.md`) com
+  quotes literais com página, crítica metodológica formal e conexões;
+  `md-resumos/` é formato livre para síntese conceitual e contexto
+  histórico, em português. Convenção de nomenclatura formalizada:
+  `AutorETAL_AAAA_slug-tematico.md`. Uma referência pode ter um,
+  outro, ou ambos.
+- `manuscripts/proposta-de-pesquisa-v02.md` — refluxo cosmético
+  (wrap a 80 colunas, alinhamento `:------:` da tabela de Produtos
+  Esperados). Sem mudança substantiva — conteúdo finalizado em
+  d91f723.
+- `.lintr` — `indentation_linter` permanece `NULL`, agora com bloco de
+  comentário explicando o motivo (`styler` é a fonte canônica de
+  indentação por CLAUDE.md §1; nenhum `hanging_indent_style` do lintr
+  alinha com styler em chamadas aninhadas).
+- `R/*.R` (5 arquivos: `build_adr_index.R`, `build_bibliography_index.R`,
+  `build_session_manifest.R`, `build_synthesis_matrix.R`,
+  `verify_session_manifest.R`) — reformatação cosmética idempotente
+  via `styler::style_dir("R/")`, sem mudança de comportamento. Gates
+  verdes: `lintr` zero lints; `styler` 0 changes pendentes;
+  `testthat` 18/18 PASS.
+- `roadmap-v01.html` regenerado pareado com a fonte v01.md (que
+  permanece como fonte histórica da Fase 0). Diff dominado por
+  mudanças mecânicas do gerador Quarto; conteúdo do .md fonte não
+  alterado.
+
 ## [roadmap-v02] — 2026-05-07
 
 ### Added (Sessão Code 014) — 2026-05-07
