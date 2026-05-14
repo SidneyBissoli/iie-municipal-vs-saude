@@ -49,6 +49,7 @@ build_adr_index <- function(decisions_dir = "decisions",
 #' Parse YAML frontmatter from a single decision file.
 #' @param path File path.
 #' @return A list of fields, or `NULL` if no frontmatter is found.
+#' @noRd
 parse_decision_frontmatter <- function(path) {
   lines <- readLines(path, warn = FALSE)
   if (length(lines) < 3 || lines[[1]] != "---") {
@@ -69,6 +70,7 @@ parse_decision_frontmatter <- function(path) {
 #' Minimal YAML parser for the limited subset used in decision frontmatter
 #' (flat `key: value` lines, optional comments, no nested structures).
 #' Avoids a hard dependency on the `yaml` package for this small task.
+#' @noRd
 parse_simple_yaml <- function(lines) {
   lines <- lines[!grepl("^\\s*#", lines)]
   lines <- lines[nzchar(trimws(lines))]
@@ -89,6 +91,7 @@ parse_simple_yaml <- function(lines) {
 }
 
 #' Sort records by a frontmatter key, preserving non-matching entries last.
+#' @noRd
 sort_records <- function(records, key) {
   if (length(records) == 0) {
     return(records)
@@ -98,6 +101,7 @@ sort_records <- function(records, key) {
 }
 
 #' Render the ADR table as Markdown rows.
+#' @noRd
 render_adr_table <- function(adrs) {
   header <- c(
     "| ID | Título | Status | Item do roadmap | Data |",
@@ -121,6 +125,7 @@ render_adr_table <- function(adrs) {
 }
 
 #' Render the REV table as Markdown rows.
+#' @noRd
 render_rev_table <- function(revs) {
   header <- c(
     "| ID | Título | Status | Fase | Data |",
@@ -145,6 +150,7 @@ render_rev_table <- function(revs) {
 
 #' Replace a block delimited by `<!-- BEGIN: TAG -->` / `<!-- END: TAG -->`
 #' sentinels in a character vector of file lines.
+#' @noRd
 replace_block <- function(lines, tag, content) {
   begin <- which(grepl(sprintf("BEGIN:\\s*%s", tag), lines))
   end <- which(grepl(sprintf("END:\\s*%s", tag), lines))
