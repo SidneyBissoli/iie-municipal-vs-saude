@@ -19,8 +19,6 @@
 #' @param fmt      Output format: `"parquet"` (default) or `"qs2"` for
 #'   on-disk caching of complex R objects.
 #' @return (Invisibly) the interrogated agent on success.
-#' @importFrom pointblank interrogate all_passed get_agent_report
-#' @importFrom arrow write_parquet
 write_with_contract <- function(df, contract, path, fmt = c("parquet", "qs2")) {
   fmt <- match.arg(fmt)
   stopifnot(
