@@ -45,6 +45,17 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   Correção: passo `apt-get install -y libglpk40` adicionado antes do
   restore em ambos os workflows. Se outros system deps aparecerem em
   runs futuros, basta acrescentar nesse mesmo passo.
+  Causa raiz quaternária (R-CMD-check): `.lintr` ativa
+  `cyclocomp_linter`, mas o pacote `cyclocomp` não está em `renv.lock`
+  (dev-only). Sem ele, `lintr::lint_dir("R")` aborta na primeira
+  função analisada. Correção: adicionar `cyclocomp` ao mesmo passo de
+  instalação de `lintr`/`styler`.
+- `_targets.R:16`: corrigido `format = "qs2"` → `format = "qs"`. Bug
+  latente desde a sessão em que `format` foi escolhido — só apareceu
+  agora porque o CI nunca passava do `setup-r-dependencies`. Em
+  `targets` 1.12.0 o nome do formato é `"qs"` (não `"qs2"`); o backend
+  já roteia para o pacote `qs2` em R 4.5+. `tar_manifest()` e
+  `tar_validate()` reproduzíveis em verde localmente após a correção.
 
 ### Added (Sessão Code 015) — 2026-05-14
 
