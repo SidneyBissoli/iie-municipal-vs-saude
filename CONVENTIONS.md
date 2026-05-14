@@ -113,11 +113,26 @@ lista de ADRs pré-mapeados no roadmap é referencial, não definitiva.
   adicionadas ao projeto Zotero.
 - `notes/` — uma nota markdown por artigo lido, nomeada `chave-citacao.md`
   (ex.: `melo-2017-icsap-educacao.md`), seguindo a citation key
-  BetterBibTeX exata extraída de `references.bib`.
-- `_note-template.md` — template de nota: citation key + DOI (link para
-  Zotero), papel no projeto (hipótese / método / seção do manuscrito),
-  resumo em 3–5 linhas em palavras próprias, citações quotáveis com número
-  de página, crítica e limitações, conexões com outras notas.
+  BetterBibTeX exata extraída de `references.bib`. Estrutura fixa do
+  `_note-template.md`: citação formal + papel no projeto + resumo curto +
+  citações quotáveis com página + crítica + conexões.
+- `md-resumos/` — **resumos narrativos** de leitura, formato livre, em
+  português, voltados para síntese conceitual e contexto histórico do
+  artigo (não para extração de quotes literais ou crítica metodológica
+  formal — esses ficam em `notes/`). Convenção de nomenclatura:
+  `AutorETAL_AAAA_slug-tematico.md` (ex.:
+  `alfradiqueETAL_2009_icsap-lista-brasileira.md`). Categoria distinta e
+  complementar de `notes/` — uma referência pode ter um, outro, ou
+  ambos.
+- `research-notes/` — síntese investigativa que cruza ≥2 fontes (corpus
+  + evidência empírica + scripts oficiais, etc.); identificadas por
+  slug temático, não por citation key. Detalhes em
+  `bibliography/research-notes/README.md`.
+- `_note-template.md` — template fixo das notas formais em `notes/`:
+  citation key + DOI (link para Zotero), papel no projeto (hipótese /
+  método / seção do manuscrito), resumo em 3–5 linhas em palavras
+  próprias, citações quotáveis com número de página, crítica e
+  limitações, conexões com outras notas.
 - `README.md` — índice auto-atualizado (chave, título, status, papel)
   gerado por `R/build_bibliography_index.R`.
 
