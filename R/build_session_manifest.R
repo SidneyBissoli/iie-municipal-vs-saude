@@ -68,6 +68,7 @@ build_session_manifest <- function(session_id,
 # ---- helpers --------------------------------------------------------------
 
 #' Build one `{path, sha256, status, size}` record.
+#' @noRd
 build_artifact_record <- function(path, contracts) {
   if (!file.exists(path)) {
     return(list(
@@ -94,6 +95,7 @@ build_artifact_record <- function(path, contracts) {
 #' Run a contract for an artefact path and return one of `pass`, `fail`,
 #' `warn`, or `n/a`. Reads parquet or csv via arrow/readr; other formats
 #' return `n/a` (no contract applicable).
+#' @noRd
 run_contract_status <- function(path, contract) {
   ext <- tolower(tools::file_ext(path))
   df <- tryCatch(
@@ -124,11 +126,13 @@ run_contract_status <- function(path, contract) {
 }
 
 #' SHA-256 of a file's contents.
+#' @noRd
 sha256_file <- function(path) {
   digest::digest(file = path, algo = "sha256")
 }
 
 #' Current git HEAD short SHA, or `NA` if not in a git repo.
+#' @noRd
 git_head_sha <- function() {
   out <- tryCatch(
     suppressWarnings(system2(
