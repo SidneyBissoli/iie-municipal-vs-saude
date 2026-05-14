@@ -16,6 +16,23 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Fixed (Sessão Code 016) — 2026-05-14
+
+- CI (`.github/workflows/R-CMD-check.yaml` e `targets-check.yaml`):
+  destravados após série de falhas iniciadas em 2026-05-04 (PR #3).
+  Causa raiz: a action `r-lib/actions/setup-r-dependencies@v2` invoca
+  `pak::lockfile_create(c("deps::.", ...))`, e o scanner do pak
+  enumerava o diretório `renv/library/<plat>/pak/library/` — onde o
+  próprio `pak` vendoriza internamente o pacote `async` (arquivado do
+  CRAN) e cópias internas de `testthat` e `pointblank`. Resultado:
+  `! Could not solve package dependencies: * async: Can't find package
+  called async`. Correção: substituir `setup-r-dependencies@v2` por
+  `setup-renv@v2` em ambos os workflows, que restaura direto do
+  `renv.lock` (já é a fonte de verdade do projeto, CLAUDE.md §3) sem
+  acionar o scanner do pak. `lintr` e `styler` (dev-only, fora do
+  lockfile) passam a ser instalados em passo dedicado no
+  R-CMD-check.
+
 ### Added (Sessão Code 015) — 2026-05-14
 
 - `manuscripts/proposta-de-pesquisa-v03.md` — nova versão da proposta
