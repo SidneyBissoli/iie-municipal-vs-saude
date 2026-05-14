@@ -16,6 +16,27 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Fixed (Sessão Code 017) — 2026-05-14
+
+- `R/build_bibliography_index.R`: indexer agora reconhece a categoria
+  `bibliography/md-resumos/` (criada na sessão 015) e emite coluna
+  *Tem resumo?* na tabela `BIB_INDEX` de `bibliography/README.md`. Os
+  três resumos atuais (alfradique 2009, azevedo 2021, blangiardo 2013)
+  aparecem marcados ✓. Pendência aberta no body do PR #6, fechada
+  nesta sessão.
+- `bibliography/README.md`: índice regenerado pela primeira vez via
+  `build_bibliography_index()` desde a geração manual da sessão 006.
+  Tabela passa de 35 para 36 entradas (entrada `lipsitchetal2010…`
+  adicionada ao `.bib` em sessões posteriores e até então invisível
+  no índice).
+
+### Added (Sessão Code 017) — 2026-05-14
+
+- `tests/testthat/test-build_bibliography_index.R`: cobertura nova
+  para extração de prefixos `<autor><ano>` de filenames `md-resumos/`,
+  match contra citation keys, e regeneração end-to-end do bloco
+  `BIB_INDEX` com a coluna *Tem resumo?*.
+
 ### Fixed (Sessão Code 016) — 2026-05-14
 
 - CI (`.github/workflows/R-CMD-check.yaml` e `targets-check.yaml`):
