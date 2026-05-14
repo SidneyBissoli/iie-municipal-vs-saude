@@ -16,6 +16,45 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 019) — 2026-05-14
+
+- `R/setup_parallelism.R` (+ 9 testes em
+  `tests/testthat/test-setup_parallelism.R`): fecha o item Fase 0.4 do
+  `roadmap-v02.md` (status `[ ] (P1)` desde sessão 001).
+  `setup_parallelism(workers = NULL, dt_threads = NULL)` chama
+  `future::plan(multisession, workers = ...)` e
+  `data.table::setDTthreads(...)` com defaults adaptativos:
+  `min(16, max(1, detectCores() - 2))` workers e
+  `max(1, detectCores() %/% 2)` threads. Cap em 16 workers para não
+  estrangular o host dev (20 cores na máquina atual → 16 workers + 10
+  DT threads); cap em 50% das logical cores para `data.table` evita
+  over-subscription quando os workers `future` estiverem ativos
+  fazendo extrações DATASUS. Resolução por prioridade: argumento
+  explícito > env var (`IIE_PARALLEL_WORKERS`, `IIE_DT_THREADS`) > CI
+  clamp (`TARGETS_CI_SMOKE=true` → 2) > default detectado. Helper puro
+  `resolve_parallelism_settings()` extraído para testabilidade — os
+  testes não tocam `future::plan()` real. Graceful degradation se o
+  pacote `future` estiver ausente: emite `message()` e marca
+  `plan = "sequential"`.
+- `_targets.R`: chama `setup_parallelism()` uma vez por sessão do
+  pipeline, após `source_dir("R")` e antes de `tar_option_set()`.
+  Validado com `targets::tar_validate()`, `tar_manifest()` e
+  `tar_make()` (placeholder `roadmap_version` continua passando).
+- Pacote R `future 1.70.0` (+ transitivos `globals 0.19.1`,
+  `listenv 0.10.1`, `parallelly 1.47.0`) adicionado ao `renv.lock`.
+  Não estavam declarados antes; a snapshot agora os captura porque
+  `R/setup_parallelism.R` referencia `future::plan` e
+  `future::multisession` explicitamente.
+- `CLAUDE.md` §10: refina a convenção `workers >= 16` para refletir o
+  default real (`min(16, detectCores() - 2)`) e documenta o CI clamp,
+  os env vars de override e a localização do helper.
+
+### Changed (Sessão Code 019) — 2026-05-14
+
+- `roadmap-v02.md` §0.4: checkbox `[ ]` → `[x]` no item de
+  configuração de paralelismo. Nota da sessão 019 com a decisão de
+  defaults adaptativos e o caminho de override.
+
 ### Added (Sessão Code 018) — 2026-05-14
 
 - `.pre-commit-config.yaml` na raiz: fecha o item Fase 0.1 do
