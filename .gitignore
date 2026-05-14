@@ -67,3 +67,4 @@ assets/*.xlsx
 # PDFs live in Zotero, not in the repo (CLAUDE.md §6). Local-only working copies
 # may be staged in bibliography/pdfs-leitura/ for systematic reading sessions.
 bibliography/pdfs-leitura/
+.positai
