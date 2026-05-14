@@ -20,8 +20,8 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 - CI (`.github/workflows/R-CMD-check.yaml` e `targets-check.yaml`):
   destravados após série de falhas iniciadas em 2026-05-04 (PR #3).
-  Causa raiz: a action `r-lib/actions/setup-r-dependencies@v2` invoca
-  `pak::lockfile_create(c("deps::.", ...))`, e o scanner do pak
+  Causa raiz primária: a action `r-lib/actions/setup-r-dependencies@v2`
+  invoca `pak::lockfile_create(c("deps::.", ...))`, e o scanner do pak
   enumerava o diretório `renv/library/<plat>/pak/library/` — onde o
   próprio `pak` vendoriza internamente o pacote `async` (arquivado do
   CRAN) e cópias internas de `testthat` e `pointblank`. Resultado:
@@ -30,8 +30,14 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   `setup-renv@v2` em ambos os workflows, que restaura direto do
   `renv.lock` (já é a fonte de verdade do projeto, CLAUDE.md §3) sem
   acionar o scanner do pak. `lintr` e `styler` (dev-only, fora do
-  lockfile) passam a ser instalados em passo dedicado no
-  R-CMD-check.
+  lockfile) passam a ser instalados em passo dedicado no R-CMD-check.
+  Causa raiz secundária revelada após a primeira correção: `r-version:
+  'release'` (R 4.6.0) tentava compilar `S7 0.2.1` (pinado no lockfile)
+  do código-fonte, mas a versão usa o símbolo interno
+  `R_NamespaceRegistry` removido em R 4.6 — `init.c:99: error:
+  'R_NamespaceRegistry' undeclared`. Correção: pinar `r-version:
+  '4.5.3'` em ambos os workflows para casar com a versão registrada no
+  `renv.lock`, alinhando CI com o ambiente local de desenvolvimento.
 
 ### Added (Sessão Code 015) — 2026-05-14
 
