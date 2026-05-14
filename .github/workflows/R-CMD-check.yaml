@@ -38,7 +38,7 @@ jobs:
       - uses: r-lib/actions/setup-renv@v2
 
       - name: Install dev-only tools (not in renv.lock)
-        run: Rscript -e 'install.packages(c("lintr", "styler"))'
+        run: Rscript -e 'install.packages(c("lintr", "styler", "cyclocomp"))'
 
       - name: Lint R/
         run: Rscript -e 'lintr::lint_dir("R")'
