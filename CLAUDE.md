@@ -160,7 +160,44 @@ Antes de cada commit, rodar (ordem):
    `pointblank` no contrato correspondente em `R/contracts.R` — `pass`.
 
 CI roda os mesmos gates em `.github/workflows/R-CMD-check.yaml` e
-`targets-check.yaml`.
+`targets-check.yaml`. **CI é a fonte autoritativa.**
+
+### Hook git local (`.pre-commit-config.yaml`)
+
+Opcional, mas recomendado: automatiza os gates 1, 2 e 3 acima como hook
+git. Bootstrap único por máquina:
+
+```powershell
+uv tool install pre-commit   # ou `pipx install pre-commit`
+pre-commit install           # registra .git/hooks/pre-commit + pre-push
+```
+
+Stages configurados:
+
+- **`pre-commit`**: style-files (auto-fix), lintr, parsable-R,
+  no-browser-statement, no-debug-statement, mais higiene básica
+  (trailing-whitespace, end-of-file-fixer, large-files, check-yaml,
+  check-merge-conflict). Escopo R-code restrito a `^R/` (espelha o
+  CI); manuscripts/, bibliography/, decisions/, renv/ ficam de fora
+  dos hooks de whitespace.
+- **`pre-push`**: testthat suite completa.
+
+Convenções específicas:
+
+- O hook `style-files` **reescreve** o arquivo staged quando precisa
+  reformatar. Nesse caso o commit aborta — re-stage o arquivo e
+  commite de novo.
+- O hook `lintr` instala `cyclocomp` no env isolado do pre-commit via
+  `additional_dependencies` (sem isso, `cyclocomp_linter` do `.lintr`
+  falha — mesma causa raiz da sessão 016 com o CI).
+- A `rev` apontada para `lorenzwalthert/precommit` é um dev tag
+  (`v0.4.3.9021`) porque a última estável (`v0.4.3`) pina `digest
+  0.6.36`, que não compila em R 4.5 + Rtools45.
+
+O pacote R `precommit` está em `renv.lock` para que
+`precommit::use_precommit()` esteja disponível em re-bootstraps
+futuros. O hook em si NÃO precisa do pacote R em runtime — quem roda
+os hooks é o binário Python `pre-commit`.
 
 ---
 
