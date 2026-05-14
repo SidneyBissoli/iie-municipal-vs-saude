@@ -74,6 +74,7 @@ verify_last_session_manifest <- function(manifest_dir = ".claude",
 
 # ---- helpers --------------------------------------------------------------
 
+#' @noRd
 verify_one <- function(record, contracts) {
   path <- record$path
   if (!file.exists(path)) {
@@ -109,6 +110,7 @@ verify_one <- function(record, contracts) {
   )
 }
 
+#' @noRd
 rerun_contract <- function(path, contract) {
   ext <- tolower(tools::file_ext(path))
   df <- tryCatch(
@@ -137,6 +139,7 @@ rerun_contract <- function(path, contract) {
   if (pointblank::all_passed(agent)) "pass" else "fail"
 }
 
+#' @noRd
 git_head_sha_local <- function() {
   out <- tryCatch(
     suppressWarnings(system2(
@@ -150,6 +153,7 @@ git_head_sha_local <- function() {
   if (length(out) == 0L || !nzchar(out[[1]])) NA_character_ else out[[1]]
 }
 
+#' @noRd
 format_failure_report <- function(report) {
   bad <- vapply(report$details, function(d) d$status != "pass", logical(1))
   bad_paths <- vapply(report$details[bad], function(d) d$path, character(1))
