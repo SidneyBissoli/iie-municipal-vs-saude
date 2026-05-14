@@ -8,6 +8,19 @@
 library(targets)
 library(tarchetypes)
 
+# Source utility functions from R/. Files are sourced at pipeline build time.
+source_dir <- function(path) {
+  files <- list.files(path, pattern = "\\.R$", full.names = TRUE)
+  invisible(lapply(files, source))
+}
+source_dir("R")
+
+# Configure parallel backends once per pipeline session: future::plan() for
+# microdatasus extractions, data.table::setDTthreads() for aggregations.
+# Defaults adapt to detected cores; CI clamps to 2 via TARGETS_CI_SMOKE.
+# See R/setup_parallelism.R and CLAUDE.md §10.
+setup_parallelism()
+
 tar_option_set(
   packages = c(
     "dplyr", "tidyr", "purrr", "readr", "stringr", "tibble", "lubridate",
@@ -18,13 +31,6 @@ tar_option_set(
   retrieval = "worker",
   workspace_on_error = TRUE
 )
-
-# Source utility functions from R/. Files are sourced at pipeline build time.
-source_dir <- function(path) {
-  files <- list.files(path, pattern = "\\.R$", full.names = TRUE)
-  invisible(lapply(files, source))
-}
-source_dir("R")
 
 list(
 
