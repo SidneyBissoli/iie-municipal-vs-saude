@@ -312,8 +312,13 @@ delegável.
 ## 10. Acesso a dados sensíveis
 
 - **DATASUS** (SIM, SIH, CNES, SINASC) — públicos, mas pesados. Acesso via
-  `microdatasus::fetch_datasus()` com paralelismo `future::plan(multisession,
-  workers >= 16)`.
+  `microdatasus::fetch_datasus()` com paralelismo configurado por
+  `setup_parallelism()` (chamada no topo do `_targets.R`). Default em
+  máquina dev: `future::plan(multisession, workers = min(16,
+  detectCores() - 2))` e `data.table::setDTthreads(detectCores() %/% 2)`.
+  CI clamp para 2 workers via `TARGETS_CI_SMOKE=true`. Override
+  manual via env vars `IIE_PARALLEL_WORKERS` e `IIE_DT_THREADS`.
+  Detalhes em `R/setup_parallelism.R` e roadmap-v02 §0.4.
 - **IIEM da Lupa Social** — fornecido mediante solicitação formal, sob termo
   de não-redistribuição. Arquivo bruto fica em `data-raw/iiem/` (gitignored)
   com `README.md` documentando data de recepção, hash SHA-256 e origem.
