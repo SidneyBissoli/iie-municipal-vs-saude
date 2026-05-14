@@ -76,3 +76,12 @@ bibliography/pdfs-leitura/
 manuscripts/*.html
 manuscripts/*.tex
 manuscripts/*.txt
+
+# --- pkgdown documentation ---
+# Site HTML é regenerável a partir de R/ + _pkgdown.yml. Build local-only;
+# deploy a GitHub Pages é decisão futura ([CD]), não trackeada nesta sessão.
+# Também ignora subprodutos do roxygen2 (man/ + NAMESPACE), que regenera
+# a partir das docstrings roxygen em R/.
+docs/
+man/
+NAMESPACE

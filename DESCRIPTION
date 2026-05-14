@@ -1,0 +1,16 @@
+Package: iie.municipal.vs.saude
+Title: Pseudo-package metadata for pkgdown documentation
+Version: 0.0.0.9000
+Authors@R:
+    person("Sidney da Silva Pereira", "Bissoli",
+           email = "sbissoli76@gmail.com",
+           role = c("aut", "cre"))
+Description: Minimal DESCRIPTION so that pkgdown can render a navigable
+    HTML reference for the utility functions in 'R/'. This repository is
+    a research project, not an R package: there is no NAMESPACE, no
+    R CMD check, and the functions are sourced into the targets pipeline
+    rather than installed.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0

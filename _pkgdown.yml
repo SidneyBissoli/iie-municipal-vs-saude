@@ -1,0 +1,63 @@
+destination: docs
+
+template:
+  bootstrap: 5
+
+home:
+  title: iie-municipal-vs-saude — Funções utilitárias
+  description: >
+    Documentação navegável das funções em `R/` que compõem o pipeline
+    `targets` deste projeto de pesquisa. Não é um pacote R formal — apenas
+    um pseudo-package para satisfazer pkgdown. Detalhes de governança em
+    GOVERNANCE.md, convenções em CLAUDE.md.
+
+navbar:
+  structure:
+    left: [reference]
+    right: [github]
+  components:
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fa-github
+      href: https://github.com/SidneyBissoli/iie-municipal-vs-saude
+      aria-label: GitHub
+
+reference:
+  - title: Pipeline setup
+    desc: >
+      Configuração do backend de paralelismo chamada uma vez no topo de
+      `_targets.R`.
+    contents:
+      - setup_parallelism
+      - resolve_parallelism_settings
+
+  - title: Session manifests
+    desc: >
+      Geração e verificação de manifests de sessão Code (CLAUDE.md §7).
+    contents:
+      - build_session_manifest
+      - verify_last_session_manifest
+
+  - title: Data contracts
+    desc: >
+      Wrapper de escrita com contrato `pointblank` e contratos por
+      artefato derivado (placeholders preenchidos na Fase 1).
+    contents:
+      - write_with_contract
+      - iiem_2017_contract
+      - obitos_mun_ano_causa_contract
+      - icsap_mun_ano_grupo_contract
+      - pop_mun_ano_idade_sexo_contract
+      - covariaveis_mun_contract
+      - painel_uf_contract
+
+  - title: Index builders
+    desc: >
+      Geração dos índices auto-gerados em `decisions/README.md` e
+      `bibliography/README.md`, e do XLSX derivado da matriz de síntese.
+    contents:
+      - build_adr_index
+      - build_bibliography_index
+      - build_synthesis_matrix
