@@ -38,6 +38,13 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   'R_NamespaceRegistry' undeclared`. Correção: pinar `r-version:
   '4.5.3'` em ambos os workflows para casar com a versão registrada no
   `renv.lock`, alinhando CI com o ambiente local de desenvolvimento.
+  Causa raiz terciária: `setup-renv@v2` não instala system deps (o
+  `setup-r-dependencies` fazia isso via `pak::pkg_sysreqs`, mas é o
+  scanner do pak que justamente quebrou). `igraph` (dep transitiva de
+  pacotes do lockfile) precisa de `libglpk.so.40` (apt `libglpk40`).
+  Correção: passo `apt-get install -y libglpk40` adicionado antes do
+  restore em ambos os workflows. Se outros system deps aparecerem em
+  runs futuros, basta acrescentar nesse mesmo passo.
 
 ### Added (Sessão Code 015) — 2026-05-14
 
