@@ -16,6 +16,37 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 018) — 2026-05-14
+
+- `.pre-commit-config.yaml` na raiz: fecha o item Fase 0.1 do
+  `roadmap-v02.md` (status `[~]` desde sessão 001). Hooks configurados:
+  `style-files` (auto-fix tidyverse_style), `lintr` (com `cyclocomp`
+  como `additional_dependencies`), `parsable-R`, `no-browser-statement`,
+  `no-debug-statement`, mais higiene básica
+  (`trailing-whitespace`, `end-of-file-fixer`, `check-added-large-files`,
+  `check-yaml`, `check-merge-conflict`). Hooks R restritos a `^R/`
+  para espelhar o escopo do CI (`.github/workflows/R-CMD-check.yaml`)
+  e evitar falso-positivo `object_usage_linter` em `_targets.R`
+  (env isolada do pre-commit não tem `targets`/`tarchetypes`). Hooks
+  de whitespace excluem `manuscripts/`, `bibliography/`, `decisions/`,
+  `renv/`. Stage `pre-push` roda `testthat::test_dir`. `rev`
+  apontado para o dev tag `v0.4.3.9021` de `lorenzwalthert/precommit`
+  porque a estável `v0.4.3` pinou `digest 0.6.36`, incompatível com
+  R 4.5 + Rtools45 (mesma classe de falha do S7 em CI na sessão 016).
+- Pacote R `precommit 0.4.3` adicionado ao `renv.lock` via
+  `renv::record()`. Não é dep de runtime do pipeline — quem executa os
+  hooks é o binário Python `pre-commit` — mas fica registrado para que
+  `precommit::use_precommit()` esteja disponível em re-bootstraps.
+- `CLAUDE.md` §4: instruções de bootstrap do hook
+  (`uv tool install pre-commit && pre-commit install`), nota explícita
+  de que CI continua sendo a fonte autoritativa, e documentação das
+  decisões não-óbvias (rev dev, escopo `^R/`, cyclocomp).
+
+### Changed (Sessão Code 018) — 2026-05-14
+
+- `roadmap-v02.md` §0.1: checkbox `[~]` → `[x]`. Nota da sessão 018
+  registrando a conclusão e o caminho técnico adotado.
+
 ### Fixed (Sessão Code 017) — 2026-05-14
 
 - `R/build_bibliography_index.R`: indexer agora reconhece a categoria
