@@ -35,22 +35,38 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
   `NAMESPACE` — todos regeneráveis a partir das docstrings roxygen em
   `R/` (`docs/` via `pkgdown::build_site()`, `man/` + `NAMESPACE` via
   `roxygen2::roxygenise(".")`). Build local-only nesta sessão.
-- Pacotes R `pkgdown 2.2.0` e `roxygen2 8.0.0` (+ 31 deps transitivas
-  novas — `downlit`, `fansi`, `ragg`, `systemfonts`, `textshaping`,
-  `whisker`, `brew`, `commonmark`, `desc`, `knitr`, `xfun`, `highr`,
-  `evaluate`, `callr`, `pkgload`, `pkgbuild`, `processx`, `ps`,
-  `rprojroot`, `withr`, `xml2`, `cpp11`, `stringi`, `tinytex`,
-  `rmarkdown`, `httr2`, `curl`, `askpass`, `openssl`, `sys`,
-  `magrittr`, mais updates de `purrr`, `glue`, `fs`, `cli`, `lifecycle`,
-  `rlang`, `R6`, `yaml`) adicionados ao `renv.lock` via
-  `renv::record()`. Não são deps runtime do pipeline — mesma política
-  de `precommit` nas sessões 018/019.
+- Pacotes R `pkgdown 2.2.0` e `roxygen2 8.0.0` adicionados ao
+  `renv.lock` via `renv::record(c("pkgdown@2.2.0", "roxygen2@8.0.0"))`.
+  Não são deps runtime do pipeline — mesma política do `precommit`
+  nas sessões 018/019. Deps transitivas (downlit, fansi, ragg,
+  systemfonts, textshaping, whisker, brew, commonmark, desc, knitr,
+  xfun, highr, evaluate, callr, pkgload, pkgbuild, processx, ps,
+  rprojroot, withr, xml2, cpp11, stringi, tinytex, rmarkdown, httr2,
+  curl, askpass, openssl, sys, magrittr) ficam **fora** do lockfile —
+  instaladas localmente via renv cache no momento do build. (Tentativa
+  inicial em de6d9c8 chamou `renv::record` com toda a árvore de deps e
+  bumpou openssl 2.3.5 → 2.4.1, que não está disponível em
+  packagemanager.posit.co Linux noble; CI quebrou em ambos os jobs.
+  Fix em eb54d12 restaurou o lockfile da sessão 019 e adicionou apenas
+  as 2 entradas estritamente novas.)
 - `CLAUDE.md` §3: bloco de comandos frequentes inclui o trio
   `roxygen2::roxygenise(".")` → `pkgload::load_all(".")` →
   `pkgdown::build_site(...)` para regenerar o site local.
 - `README.md`: seção "Documentação das funções utilitárias" com o
   comando de build local e nota explícita de que deploy a GitHub
   Pages é decisão futura.
+
+### Fixed (Sessão Code 020) — 2026-05-14
+
+- `renv.lock`: removidas 31 deps transitivas que `renv::record` em
+  de6d9c8 havia bumpado por engano. O bump quebrou ambos os workflows
+  de CI (R-CMD-check e targets-check em runs 25885269021/018) com erro
+  `failed to retrieve package 'openssl@2.4.1'` em
+  `r-lib/actions/setup-renv@v2` — openssl 2.4.1 não está em
+  packagemanager.posit.co Linux noble. Commit eb54d12 restaura
+  renv.lock para o estado da sessão 019 (5ff4cbd) e adiciona apenas
+  `pkgdown@2.2.0` e `roxygen2@8.0.0` como entradas novas. CI volta
+  verde em runs 25885507383/396 (1m36s + 1m40s).
 
 ### Changed (Sessão Code 020) — 2026-05-14
 
