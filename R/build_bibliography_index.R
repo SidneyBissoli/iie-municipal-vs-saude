@@ -72,6 +72,7 @@ build_bibliography_index <- function(
 #' Collect lowercase `<author><year>` prefixes from `md-resumos/` filenames.
 #' Filenames follow `<Author[ETAL]>_<YYYY>_<slug>.md`. Returns `character(0)`
 #' if the folder is missing. Skips template and README files.
+#' @noRd
 collect_md_resumo_prefixes <- function(md_resumos_dir) {
   if (!dir.exists(md_resumos_dir)) {
     return(character())
@@ -89,6 +90,7 @@ collect_md_resumo_prefixes <- function(md_resumos_dir) {
 }
 
 #' Whether a citation key matches any md-resumo prefix collected above.
+#' @noRd
 key_has_md_resumo <- function(key, prefixes) {
   if (length(prefixes) == 0L) {
     return(FALSE)
@@ -98,6 +100,7 @@ key_has_md_resumo <- function(key, prefixes) {
 
 #' Parse a (subset of) BibTeX into a list of `{key, type, title}` records.
 #' Tolerant of comments at the top of the file.
+#' @noRd
 parse_bib_entries <- function(path) {
   txt <- paste(readLines(path, warn = FALSE), collapse = "\n")
   txt <- gsub("(?m)^%.*$", "", txt, perl = TRUE)
@@ -129,6 +132,7 @@ parse_bib_entries <- function(path) {
 
 #' Extract a BibTeX field value for a given citation key. Naive: looks for
 #' the next `field = {...}` block following the key in the source text.
+#' @noRd
 extract_field <- function(txt, key, field) {
   pat <- sprintf(
     "@\\w+\\s*\\{\\s*%s,[\\s\\S]*?%s\\s*=\\s*[\\{\"]([^\\}\"]+)[\\}\"]",
@@ -141,6 +145,7 @@ extract_field <- function(txt, key, field) {
 
 #' Parse the `| key | ... | status | ... |` table in reading-list.md into a
 #' named list keyed by citation key. Tolerant of empty tables.
+#' @noRd
 parse_reading_list <- function(path) {
   if (!file.exists(path)) {
     return(list())
@@ -167,6 +172,7 @@ parse_reading_list <- function(path) {
   out
 }
 
+#' @noRd
 truncate_str <- function(x, n) {
   if (is.null(x) || !nzchar(x)) {
     return("?")
