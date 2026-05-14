@@ -32,20 +32,20 @@ build_session_manifest <- function(session_id,
   records <- lapply(artifacts, function(p) build_artifact_record(p, contracts))
 
   manifest <- list(
-    session_id          = session_id,
-    timestamp           = format(
+    session_id = session_id,
+    timestamp = format(
       Sys.time(),
       format = "%Y-%m-%dT%H:%M:%S%z",
       tz = "UTC"
     ),
-    commit_sha          = git_head_sha(),
+    commit_sha = git_head_sha(),
     renv_lockfile_sha256 = if (file.exists("renv.lock")) {
       sha256_file("renv.lock")
     } else {
       NA_character_
     },
-    r_version           = R.version.string,
-    artifacts           = records
+    r_version = R.version.string,
+    artifacts = records
   )
 
   out_path <- file.path(
@@ -96,23 +96,30 @@ build_artifact_record <- function(path, contracts) {
 #' return `n/a` (no contract applicable).
 run_contract_status <- function(path, contract) {
   ext <- tolower(tools::file_ext(path))
-  df <- tryCatch({
-    if (ext == "parquet") {
-      arrow::read_parquet(path)
-    } else if (ext == "csv") {
-      readr::read_csv(path, show_col_types = FALSE)
-    } else {
-      return("n/a")
-    }
-  }, error = function(e) e)
+  df <- tryCatch(
+    {
+      if (ext == "parquet") {
+        arrow::read_parquet(path)
+      } else if (ext == "csv") {
+        readr::read_csv(path, show_col_types = FALSE)
+      } else {
+        return("n/a")
+      }
+    },
+    error = function(e) e
+  )
 
-  if (inherits(df, "error")) return("warn")
+  if (inherits(df, "error")) {
+    return("warn")
+  }
 
   agent <- tryCatch(
     pointblank::interrogate(contract(df)),
     error = function(e) e
   )
-  if (inherits(agent, "error")) return("fail")
+  if (inherits(agent, "error")) {
+    return("fail")
+  }
   if (pointblank::all_passed(agent)) "pass" else "fail"
 }
 

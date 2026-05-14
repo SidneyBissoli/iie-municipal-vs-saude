@@ -49,14 +49,14 @@ verify_last_session_manifest <- function(manifest_dir = ".claude",
   status <- if (any_fail || !commit_match) "fail" else "pass"
 
   report <- list(
-    status        = status,
+    status = status,
     manifest_path = latest,
-    session_id    = manifest$session_id,
-    timestamp     = manifest$timestamp,
+    session_id = manifest$session_id,
+    timestamp = manifest$timestamp,
     commit_recorded = manifest$commit_sha,
-    commit_current  = current_sha,
-    commit_match    = commit_match,
-    details         = details
+    commit_current = current_sha,
+    commit_match = commit_match,
+    details = details
   )
 
   if (strict && status != "pass") {
@@ -105,28 +105,35 @@ verify_one <- function(record, contracts) {
     expected = record$sha256,
     actual = actual,
     contract_status_recorded = record$pointblank_status,
-    contract_status_now      = contract_status
+    contract_status_now = contract_status
   )
 }
 
 rerun_contract <- function(path, contract) {
   ext <- tolower(tools::file_ext(path))
-  df <- tryCatch({
-    if (ext == "parquet") {
-      arrow::read_parquet(path)
-    } else if (ext == "csv") {
-      readr::read_csv(path, show_col_types = FALSE)
-    } else {
-      return("n/a")
-    }
-  }, error = function(e) e)
-  if (inherits(df, "error")) return("warn")
+  df <- tryCatch(
+    {
+      if (ext == "parquet") {
+        arrow::read_parquet(path)
+      } else if (ext == "csv") {
+        readr::read_csv(path, show_col_types = FALSE)
+      } else {
+        return("n/a")
+      }
+    },
+    error = function(e) e
+  )
+  if (inherits(df, "error")) {
+    return("warn")
+  }
 
   agent <- tryCatch(
     pointblank::interrogate(contract(df)),
     error = function(e) e
   )
-  if (inherits(agent, "error")) return("fail")
+  if (inherits(agent, "error")) {
+    return("fail")
+  }
   if (pointblank::all_passed(agent)) "pass" else "fail"
 }
 
@@ -150,7 +157,7 @@ format_failure_report <- function(report) {
     sprintf(
       "Commit mismatch: manifest=%s, current=%s.",
       report$commit_recorded %||% "<NA>",
-      report$commit_current  %||% "<NA>"
+      report$commit_current %||% "<NA>"
     )
   } else {
     ""

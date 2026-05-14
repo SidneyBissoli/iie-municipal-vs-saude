@@ -15,15 +15,15 @@
 #' @param readme    Path to the README to update.
 #' @return (Invisibly) the parsed entries data frame.
 build_bibliography_index <- function(
-  bib_dir   = "bibliography",
-  bib_path  = file.path(bib_dir, "references.bib"),
+  bib_dir = "bibliography",
+  bib_path = file.path(bib_dir, "references.bib"),
   list_path = file.path(bib_dir, "reading-list.md"),
   notes_dir = file.path(bib_dir, "notes"),
-  readme    = file.path(bib_dir, "README.md")
+  readme = file.path(bib_dir, "README.md")
 ) {
   stopifnot(file.exists(bib_path), file.exists(readme))
 
-  entries  <- parse_bib_entries(bib_path)
+  entries <- parse_bib_entries(bib_path)
   metadata <- parse_reading_list(list_path)
 
   if (length(entries) == 0L) {
@@ -36,7 +36,7 @@ build_bibliography_index <- function(
     rows <- vapply(entries, function(e) {
       meta <- metadata[[e$key]] %||% list(status = "?", role = "?")
       note_path <- file.path(notes_dir, paste0(e$key, ".md"))
-      has_note  <- if (file.exists(note_path)) "✓" else "—"
+      has_note <- if (file.exists(note_path)) "✓" else "—"
       sprintf(
         "| `%s` | %s | %s | %s | %s |",
         e$key,
@@ -110,7 +110,7 @@ parse_reading_list <- function(path) {
     return(list())
   }
   lines <- readLines(path, warn = FALSE)
-  rows  <- lines[grepl("^\\|", lines) & !grepl("^\\|[-\\s|:]+\\|$", lines)]
+  rows <- lines[grepl("^\\|", lines) & !grepl("^\\|[-\\s|:]+\\|$", lines)]
   if (length(rows) <= 1L) {
     return(list())
   }
@@ -125,7 +125,7 @@ parse_reading_list <- function(path) {
     out[[key]] <- list(
       title = cells[[2]],
       status = cells[[3]],
-      role   = cells[[4]]
+      role = cells[[4]]
     )
   }
   out
