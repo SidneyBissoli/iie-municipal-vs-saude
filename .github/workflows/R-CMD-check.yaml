@@ -22,6 +22,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      RENV_CONFIG_REPOS_OVERRIDE: https://packagemanager.posit.co/cran/__linux__/noble/latest
 
     steps:
       - uses: actions/checkout@v4
@@ -31,14 +32,10 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: |
-            any::lintr
-            any::styler
-            any::testthat
-            any::pointblank
-          needs: check
+      - uses: r-lib/actions/setup-renv@v2
+
+      - name: Install dev-only tools (not in renv.lock)
+        run: Rscript -e 'install.packages(c("lintr", "styler"))'
 
       - name: Lint R/
         run: Rscript -e 'lintr::lint_dir("R")'
