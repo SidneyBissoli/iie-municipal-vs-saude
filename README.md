@@ -47,6 +47,18 @@ renv::restore()
 targets::tar_make()
 ```
 
+## Documentação das funções utilitárias
+
+Build local com `pkgdown` (saída em `docs/`, ignorada pelo git):
+
+```r
+roxygen2::roxygenise(".")
+pkgload::load_all(".")
+pkgdown::build_site(new_process = FALSE, install = FALSE, lazy = TRUE, devel = TRUE)
+```
+
+Abrir `docs/index.html` no navegador. Deploy a GitHub Pages é decisão futura.
+
 ## Dados
 
 Pastas `data-raw/` e `data/` **não são versionadas**:
