@@ -6,9 +6,11 @@ ser lido **antes** de qualquer ação em uma sessão Code. Atualizar sempre que
 estrutura ou convenções mudarem (commit `docs(claude): ...`).
 
 **Hierarquia de fontes** (documentada em `GOVERNANCE.md`):
-`manuscripts/proposta-de-pesquisa.md` (científica) → ADRs/REVs em `decisions/`
-(decisões metodológicas) → `roadmap-vNN.md` (operacional) → este CLAUDE.md
-(convenções de código). Em conflito, sobe na hierarquia.
+`manuscripts/proposta-de-pesquisa-vNN.md` (científica; o sufixo `-vNN`
+preserva histórico de submissões — versões anteriores nunca são
+sobrescritas) → ADRs/REVs em `decisions/` (decisões metodológicas) →
+`roadmap-vNN.md` vigente (operacional) → este CLAUDE.md (convenções de
+código). Em conflito, sobe na hierarquia.
 
 **Documentos auxiliares de referência obrigatória:**
 
@@ -34,8 +36,8 @@ imediatamente** e investigar — não tocar em nada novo até que a divergência
 esteja explicada (hash divergente, contrato `pointblank` quebrado, commit
 SHA fora de sincronia, etc.). Detalhes em §7 (Manifest de sessão).
 
-Ler também `roadmap-v01.md` (raiz) para escopo da sessão e `decisions/` para
-ADRs/REVs ativos relevantes.
+Ler também o `roadmap-vNN.md` vigente (mais alto `NN` na raiz) para escopo
+da sessão e `decisions/` para ADRs/REVs ativos relevantes.
 
 ---
 
@@ -75,9 +77,10 @@ português.
 ├── technical-note/       # PDF for policymakers
 ├── slides/               # executive presentation
 ├── decisions/            # ADRs (ADR-NNN-*.md) and REVs (REV-MNN.md)
-├── bibliography/         # references.bib + notes/<key>.md
+├── bibliography/         # references.bib + notes/<key>.md + research-notes/<slug>.md
 ├── tests/                # testthat + pointblank fixtures
 ├── outputs/              # final tables, figures, validation HTML
+├── assets/               # versioned derivatives (synthesis matrix CSV/XLSX, etc.)
 ├── .github/workflows/    # GitHub Actions CI
 ├── .claude/              # Claude Code session manifests + reports (LOCAL only)
 ├── _targets.R            # pipeline definition
@@ -86,7 +89,7 @@ português.
 ├── README.md             # project overview
 ├── LICENSE               # MIT
 ├── CITATION.cff          # citation metadata
-├── roadmap-v01.md        # current execution plan
+├── roadmap-vNN.md        # current execution plan (highest NN is canonical)
 ├── renv.lock             # R dependency snapshot
 ├── .lintr                # lint config
 ├── .gitignore
@@ -127,7 +130,16 @@ quarto::quarto_render("quarto/report-mes-1.qmd")
 # Build dos índices ADR/REV e bibliografia
 source("R/build_adr_index.R");          build_adr_index()
 source("R/build_bibliography_index.R"); build_bibliography_index()
+
+# Build do XLSX da matriz de síntese (a partir do CSV canônico em assets/)
+source("R/build_synthesis_matrix.R");   build_synthesis_matrix()
 ```
+
+**Persistência de derivados com contrato:** ao escrever um dataframe em
+`data/`, usar `write_with_contract(df, contract, path)` (em
+`R/write_with_contract.R`) em vez de `arrow::write_parquet()` direto. A
+função roda o contrato `pointblank` correspondente antes de gravar e
+aborta a pipeline em caso de falha — failures são bugs, não warnings.
 
 Da raiz do projeto (shell):
 
@@ -175,7 +187,16 @@ Convenção de estrutura, citation keys e divisão Zotero/repo em
 
 - `bibliography/references.bib` é export do BetterBibTeX. **Não editar à
   mão.**
-- Nome de arquivo de nota = citation key exata do `references.bib`.
+- `bibliography/notes/<citation-key>.md` — notas formais de leitura (uma
+  por artigo, identificada pela citation key exata do `references.bib`,
+  estrutura fixa do `_note-template.md`: quotes, crítica, conexões).
+- `bibliography/md-resumos/<AutorETAL_AAAA_slug>.md` — resumos
+  narrativos em português, formato livre, síntese conceitual. Categoria
+  distinta e complementar de `notes/`. Detalhes em `CONVENTIONS.md`.
+- `bibliography/research-notes/<topico>.md` — notas de pesquisa
+  (síntese investigativa que cruza ≥2 fontes; identificadas por slug
+  temático, não por citation key). Detalhes em
+  `bibliography/research-notes/README.md`.
 - PDFs no Zotero, não no repo.
 - Não inventar citation keys provisórias — toda chave vem do
   `references.bib`.
@@ -187,7 +208,9 @@ Convenção de estrutura, citation keys e divisão Zotero/repo em
 Cada sessão Code abre verificando o manifest da sessão anterior e fecha
 gerando o manifest da própria sessão. Isso ancora reprodutibilidade entre
 sessões: se algo foi corrompido entre uma sessão e outra (edição manual,
-restore ruim, falha no `renv`), a divergência aparece imediatamente.
+restore ruim, falha no `renv`), a divergência aparece imediatamente. O
+fluxo está em produção desde a sessão 001 — `.claude/` contém manifests
+reais de todas as sessões fechadas; este não é um modelo aspiracional.
 
 **Funções:**
 
