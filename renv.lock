@@ -3174,6 +3174,11 @@
       "Repository": "https://packagemanager.posit.co/cran/latest",
       "Encoding": "UTF-8"
     },
+    "precommit": {
+      "Package": "precommit",
+      "Version": "0.4.3",
+      "Source": "Repository"
+    },
     "prettyunits": {
       "Package": "prettyunits",
       "Version": "1.2.0",
