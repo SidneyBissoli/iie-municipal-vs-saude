@@ -124,7 +124,7 @@ Desktop (sessão longa frágil).
   `decisions/` e das notas de leitura em `bibliography/`, política de
   não-commit em `data-raw/` e `data/`. Atualizar sempre que estrutura ou
   convenções mudarem.
-- [~] **(P1)** Configurar `.lintr` e `styler` para padronização tidyverse;
+- [x] **(P1)** Configurar `.lintr` e `styler` para padronização tidyverse;
   commit hook via `precommit` package. *(sessão 001 — `.lintr` configurado
   e validado (0 lints em `R/`); `styler` instalado; precommit hook ainda
   pendente. **Sessão Code 011** — `cyclocomp` adicionado ao ambiente
@@ -137,7 +137,16 @@ Desktop (sessão longa frágil).
   diff completo registrado em `.claude/sessao-011.md` §10. Caminhos:
   (a) aplicar styler em sessão dedicada com commit
   `style: aplica tidyverse_style em R/`; (b) ajustar `.lintr` para
-  acomodar o estilo manual do projeto.)*
+  acomodar o estilo manual do projeto. **Sessão Code 018** — `styler`
+  `dry = "on"` em `R/` agora retorna `File unchanged` em todos os 7
+  arquivos (a divergência da sessão 011 já se resolveu em sessões
+  intermediárias). `.pre-commit-config.yaml` criado na raiz com hooks
+  de style-files, lintr (+cyclocomp), parsable-R, no-browser/debug,
+  higiene de whitespace, e testthat no stage pre-push; escopo dos
+  hooks R restrito a `^R/` para espelhar o CI. Pacote R `precommit`
+  v0.4.3 incluído no `renv.lock` para reproduzibilidade ergonômica;
+  binário Python `pre-commit` é o runtime que executa os hooks
+  (bootstrap documentado em `CLAUDE.md` §4). Item agora `[x]`.)*
 
 ### 0.2 Reprodutibilidade e CI/CD
 
