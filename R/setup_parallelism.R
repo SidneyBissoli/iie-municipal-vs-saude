@@ -65,6 +65,7 @@ resolve_parallelism_settings <- function(workers,
 }
 
 #' Resolve a single integer setting from the priority chain.
+#' @noRd
 resolve_one <- function(explicit, env_value, ci_value, ci_mode, default_fn) {
   if (!is.null(explicit)) {
     return(max(1L, as.integer(explicit)))
