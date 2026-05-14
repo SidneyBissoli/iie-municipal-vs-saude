@@ -133,6 +133,13 @@ source("R/build_bibliography_index.R"); build_bibliography_index()
 
 # Build do XLSX da matriz de síntese (a partir do CSV canônico em assets/)
 source("R/build_synthesis_matrix.R");   build_synthesis_matrix()
+
+# Build local da documentação navegável (pkgdown). Saída em docs/ (ignorada
+# pelo git; site é regenerável a partir de R/ + _pkgdown.yml). Pré-requisito:
+# atualizar man/ via roxygen2 sempre que docstrings em R/ mudarem.
+roxygen2::roxygenise(".")
+pkgload::load_all(".")
+pkgdown::build_site(new_process = FALSE, install = FALSE, lazy = TRUE, devel = TRUE)
 ```
 
 **Persistência de derivados com contrato:** ao escrever um dataframe em
