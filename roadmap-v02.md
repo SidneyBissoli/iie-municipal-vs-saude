@@ -204,9 +204,26 @@ Desktop (sessão longa frágil).
 - [x] **(P0)** Validar pacote `educabR` próprio (versão CRAN 0.9.1 declarada
   na proposta — confirmar disponibilidade pública ou usar versão dev local).
   *(sessão 001 — `educabR 0.9.1` carrega de CRAN.)*
-- [ ] **(P1)** Configurar paralelismo:
+- [x] **(P1)** Configurar paralelismo:
   `future::plan(multisession, workers = 16)` para `microdatasus`;
   `data.table::setDTthreads()` para operações de agregação.
+  *(sessão 019 — `R/setup_parallelism.R` adiciona
+  `setup_parallelism()` chamada no topo do `_targets.R` (após
+  `source_dir("R")`, antes de `tar_option_set()`). Default em máquina
+  dev: `future::plan(multisession, workers = min(16,
+  detectCores() - 2))` e `data.table::setDTthreads(detectCores() %/%
+  2)` — caps em 16 workers para não estrangular o host, e dt_threads a
+  50% das logical cores para evitar over-subscription quando os
+  workers `future` estiverem ativos. CI clamp para 2 workers via
+  `TARGETS_CI_SMOKE=true` (já presente em
+  `.github/workflows/targets-check.yaml`); override por
+  `IIE_PARALLEL_WORKERS` e `IIE_DT_THREADS` para Docker/HPC. Helper
+  puro `resolve_parallelism_settings()` extraído para testabilidade —
+  9 testes em `tests/testthat/test-setup_parallelism.R` cobrem
+  defaults, CI clamp, env vars e prioridade de overrides. Pacote
+  `future 1.70.0` (+ deps `globals`, `listenv`, `parallelly`)
+  adicionado ao `renv.lock`. Decisão sobre dt_threads documentada em
+  `CLAUDE.md` §10.)*
 - [x] **(P2)** Smoke test de INLA com modelo BYM em subset (1 UF) para
   detectar problemas de instalação cedo. *(sessão 001 — INLA 25.10.19,
   BYM em grade 5×5 ajustado em 0.9s no Windows.)*
