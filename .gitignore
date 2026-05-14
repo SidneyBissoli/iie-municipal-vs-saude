@@ -68,3 +68,11 @@ assets/*.xlsx
 # may be staged in bibliography/pdfs-leitura/ for systematic reading sessions.
 bibliography/pdfs-leitura/
 .positai
+
+# --- Manuscript render artifacts ---
+# .md and .docx and .pdf são fontes/derivados versionados (GOVERNANCE: cada
+# vNN preserva histórico). Demais formatos (HTML, TeX, TXT) são intermediários
+# regeneráveis a partir do .md via R Markdown / Quarto / pandoc.
+manuscripts/*.html
+manuscripts/*.tex
+manuscripts/*.txt
