@@ -1,3 +1,9 @@
+---
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
 **EDITAL Nº 01/2026 — PESQUISA APLICADA**
 
 **Inclusão Educacional como Determinante Intersetorial da Saúde de Jovens
@@ -185,37 +191,36 @@ cobertura da APS?
 A estratégia combina três desenhos complementares com pesos analíticos
 distintos.
 
-**Desenho A — Análise principal: ecológica municipal (cross-section).** Para
-cada município m e desfecho Y, estima-se modelo de regressão de contagem com
-offset populacional:
+**Desenho A — Análise principal: ecológica municipal (cross-section).** Para 
+cada município m e desfecho Y, estima-se modelo de regressão de contagem com 
+offset populacional:<br>
+<br>
+<center>! log E[Y_m] = α + β · IIEM_m + X'_m γ + log(N_m^{20-29}) <br> </center>
+<br>
+onde IIEM_m é a exposição contínua (e, em especificação alternativa, indicadores 
+de quintil); X_m é o vetor de controles municipais; N_m é o denominador 
+populacional. Estimação por Poisson e binomial negativa (com testes formais de 
+sobre-dispersão); inferência por erros-padrão robustos clusterizados por 
+microrregião (Cameron et al., 2008). A especificação ANCOVA inclui a taxa do 
+mesmo desfecho na mesma faixa etária no período 2010–2014, capturando 
+heterogeneidade municipal estável e atenuando o confundimento ecológico residual. 
+Análise principal restrita a municípios com população \>20 mil habitantes 
+(≈1.700 municípios), seguindo Melo et al. (2017); análise de sensibilidade 
+inclui todos os 5.570 municípios com suavização espacial bayesiana via modelo 
+BYM, implementado em INLA (Blangiardo et al., 2013).
 
-log E\[Y_m\] = α + β · IIEM_m + X’\_m γ + log(N_m^{20-29})
-
-onde IIEM_m é a exposição contínua (e, em especificação alternativa, indicadores
-de quintil); X_m é o vetor de controles municipais; N_m é o denominador
-populacional. Estimação por Poisson e binomial negativa (com testes formais de
-sobre-dispersão); inferência por erros-padrão robustos clusterizados por
-microrregião (Cameron et al., 2008). A especificação ANCOVA inclui a taxa do
-mesmo desfecho na mesma faixa etária no período 2010–2014, capturando
-heterogeneidade municipal estável e atenuando o confundimento ecológico
-residual. Análise principal restrita a municípios com população \>20 mil
-habitantes (≈1.700 municípios), seguindo Melo et al. (2017); análise de
-sensibilidade inclui todos os 5.570 municípios com suavização espacial bayesiana
-via modelo BYM, implementado em INLA (Blangiardo et al., 2013).
-
-**Desenho B — Validação: painel estadual com efeitos fixos two-way.** Para UF u
-e coorte do IIE c ∈ {2013, 2015, 2017, 2019}:
-
-log E\[Y\_{u, c+5}\] = β · IIE\_{u,c} + α_u + γ_c + X’\_{u,c+5} δ +
-log(N^{20-29}\_{u,c+5})
-
-onde α_u absorve toda heterogeneidade fixa de UF (perfil cultural,
-infraestrutura hospitalar média, política estadual estável) e γ_c absorve
-choques temporais comuns. A identificação se dá por variação intra-UF entre
-coortes — interpretável como “variação plausivelmente exógena” na qualidade
-educacional ao longo do tempo, capturada por choques agregados (FUNDEB,
-pandemia, políticas estaduais). Erros padrão clusterizados por UF; com 27
-clusters, a inferência principal é validada por wild bootstrap (Cameron et al.,
+**Desenho B — Validação: painel estadual com efeitos fixos two-way.** Para UF u 
+e coorte do IIE c ∈ {2013, 2015, 2017, 2019}:<br>
+<br>
+<center>! log E[Y_{u, c+5}] = β · IIE_{u,c} + α_u + γ_c + X'_{u,c+5} δ + log(N^{20-29}_{u,c+5}) <br> </center>
+<br>
+onde α_u absorve toda heterogeneidade fixa de UF (perfil cultural, 
+infraestrutura hospitalar média, política estadual estável) e γ_c absorve 
+choques temporais comuns. A identificação se dá por variação intra-UF entre 
+coortes — interpretável como “variação plausivelmente exógena” na qualidade 
+educacional ao longo do tempo, capturada por choques agregados (FUNDEB, 
+pandemia, políticas estaduais). Erros padrão clusterizados por UF; com 27 
+clusters, a inferência principal é validada por wild bootstrap (Cameron et al., 
 2008) e por wild cluster bootstrap-t (MacKinnon et al., 2023).
 
 A literatura econométrica do último quinquênio documentou vieses do estimador
@@ -357,7 +362,7 @@ https://bvsms.saude.gov.br/bvs/saudelegis/sas/2008/prt0221_17_04_2008.html
 
 Callaway, B., Goodman-Bacon, A., & Sant’Anna, P. H. (2024).
 *Difference-in-differences with a continuous treatment* (NBER Working Paper
-No. 32117). National Bureau of Economic Research. https://doi.org/10.3386/w32117
+No. 32117). National Bureau of Economic Research. https://doi.org/10.3386/w32117
 
 Callaway, B., & Sant’Anna, P. H. C. (2021). Difference-in-differences with
 multiple time periods. *Journal of Econometrics*, *225*(2), 200–230.
@@ -377,7 +382,7 @@ estimators with heterogeneous treatment effects. *American Economic Review*,
 
 de Chaisemartin, C., D’Haultfœuille, X., Pasquier, F., Sow, D., & Vazquez-Bare,
 G. (2025). *Difference-in-differences for continuous treatments and instruments
-with stayers* \[Manuscrito de trabalho\].
+with stayers* [Manuscrito de trabalho].
 
 Fernandes, R., de Felicio, F., Galvão, M. C., & Ravaioli, P. F. (2024). *Relação
 entre o Índice de Inclusão Educacional IIE e alguns indicadores socioeconômicos
@@ -449,7 +454,7 @@ https://github.com/lupa-social/iie-indice-de-inclusao-educacional/blob/main/estu
 
 Pereira, R. H. M., Gonçalves, C. N., Araujo, P. H. F. de, Carvalho, G. D.,
 Nascimento, I., & Arruda, R. A. de. (2019). *geobr: Loads shapefiles of official
-spatial data sets of Brazil* \[R package\]. CRAN.
+spatial data sets of Brazil* [R package]. CRAN.
 https://CRAN.R-project.org/package=geobr
 
 Pinto Junior, E. P., Aquino, R., Medina, M. G., & Silva, M. G. C. (2018). Efeito
