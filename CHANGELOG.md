@@ -16,6 +16,68 @@ Categorias padrão: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`,
 
 ## [Unreleased]
 
+### Added (Sessão Code 020) — 2026-05-14
+
+- `DESCRIPTION` pseudo-package na raiz (Package
+  `iie.municipal.vs.saude`, Version 0.0.0.9000, License MIT, Roxygen
+  `list(markdown = TRUE)`, sem `Type:` e sem `Package` instalável):
+  fecha o item Fase 0.2 do `roadmap-v02.md` (status `[ ] (P2)` desde
+  sessão 001). Atende ao requisito mínimo do `pkgdown` sem converter
+  o repositório em pacote R formal.
+- `_pkgdown.yml` na raiz: template com `home`, `navbar` (Home,
+  Reference, GitHub), Bootstrap 5, e `reference` agrupando as 14
+  funções públicas em quatro seções temáticas ("Pipeline setup",
+  "Session manifests", "Data contracts", "Index builders"). Sem `url:`
+  — deploy a GitHub Pages é decisão futura `[CD]` (decisão 3 do
+  briefing). `pkgdown::check_pkgdown()` reporta o aviso esperado de
+  url ausente; `pkgdown::build_site()` em si passa sem warnings.
+- `.gitignore`: bloco "pkgdown documentation" ignora `docs/`, `man/` e
+  `NAMESPACE` — todos regeneráveis a partir das docstrings roxygen em
+  `R/` (`docs/` via `pkgdown::build_site()`, `man/` + `NAMESPACE` via
+  `roxygen2::roxygenise(".")`). Build local-only nesta sessão.
+- Pacotes R `pkgdown 2.2.0` e `roxygen2 8.0.0` (+ 31 deps transitivas
+  novas — `downlit`, `fansi`, `ragg`, `systemfonts`, `textshaping`,
+  `whisker`, `brew`, `commonmark`, `desc`, `knitr`, `xfun`, `highr`,
+  `evaluate`, `callr`, `pkgload`, `pkgbuild`, `processx`, `ps`,
+  `rprojroot`, `withr`, `xml2`, `cpp11`, `stringi`, `tinytex`,
+  `rmarkdown`, `httr2`, `curl`, `askpass`, `openssl`, `sys`,
+  `magrittr`, mais updates de `purrr`, `glue`, `fs`, `cli`, `lifecycle`,
+  `rlang`, `R6`, `yaml`) adicionados ao `renv.lock` via
+  `renv::record()`. Não são deps runtime do pipeline — mesma política
+  de `precommit` nas sessões 018/019.
+- `CLAUDE.md` §3: bloco de comandos frequentes inclui o trio
+  `roxygen2::roxygenise(".")` → `pkgload::load_all(".")` →
+  `pkgdown::build_site(...)` para regenerar o site local.
+- `README.md`: seção "Documentação das funções utilitárias" com o
+  comando de build local e nota explícita de que deploy a GitHub
+  Pages é decisão futura.
+
+### Changed (Sessão Code 020) — 2026-05-14
+
+- `R/build_session_manifest.R`, `R/verify_session_manifest.R`,
+  `R/build_adr_index.R`, `R/build_bibliography_index.R`,
+  `R/setup_parallelism.R`: helpers internos marcados como `@noRd`
+  para sair do índice público do `pkgdown`. Total de 17 helpers
+  marcados (ver lista em decisão 2 do briefing). Funções públicas
+  remanescentes: `setup_parallelism`, `resolve_parallelism_settings`,
+  `build_session_manifest`, `verify_last_session_manifest`,
+  `write_with_contract`, `build_adr_index`,
+  `build_bibliography_index`, `build_synthesis_matrix` + os 6
+  `*_contract` em `contracts.R` (futuras interfaces dos targets de
+  Fase 1).
+- `R/contracts.R`: roxygen docstrings das 6 funções `*_contract`
+  agora incluem `@param df` e `@return` (necessários para
+  `pkgdown` renderizar sem warning de parâmetro não documentado).
+  Intervalos `[X, Y]` em descrições de schema agora aparecem como
+  `` `[X, Y]` `` (entre backticks) para evitar falso-positivo de
+  parse de link markdown pelo roxygen2.
+- `R/write_with_contract.R`: removidos os `@importFrom` (apenas
+  documentação — runtime já usa `pkg::fn()`). Sem `@importFrom`, o
+  `NAMESPACE` gerado pelo roxygen2 fica vazio e é ignorado pelo
+  `.gitignore` (decisão 1 do briefing: pseudo-package sem `NAMESPACE`).
+- `roadmap-v02.md` §0.2: checkbox `[ ]` → `[x]` no item de `pkgdown`.
+  Nota da sessão 020 com as decisões 1–5 do briefing inline.
+
 ### Added (Sessão Code 019) — 2026-05-14
 
 - `R/setup_parallelism.R` (+ 9 testes em
