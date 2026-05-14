@@ -198,7 +198,7 @@ populacional. Estimação por Poisson e binomial negativa (com testes formais de
 sobre-dispersão); inferência por erros-padrão robustos clusterizados por 
 microrregião (Cameron et al., 2008). A especificação ANCOVA inclui a taxa do 
 mesmo desfecho na mesma faixa etária no período 2010–2014, capturando 
-heterogeneidade municipal estável e atenuando o confounding ecológico residual. 
+heterogeneidade municipal estável e atenuando o confundimento ecológico residual. 
 Análise principal restrita a municípios com população \>20 mil habitantes 
 (≈1.700 municípios), seguindo Melo et al. (2017); análise de sensibilidade 
 inclui todos os 5.570 municípios com suavização espacial bayesiana via modelo 
@@ -211,8 +211,8 @@ log E\[Y\_{u, c+5}\] = β · IIE\_{u,c} + α_u + γ_c + X'\_{u,c+5} δ + log(N^{
 
 onde α_u absorve toda heterogeneidade fixa de UF (perfil cultural, 
 infraestrutura hospitalar média, política estadual estável) e γ_c absorve 
-choques temporais comuns. A identificação se dá por variação within-UF entre 
-coortes — interpretável como “variação plausibelmente exógena” na qualidade 
+choques temporais comuns. A identificação se dá por variação intra-UF entre 
+coortes — interpretável como “variação plausivelmente exógena” na qualidade 
 educacional ao longo do tempo, capturada por choques agregados (FUNDEB, 
 pandemia, políticas estaduais). Erros padrão clusterizados por UF; com 27 
 clusters, a inferência principal é validada por wild bootstrap (Cameron et al., 
@@ -242,8 +242,8 @@ condições especificadas em Wooldridge (2025), ao TWFE com indicadores de coort
 e interações com covariáveis tempo-variantes — implementada via Poisson de 
 pseudo-máxima verossimilhança com efeitos fixos, mediante inclusão manual de 
 médias intra-UF e intra-coorte do IIE como controles. A regressão Mundlak 
-estendida é reportada como sensibilidade central na §4.3, na mesma tabela do 
-TWFE Poisson principal.
+estendida é reportada como sensibilidade central nas análises de robustez, na 
+mesma tabela do TWFE Poisson principal.
 
 O Desenho B se posiciona deliberadamente na interseção de duas tradições 
 convergentes. De um lado, a epidemiologia brasileira aplicada estabeleceu o 
@@ -251,16 +251,16 @@ uso de painéis municipais e estaduais com TWFE clássico em modelos de
 contagem como linha de base empírica para a relação entre serviços de 
 saúde, condições socioeconômicas e mortalidade ou hospitalização (Hone et 
 al., 2017, 2019; Pinto Junior et al., 2018; Ferreira-Batista et al., 2022, 
-2023). De outro, a econometria DiD pós-2020 documentou vieses do TWFE 
-clássico sob heterogeneidade temporal de efeitos e propôs estimadores 
-robustos (Goin & Riddell, 2023; Riddell & Goin, 2023; Wooldridge, 2025). 
-Estudos prévios que utilizaram o IIE estadual em painel UF (Fernandes et 
-al., 2024) empregaram TWFE/EA tradicional sem incorporar tais avanços; 
-este projeto avança a estratégia de identificação preservando a 
+2023). De outro, a econometria de diferenças em diferenças pós-2020 
+documentou vieses do TWFE clássico sob heterogeneidade temporal de efeitos e 
+propôs estimadores robustos (Goin & Riddell, 2023; Riddell & Goin, 2023; 
+Wooldridge, 2025). Estudos prévios que utilizaram o IIE estadual em painel UF 
+(Fernandes et al., 2024) empregaram TWFE/EA tradicional sem incorporar tais 
+avanços; este projeto avança a estratégia de identificação preservando a 
 comparabilidade com a tradição epidemiológica aplicada (TWFE Poisson como 
 baseline) e adicionando a camada adicional de robustez da regressão Mundlak 
-estendida (sensibilidade central na §4.3), sem trocar de paradigma 
-estimativo.
+estendida (sensibilidade central nas análises de robustez), sem trocar de 
+paradigma estimativo.
 
 **Desenho C — Heterogeneidade.** Interações IIEM × cobertura ESF (teste H3); 
 IIEM × porte municipal (cinco estratos populacionais); IIEM × macrorregião; IIEM 
@@ -275,14 +275,14 @@ por microrregião, ambas implementadas via INLA.
 - Exclusão dos anos 2020 e 2021 da análise principal, dada a perturbação dos 
 sistemas SIM e SIH durante a pandemia de COVID-19.
 
-- Coarsened Exact Matching (Iacus, King & Porro, 2012) entre municípios em 
+- Pareamento exato aproximado (Iacus, King & Porro, 2012) entre municípios em 
 quintis extremos do IIEM, balanceados em porte, macrorregião, IDHM e cobertura 
 ESF.
 
 - Reescalonamento da exposição em logit-IIE para teste de não-linearidade; 
 especificação alternativa por quintis.
 
-- Análise de E-value (VanderWeele & Ding, 2017) para confounding não-observado 
+- Análise de E-value (VanderWeele & Ding, 2017) para confundimento não-observado 
 nas estimativas principais.
 
 - **ETWFE/Mundlak (sensibilidade central do Desenho B):** estimação 
@@ -294,32 +294,30 @@ pseudo-máxima verossimilhança com efeitos fixos. Reportada
 quantitativamente na mesma tabela do TWFE Poisson principal do Desenho B 
 (§4.2).
 
-- **Não-ICSAP no Desenho A como negative control outcome:** estimação do 
+- **Não-ICSAP no Desenho A como desfecho-controle negativo:** estimação do 
 efeito do IIEM sobre internações *não* sensíveis à atenção primária na 
-faixa 20–29 anos, pelo mesmo modelo Poisson com offset do Desenho A. 
-Lógica de outcome control (Lipsitch et al., 2010): se o IIEM realmente 
-afeta desfechos sensíveis à APS, o efeito sobre Não-ICSAP deve ser nulo 
-ou substantivamente menor que o estimado para ICSAP — pois um confundidor 
-residual genérico, não associado especificamente à atenção primária, 
-afetaria ambos os desfechos comparavelmente. Ausência de efeito sobre Não-ICSAP 
-é interpretada como consistente com — não prova de — ausência de confundimento 
-residual genérico. Restrita ao Desenho A; reportada em apêndice (1–2 páginas).
+faixa 20–29 anos, pelo mesmo modelo Poisson com termo de exposição 
+populacional do Desenho A. Lógica de controle negativo de desfecho 
+(Lipsitch et al., 2010): se o IIEM realmente afeta desfechos sensíveis à APS, 
+o efeito sobre Não-ICSAP deve ser nulo ou substantivamente menor que o 
+estimado para ICSAP — pois um confundidor residual genérico, não associado 
+especificamente à atenção primária, afetaria ambos os desfechos comparavelmente. 
+Ausência de efeito sobre Não-ICSAP é interpretada como consistente com — não 
+prova de — ausência de confundimento residual genérico. Restrita ao Desenho A; 
+reportada em apêndice (1–2 páginas).
 
 - **Exclusão da coorte 2019 do Desenho B:** re-estimação do painel UF no 
-subconjunto coorte ∈ {2013, 2015, 2017} (n = 81 observações), conforme 
-ADR-005. Motivada pela camada adicional de imputação 2017→2019 carregada 
-apenas pela coorte 2019, decorrente da supressão de idade no SAEB 2019 
-(Fernandes, Felicio & Saad, 2025). Sensibilidade central, não marginal: 
-testa se conclusões qualitativas dependem da única coorte que carrega 
-essa camada adicional de imputação.
+subconjunto coorte ∈ {2013, 2015, 2017} (n = 81 observações). Motivada pela 
+camada adicional de imputação 2017→2019 carregada apenas pela coorte 2019, 
+decorrente da supressão de idade no SAEB 2019 (Fernandes, Felicio & Saad, 2025). 
+Sensibilidade central, não marginal: testa se conclusões qualitativas dependem 
+da única coorte que carrega essa camada adicional de imputação.
 
 - **S1 — painel UF restrito (Desenho B):** re-estimação do Desenho B 
 excluindo as observações com desfecho em 2020 e 2021, dada a perturbação 
 agregada da pandemia de COVID-19 sobre os sistemas SIM e SIH. Reportada 
 quantitativamente na mesma tabela do TWFE Poisson principal e da 
-ETWFE/Mundlak (§4.2). Operacionalmente distinta do bullet pré-existente 
-("Exclusão dos anos 2020 e 2021 da análise principal"), que cobre o 
-Desenho A (cross-section municipal).
+ETWFE/Mundlak.
 
 - **S2 — estratificação temporal por subperíodos (Desenho B):** estimação 
 separada do coeficiente de interesse em dois subperíodos — pré-pandemia 
@@ -330,19 +328,20 @@ tabela.
 
 - **Tendências lineares por UF (Desenho B):** especificação alternativa do 
 painel UF com `α_u + γ_c + α_u·t`, absorvendo tendências UF-específicas 
-além dos efeitos fixos two-way. Sensibilidade ao pressuposto de *parallel 
-trends*; reportada quantitativamente na mesma tabela.
+além dos efeitos fixos two-way. Sensibilidade ao pressuposto de tendências 
+paralelas; reportada quantitativamente na mesma tabela.
 
 **4.4. Limitações estruturais, Software, Reprodutibilidade e Equipe**
 
 **Limitação estrutural — coortes 2021 e 2023 do IIE estadual fora do 
 painel UF.** Embora ambas as coortes existam publicamente no dashboard 
 da Lupa Social (Lupa Social, 2026b), suas observações de desfecho com lag 
-t = c+5 cairiam em 2026 e 2028, respectivamente, fora da janela 
-2018–2024 imposta pelo edital. O painel UF do Desenho B fica, portanto, 
-restrito a coortes c ∈ {2013, 2015, 2017, 2019}. Eventual extensão 
-futura do projeto, com janela de desfecho ampliada, poderá absorver 
-essas coortes sem alteração metodológica. Decisão registrada em ADR-006.
+t = c+5 cairiam em 2026 e 2028, respectivamente — a primeira em ano ainda em 
+curso à data desta proposta, sem dados anuais completos disponíveis em SIM e 
+SIH; a segunda fora da janela 2018–2024 estabelecida pelo título desta 
+proposta. O painel UF do Desenho B fica, portanto, restrito a coortes c ∈ 
+{2013, 2015, 2017, 2019}. Eventual extensão futura do projeto, com janela de 
+desfecho ampliada, poderá absorver essas coortes sem alteração metodológica.
 
 Implementação em R, com pipeline reprodutível baseada em sistema de 
 gerenciamento de fluxo de trabalho com cache incremental e contratos de 
